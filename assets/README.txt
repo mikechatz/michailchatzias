@@ -4,7 +4,7 @@ ASSETS FOLDER GUIDE
 Drop your media files in this folder:
 
 1. background.jpg
-   - This will appear as the atmospheric background image behind the semi-transparent dark tint (like on Marvi's site).
+   - This will appear as the atmospheric background image behind the semi-transparent dark tint.
    - Any moody, stage, instrument, or landscape photo works beautifully.
 
 2. portrait.jpg
