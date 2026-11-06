@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Michaïl Chatziasemidis — Composer · Violinist · Game Audio</title>
+
+  <!-- Favicon: Clean Violin Clef -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>𝄞</text></svg>">
+
+  <!-- Google Fonts: Playfair Display + Cormorant Garamond + IBM Plex Mono (Full Greek & Latin support) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Atmosphere: Marvi-style photo behind semi-transparent dark vignette -->
+  <div class="bg-atmosphere"></div>
+  <div class="bg-overlay"></div>
+
+  <!-- Slide Progress Indicator -->
+  <div id="slide-progress"></div>
+
+  <!-- Top Navigation Bar: Brand, Tabs with hover strikethrough, Language Switcher -->
+  <nav>
+    <a class="nav-brand" data-tab-index="0" data-sub-target="hero">M.</a>
+    
+    <div class="nav-tabs">
+      <a data-tab-index="0" data-sub-target="about" id="tab-nav-about">
+        <span class="lang-en">ABOUT</span>
+        <span class="lang-el">ΣΧΕΤΙΚΑ</span>
+      </a>
+      <a data-tab-index="1" id="tab-nav-craft">
+        <span class="lang-en">CRAFT</span>
+        <span class="lang-el">ΕΙΔΙΚΟΤΗΤΕΣ</span>
+      </a>
+      <a data-tab-index="2" id="tab-nav-works">
+        <span class="lang-en">WORKS</span>
+        <span class="lang-el">ΕΡΓΑ</span>
+      </a>
+      <a data-tab-index="3" id="tab-nav-gallery">
+        <span class="lang-en">GALLERY</span>
+        <span class="lang-el">ΓΚΑΛΕΡΙ</span>
+      </a>
+      <a data-tab-index="4" id="tab-nav-contact">
+        <span class="lang-en">CONTACT</span>
+        <span class="lang-el">ΕΠΙΚΟΙΝΩΝΙΑ</span>
+      </a>
+    </div>
+
+    <!-- Bilingual Switcher: EN / ΕΛ -->
+    <div class="lang-switcher">
+      <button class="lang-btn active" id="btn-lang-en">EN</button>
+      <span class="lang-sep">/</span>
+      <button class="lang-btn" id="btn-lang-el">ΕΛ</button>
+      <!--<span class="lang-sep">/</span>
+      <button class="lang-btn" id="btn-lang-cn">中文</button>-->
+    </div>
+  </nav>
+
+  <!-- Horizontal Book/Score Slider Wrapper (Stacked Leaves Architecture) -->
+  <div class="book-slider-wrapper">
+
+    <!-- ============================================================
+         LEAF 0: INTRO (HERO COVER + ABOUT SECTION VERTICAL FLOW)
+         ============================================================ -->
+    <section class="slide-panel" id="panel-intro">
+      
+      <!-- Seamless Stacked Margin for Leaf 0 (Visible only when Craft/Works/etc are open) -->
+      <div class="leaf-spine" data-tab-index="0" data-sub-target="about" id="panel-intro-spine">
+        <span class="leaf-spine-num">01</span>
+        <span class="leaf-spine-title">
+          <span class="lang-en">ABOUT</span>
+          <span class="lang-el">ΣΧΕΤΙΚΑ</span>
+        </span>
+        <span class="leaf-spine-icon">✦</span>
+      </div>
+
+      <div class="leaf-content" id="panel-intro-content">
+        <!-- 1. HERO BLOCK (With red ambient glow on top right) -->
+        <div class="hero-block" id="section-hero">
+          <div class="wrap">
+            <p class="label hero-location">
+              <span class="lang-en">Portfolio · Thessaloniki, Greece</span>
+              <span class="lang-el">Portfolio · Θεσσαλονίκη, Ελλάδα</span>
+            </p>
+            
+            <h1>
+              <span class="name-line lang-en">Michaïl</span>
+              <span class="name-line lang-en">Chatziasemidis</span>
+              <span class="name-line lang-el">ΜΙΧΑΗΛ</span>
+              <span class="name-line lang-el">ΧΑΤΖΗΑΣΕΜΙΔΗΣ</span>
+              <span class="name-line lang-cn">米哈伊尔</span>
+              <span class="name-line lang-cn">Chatziasemidis</span>
+            </h1>
+
+            <div class="hero-meta">
+              <span class="label">
+                <span class="lang-en">Composer · Violinist · Game Audio</span>
+                <span class="lang-el">Συνθέτης · Βιολιστής · Game Audio</span>
+              </span>
+
+              <span class="label scroll-down-hint" id="hero-scroll-btn">
+                <span class="lang-en">Scroll Down ↓</span>
+                <span class="lang-el">Κύλιση ↓</span>
+              </span>
+            </div>
+
+            <!-- Static Editorial Banner Stripe (Always visible, calm) -->
+            <div class="static-banner">
+              <div class="banner-items lang-en">
+                <span>Composition <i>✦</i></span>
+                <span>Violin <i>✦</i></span>
+                <span>Sound Design <i>✦</i></span>
+                <span>Game Audio <i>✦</i></span>
+                <span>Synthesis <i>✦</i></span>
+                <span>Orchestration <i>✦</i></span>
+                <span>Byzantine Modes</span>
+              </div>
+              <div class="banner-items lang-el">
+                <span>Σύνθεση <i>✦</i></span>
+                <span>Βιολί <i>✦</i></span>
+                <span>Sound Design <i>✦</i></span>
+                <span>Game Audio <i>✦</i></span>
+                <span>Σύνθεση Ήχου <i>✦</i></span>
+                <span>Ενορχήστρωση <i>✦</i></span>
+                <span>Βυζαντινοί Τρόποι</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. ABOUT SECTION (Directly below Hero on the same page) -->
+        <div class="about-block" id="section-about">
+          <div class="wrap">
+            <div class="section-head">
+              <h2>
+                <span class="lang-en">ABOUT</span>
+                <span class="lang-el">ΣΧΕΤΙΚΑ</span>
+              </h2>
+              <span class="label">01</span>
+            </div>
+
+            <div class="about-grid">
+              <div class="portrait-frame" id="portrait-box">
+                <div class="portrait-placeholder">
+                  <span style="font-size: 28px; opacity: 0.4;">🎻</span>
+                  <span>PORTRAIT PHOTO</span>
+                  <span style="font-size: 10px; opacity: 0.6;">(Place portrait.jpg in assets/)</span>
+                </div>
+              </div>
+
+              <div class="about-text">
+                <!-- English Bio (Edit directly here!) -->
+                <div class="lang-en">
+                  <p>I’m a composer and violinist based in Thessaloniki, working between the classical tradition, modal systems beyond equal temperament, and the living language of film and game scores.</p>
+                  <p>My aim is to write and implement music for video games: music that responds, breathes and reshapes itself with the player.</p>
+                  <p>Blending live acoustic violin textures with algorithmic synthesis and interactive audio middleware (Wwise / FMOD).</p>
+                </div>
+
+                <!-- Greek Bio (Edit directly here!) -->
+                <div class="lang-el">
+                  <p>Είμαι συνθέτης και βιολιστής με έδρα τη Θεσσαλονίκη, κινούμενος ανάμεσα στην κλασική παράδοση, τα τροπικά συστήματα πέραν της συγκερασμένης κλίμακας και τη σύγχρονη γλώσσα της μουσικής για κινηματογράφο και βιντεοπαιχνίδια.</p>
+                  <p>Στόχος μου είναι η δημιουργία διαδραστικής μουσικής για video games: μουσική που αναπνέει, αντιδρά και μεταμορφώνεται μαζί με τον παίκτη.</p>
+                  <p>Συνδυασμός φυσικών ηχοχρωμάτων ακουστικού βιολιού με αλγοριθμική σύνθεση και διαδραστική υλοποίηση σε audio middleware (Wwise / FMOD).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-footer">
+              <span class="label">01 / 04</span>
+              <span class="label slide-next-hint" data-tab-index="1">
+                <span class="lang-en">Craft →</span>
+                <span class="lang-el">Ειδικότητες →</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         LEAF 1: CRAFT (Disciplines)
+         ============================================================ -->
+    <section class="slide-panel" id="panel-craft">
+      <!-- Seamless Stacked Margin -->
+      <div class="leaf-spine" data-tab-index="1">
+        <span class="leaf-spine-num">02</span>
+        <span class="leaf-spine-title">
+          <span class="lang-en">CRAFT</span>
+          <span class="lang-el">ΕΙΔΙΚΟΤΗΤΕΣ</span>
+        </span>
+        <span class="leaf-spine-icon">✦</span>
+      </div>
+
+      <div class="leaf-content">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>
+              <span class="lang-en">CRAFT</span>
+              <span class="lang-el">ΕΙΔΙΚΟΤΗΤΕΣ</span>
+            </h2>
+            <span class="label">02</span>
+          </div>
+
+          <div class="craft-grid">
+            <!-- English Cards -->
+            <div class="craft-card lang-en">
+              <span class="label">01</span>
+              <h3>Composition</h3>
+              <p>Concert and screen music, from small chamber forms to orchestral writing.</p>
+            </div>
+            <div class="craft-card lang-en">
+              <span class="label">02</span>
+              <h3>Violin</h3>
+              <p>Performance, acoustic recording, and layered microtonal string textures.</p>
+            </div>
+            <div class="craft-card lang-en">
+              <span class="label">03</span>
+              <h3>Sound Design</h3>
+              <p>Custom synthesis, modal tuning, and procedural sound built from scratch.</p>
+            </div>
+            <div class="craft-card lang-en">
+              <span class="label">04</span>
+              <h3>Game Audio</h3>
+              <p>Adaptive, interactive scoring and implementation in audio middleware.</p>
+            </div>
+
+            <!-- Greek Cards (All-caps headings without accents) -->
+            <div class="craft-card lang-el">
+              <span class="label">01</span>
+              <h3>ΣΥΝΘΕΣΗ</h3>
+              <p>Μουσική συναυλιών και οθόνης, από μικρά σύνολα δωματίου μέχρι συμφωνική γραφή.</p>
+            </div>
+            <div class="craft-card lang-el">
+              <span class="label">02</span>
+              <h3>ΒΙΟΛΙ</h3>
+              <p>Ερμηνεία, ηχογραφήσεις και πολυεπίπεδες μικροτονικές υφές εγχόρδων.</p>
+            </div>
+            <div class="craft-card lang-el">
+              <span class="label">03</span>
+              <h3>SOUND DESIGN</h3>
+              <p>Πρωτότυπη σύνθεση ήχου, τροπικά κουρδίσματα και σχεδιασμός ήχου από το μηδέν.</p>
+            </div>
+            <div class="craft-card lang-el">
+              <span class="label">04</span>
+              <h3>GAME AUDIO</h3>
+              <p>Προσαρμοστική μουσική και υλοποίηση σε σύγχρονο audio middleware.</p>
+            </div>
+          </div>
+
+          <div class="panel-footer">
+            <span class="label">02 / 04</span>
+            <span class="label lang-en slide-next-hint" data-tab-index="2">Works →</span>
+            <span class="label lang-el slide-next-hint" data-tab-index="2">ΕΡΓΑ →</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         LEAF 2: WORKS (Audio tracks & embeds)
+         ============================================================ -->
+    <section class="slide-panel" id="panel-works">
+      <!-- Seamless Stacked Margin -->
+      <div class="leaf-spine" data-tab-index="2">
+        <span class="leaf-spine-num">03</span>
+        <span class="leaf-spine-title">
+          <span class="lang-en">WORKS</span>
+          <span class="lang-el">ΕΡΓΑ</span>
+        </span>
+        <span class="leaf-spine-icon">✦</span>
+      </div>
+
+      <div class="leaf-content">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>
+              <span class="lang-en">WORKS</span>
+              <span class="lang-el">ΕΡΓΑ</span>
+            </h2>
+            <span class="label">03</span>
+          </div>
+
+          <div class="works-list">
+            <!-- Track 1 -->
+            <div class="track-row">
+              <span class="label">01</span>
+              <div>
+                <h3>
+                  <span class="lang-en">Symphonic & Orchestral Themes</span>
+                  <span class="lang-el">Συμφωνικά & Ορχηστρικά Θέματα</span>
+                </h3>
+                <div class="track-placeholder">PASTE SOUNDCLOUD EMBED IFRAME HERE</div>
+              </div>
+            </div>
+
+            <!-- Track 2 -->
+            <div class="track-row">
+              <span class="label">02</span>
+              <div>
+                <h3>
+                  <span class="lang-en">Adaptive Game Score & Textures</span>
+                  <span class="lang-el">Adaptive Game Score & Ήχοι</span>
+                </h3>
+                <div class="track-placeholder">PASTE BANDCAMP EMBED IFRAME HERE</div>
+              </div>
+            </div>
+
+            <!-- Track 3 -->
+            <div class="track-row">
+              <span class="label">03</span>
+              <div>
+                <h3>
+                  <span class="lang-en">Violin & Microtonal Studies</span>
+                  <span class="lang-el">Μελέτες Βιολιού & Μικροτονικότητας</span>
+                </h3>
+                <div class="track-placeholder">PASTE AUDIO EMBED IFRAME HERE</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-footer">
+            <span class="label">03 / 04</span>
+            <span class="label lang-en slide-next-hint" data-tab-index="3">Gallery →</span>
+            <span class="label lang-el slide-next-hint" data-tab-index="3">ΓΚΑΛΕΡΙ →</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         LEAF 3: GALLERY
+         ============================================================ -->
+    <section class="slide-panel" id="panel-gallery">
+      <!-- Seamless Stacked Margin -->
+      <div class="leaf-spine" data-tab-index="3">
+        <span class="leaf-spine-num">04</span>
+        <span class="leaf-spine-title">
+          <span class="lang-en">GALLERY</span>
+          <span class="lang-el">ΓΚΑΛΕΡΙ</span>
+        </span>
+        <span class="leaf-spine-icon">✦</span>
+      </div>
+
+      <div class="leaf-content">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>
+              <span class="lang-en">GALLERY</span>
+              <span class="lang-el">ΓΚΑΛΕΡΙ</span>
+            </h2>
+            <span class="label">04</span>
+          </div>
+
+          <div class="gallery-grid">
+            <div class="gallery-item">
+              <div class="gallery-placeholder">
+                <span style="font-size: 20px; opacity: 0.4;">✦</span>
+                <p class="lang-en">Photo Coming Soon</p>
+                <p class="lang-el">Φωτογραφία σύντομα</p>
+                <span style="font-size: 9px; opacity: 0.5;">PHOTO 01</span>
+              </div>
+            </div>
+
+            <div class="gallery-item">
+              <div class="gallery-placeholder">
+                <span style="font-size: 20px; opacity: 0.4;">✦</span>
+                <p class="lang-en">Photo Coming Soon</p>
+                <p class="lang-el">Φωτογραφία σύντομα</p>
+                <span style="font-size: 9px; opacity: 0.5;">PHOTO 02</span>
+              </div>
+            </div>
+
+            <div class="gallery-item">
+              <div class="gallery-placeholder">
+                <span style="font-size: 20px; opacity: 0.4;">✦</span>
+                <p class="lang-en">Photo Coming Soon</p>
+                <p class="lang-el">Φωτογραφία σύντομα</p>
+                <span style="font-size: 9px; opacity: 0.5;">PHOTO 03</span>
+              </div>
+            </div>
+
+            <div class="gallery-item">
+              <div class="gallery-placeholder">
+                <span style="font-size: 20px; opacity: 0.4;">✦</span>
+                <p class="lang-en">Photo Coming Soon</p>
+                <p class="lang-el">Φωτογραφία σύντομα</p>
+                <span style="font-size: 9px; opacity: 0.5;">PHOTO 04</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-footer">
+            <span class="label">04 / 04</span>
+            <span class="label lang-en slide-next-hint" data-tab-index="4">Contact →</span>
+            <span class="label lang-el slide-next-hint" data-tab-index="4">ΕΠΙΚΟΙΝΩΝΙΑ →</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         LEAF 4: CONTACT & EMAIL FORM
+         ============================================================ -->
+    <section class="slide-panel" id="panel-contact">
+      <!-- Seamless Stacked Margin -->
+      <div class="leaf-spine" data-tab-index="4">
+        <span class="leaf-spine-num">05</span>
+        <span class="leaf-spine-title">
+          <span class="lang-en">CONTACT</span>
+          <span class="lang-el">ΕΠΙΚΟΙΝΩΝΙΑ</span>
+        </span>
+        <span class="leaf-spine-icon">✦</span>
+      </div>
+
+      <div class="leaf-content">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>
+              <span class="lang-en">CONTACT</span>
+              <span class="lang-el">ΕΠΙΚΟΙΝΩΝΙΑ</span>
+            </h2>
+            <span class="label">05</span>
+          </div>
+
+          <div class="contact-layout">
+            <!-- Direct Links -->
+            <div class="contact-links">
+              <a href="mailto:michailchatzias@gmail.com">
+                <b class="lang-en">Email</b>
+                <b class="lang-el">Email</b>
+                <span>michailchatzias@gmail.com</span>
+              </a>
+              <a href="https://michailchatzias.bandcamp.com" target="_blank" rel="noopener">
+                <b>Bandcamp</b>
+                <span>michailchatzias.bandcamp.com</span>
+              </a>
+              <a href="https://soundcloud.com/michailchatzias" target="_blank" rel="noopener">
+                <b>SoundCloud</b>
+                <span>soundcloud.com/michailchatzias</span>
+              </a>
+              <a href="https://youtube.com/@michailchatzias" target="_blank" rel="noopener">
+                <b>YouTube</b>
+                <span>youtube.com/@michailchatzias</span>
+              </a>
+              <a href="https://instagram.com/michailchatzias/" target="_blank" rel="noopener">
+                <b>Instagram</b>
+                <span>instagram.com/michailchatzias</span>
+              </a>
+            </div>
+
+            <!-- Emailing Form -->
+            <div class="contact-form-wrapper">
+              <h3>
+                <span class="lang-en">Send a Message</span>
+                <span class="lang-el">ΑΠΟΣΤΟΛΗ ΜΗΝΥΜΑΤΟΣ</span>
+              </h3>
+              <p class="form-desc">
+                <span class="lang-en">For collaborations, commissions, game audio inquiries, or score requests.</span>
+                <span class="lang-el">Για συνεργασίες, αναθέσεις συνθέσεων, game audio ή παρτιτούρες.</span>
+              </p>
+              
+              <form id="contact-form" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+                <div class="form-group">
+                  <label for="form-name">
+                    <span class="lang-en">Your Name</span>
+                    <span class="lang-el">ΟΝΟΜΑΤΕΠΩΝΥΜΟ</span>
+                  </label>
+                  <input type="text" id="form-name" name="name" required placeholder="Name / Ensemble">
+                </div>
+
+                <div class="form-group">
+                  <label for="form-email">
+                    <span class="lang-en">Your Email</span>
+                    <span class="lang-el">EMAIL ΕΠΙΚΟΙΝΩΝΙΑΣ</span>
+                  </label>
+                  <input type="email" id="form-email" name="email" required placeholder="you@domain.com">
+                </div>
+
+                <div class="form-group">
+                  <label for="form-subject">
+                    <span class="lang-en">Subject</span>
+                    <span class="lang-el">ΘΕΜΑ</span>
+                  </label>
+                  <input type="text" id="form-subject" name="subject" required placeholder="Game Audio / Composition Commission">
+                </div>
+
+                <div class="form-group">
+                  <label for="form-message">
+                    <span class="lang-en">Message</span>
+                    <span class="lang-el">ΜΗΝΥΜΑ</span>
+                  </label>
+                  <textarea id="form-message" name="message" required placeholder="Tell me about your project or inquiry..."></textarea>
+                </div>
+
+                <button type="submit" class="form-submit-btn" id="form-submit-btn">
+                  <span class="lang-en">Send Message</span>
+                  <span class="lang-el">ΑΠΟΣΤΟΛΗ ΜΗΝΥΜΑΤΟΣ</span>
+                </button>
+                <div id="form-status" class="form-status"></div>
+              </form>
+            </div>
+          </div>
+
+          <div class="panel-footer">
+            <span class="label lang-en">© 2026 Michaïl Chatziasemidis. All rights reserved.</span>
+            <span class="label lang-el">© 2026 ΜΙΧΑΗΛ ΧΑΤΖΗΑΣΕΜΙΔΗΣ. ΜΕ ΤΗΝ ΕΠΙΦΥΛΑΞΗ ΠΑΝΤΟΣ ΔΙΚΑΙΩΜΑΤΟΣ.</span>
+            <span class="label lang-en slide-next-hint" data-tab-index="0" data-sub-target="hero">Back to Cover ↑</span>
+            <span class="label lang-el slide-next-hint" data-tab-index="0" data-sub-target="hero">Πίσω στην Αρχική ↑</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Main JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
