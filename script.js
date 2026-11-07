@@ -283,6 +283,55 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   }, { passive: true });
+  
+  // ------------------------------------------------------------------------
+  // TOUCH SWIPE NAVIGATION (MOBILE)
+  // ------------------------------------------------------------------------
+  let touchStartY = 0;
+  let touchStartX = 0;
+
+  window.addEventListener("touchstart", (e) => {
+    touchStartY = e.touches[0].clientY;
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+
+  window.addEventListener("touchend", (e) => {
+    const deltaY = touchStartY - e.changedTouches[0].clientY;
+    const deltaX = touchStartX - e.changedTouches[0].clientX;
+
+  // Ignore horizontal swipes (e.g. accidentally grazing the screen)
+  if (Math.abs(deltaX) > Math.abs(deltaY)) return;
+
+  // Ignore tiny movements — must swipe at least 40px to count
+  if (Math.abs(deltaY) < 40) return;
+
+  if (deltaY > 0) {
+    // Swiped UP (finger moved up = user wants to go forward/down)
+    if (currentTabIndex === 0) {
+      if (introStep === 0) {
+        handleGoNext();
+      } else {
+        const atBottom = panelIntroContent.scrollTop + panelIntroContent.clientHeight
+                         >= panelIntroContent.scrollHeight - 40;
+        if (atBottom) handleGoNext();
+      }
+    } else {
+      const content = panels[currentTabIndex].querySelector(".leaf-content");
+      const atBottom = content.scrollTop + content.clientHeight >= content.scrollHeight - 40;
+      if (atBottom) handleGoNext();
+    }
+  } else {
+    // Swiped DOWN (finger moved down = user wants to go back/up)
+    if (currentTabIndex === 0) {
+      if (panelIntroContent.scrollTop <= 80) handleGoPrev();
+    } else {
+      const content = panels[currentTabIndex].querySelector(".leaf-content");
+      const atTop = content.scrollTop <= 40;
+      if (atTop) handleGoPrev();
+    }
+    }
+  }, { passive: true });
+
 
 
   // ------------------------------------------------------------------------
