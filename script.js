@@ -360,10 +360,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 3. Σωστός τίτλος για 3 γλώσσες (φωλιασμένος τριαδικός τελεστής)
     document.title = isGreek
-      ? "Μιχαήλ Χατζηασεμίδης — Συνθέτης · Βιολιστής · Game Audio"
+      ? "Μιχαήλ Χατζηασεμίδης — Συνθέτης · Ενορχηστρωτής · Βιολονίστας"
       : isChinese
-      ? "米哈伊尔·Chatziasemidis — 作曲家 · 小提琴家 · 游戏音频" 
-      : "Michaïl Chatziasemidis — Composer · Violinist · Game Audio";
+      ? "米哈伊尔·哈齐亚塞米迪斯 — 作曲家 · 管弦乐编曲家 · 小提琴家"
+      : "Michaïl Chatziasemidis — Composer · Orchestrator · Violinist";
+
 
     localStorage.setItem("preferred_lang", lang);
   }
