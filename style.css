@@ -824,7 +824,7 @@ nav {
 }
 
 /* ==========================================================================
-   MOBILE LAYOUT (max-width: 768px)
+   MOBILE LAYOUT (max-width: 768px) — CSS Snap System
    ========================================================================== */
 
 /* Hide mobile-only elements on desktop */
@@ -838,11 +838,75 @@ nav {
 
 @media (max-width: 768px) {
 
-    /* Fix: allow body and wrapper to scroll vertically on mobile */
+  /* ── BASE ── */
   html, body {
-    overflow: hidden auto;
+    overflow: hidden;
     height: 100%;
-    min-height: 100%;
+  }
+
+  /* ── SNAP CONTAINER ── */
+  .book-slider-wrapper {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100vh;
+    scroll-snap-type: y mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ── SNAP SECTIONS ── */
+  .slide-panel {
+    position: relative !important;
+    transform: none !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: auto !important;
+    min-height: 100vh;
+    scroll-snap-align: start;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  /* panel-intro is special: hero and about are two separate snap points */
+  #panel-intro {
+    height: auto !important;
+    min-height: 200vh; /* tall enough to hold hero + about */
+    scroll-snap-align: none; /* parent doesn't snap — children do */
+  }
+
+  #panel-intro-content {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  #section-hero {
+    scroll-snap-align: start;
+    min-height: 100vh;
+    height: 100vh;
+  }
+
+  #section-about {
+    scroll-snap-align: start;
+    min-height: 100vh;
+  }
+
+  /* Long sections scroll freely inside themselves */
+  #panel-contact .leaf-content {
+    overflow-y: auto;
+    max-height: 100vh;
+  }
+
+  /* ── SPINES: hidden on mobile ── */
+  .leaf-spine,
+  #panel-intro-spine {
+    display: none;
+  }
+
+  /* ── LEAF CONTENT ── */
+  .leaf-content {
+    height: auto;
+    overflow: visible;
+    padding-top: 70px;
+    padding-bottom: 40px;
   }
 
   /* ── TOP BAR ── */
@@ -860,13 +924,17 @@ nav {
     z-index: 2;
   }
 
-  /* Hide desktop tab links and lang switcher */
   .nav-tabs,
   .lang-switcher {
     display: none;
   }
 
-  /* Show hamburger */
+  /* ── PROGRESS BAR: hidden on mobile ── */
+  #slide-progress {
+    display: none;
+  }
+
+  /* ── HAMBURGER ── */
   .mobile-hamburger {
     display: flex;
     flex-direction: column;
@@ -885,7 +953,6 @@ nav {
     width: 22px;
     height: 1.5px;
     background: var(--fg);
-    transition: opacity 0.2s;
   }
 
   /* ── CENTRE NAME ── */
@@ -912,11 +979,6 @@ nav {
 
   .mobile-centre-name.visible {
     opacity: 1;
-  }
-
-  /* ── SLIDE PROGRESS BAR: hide on mobile ── */
-  #slide-progress {
-    display: none;
   }
 
   /* ── HAMBURGER MENU PANEL ── */
@@ -961,17 +1023,17 @@ nav {
   }
 
   .mobile-menu-link {
-  font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: var(--mute);
-  cursor: pointer;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--line);
-  transition: color 0.2s, padding-left 0.2s;
-  display: block;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--mute);
+    cursor: pointer;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    transition: color 0.2s, padding-left 0.2s;
+    display: block;
   }
 
   .mobile-menu-link:last-child {
@@ -1008,7 +1070,7 @@ nav {
   }
 
   /* ── RHOMBOID PROGRESS ── */
- .mobile-progress {
+  .mobile-progress {
     display: flex;
     flex-direction: column;
     gap: 14px;
@@ -1032,7 +1094,7 @@ nav {
     cursor: pointer;
     font-size: 14px;
     color: var(--mute);
-    opacity: 0.4;
+    opacity: 0.3;
     transition: color 0.3s, opacity 0.3s;
     line-height: 1;
   }
@@ -1042,43 +1104,7 @@ nav {
     opacity: 1;
   }
 
-  /* ── PANELS: reset horizontal book to vertical stack ── */
-   .book-slider-wrapper {
-    overflow-y: scroll;
-    scroll-snap-type: y mandatory;
-    height: 100vh;
-  }
-
-  .slide-panel {
-    scroll-snap-align: start;
-    min-height: 100vh;
-    height: auto;
-  }
-
-
-  .leaf-spine {
-    display: none;
-  }
-
-  #panel-intro-spine {
-    display: none;
-  }
-
-  .leaf-content {
-    height: auto;
-    overflow: visible;
-    padding-top: 70px;
-    padding-bottom: 60px;
-  }
-
-  #panel-intro-content {
-    height: auto;
-    overflow: visible;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-
-  /* ── LAYOUTS: single column ── */
+  /* ── LAYOUTS ── */
   .about-grid,
   .contact-layout {
     grid-template-columns: 1fr;
@@ -1096,7 +1122,7 @@ nav {
   }
 
   .contact-form-wrapper {
-    padding: 20px;
+    padding: 0;
   }
 
   .gallery-item {
@@ -1141,8 +1167,32 @@ nav {
   .hero-block {
     min-height: calc(100svh - 52px);
   }
-    #hero-scroll-btn {
+
+  #hero-scroll-btn {
     display: none;
   }
+
+  .craft-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #panel-contact .leaf-content {
+  overflow-x: hidden;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+#panel-contact .contact-layout {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+#panel-contact .contact-links a {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 }

@@ -285,11 +285,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }, { passive: true });
   
   // ------------------------------------------------------------------------
-  // MOBILE NAVIGATION SYSTEM
+  // MOBILE NAVIGATION SYSTEM — CSS Snap, minimal JS
   // ------------------------------------------------------------------------
   const isMobile = () => window.innerWidth <= 768;
 
-  const wrapper        = document.querySelector(".book-slider-wrapper");
+  const wrapper            = document.querySelector(".book-slider-wrapper");
   const mobileCentreName   = document.getElementById("mobile-centre-name");
   const mobileMenu         = document.getElementById("mobile-menu");
   const mobileMenuBackdrop = document.getElementById("mobile-menu-backdrop");
@@ -300,115 +300,56 @@ document.addEventListener("DOMContentLoaded", () => {
   const mobileBtnEn        = document.getElementById("mobile-btn-lang-en");
   const mobileBtnEl        = document.getElementById("mobile-btn-lang-el");
 
-  let mobileCurrentSection = 0;
-  let mobileIsSnapping     = false;
-  let mobileScrollTimer    = null;
-
-  /* Section elements in vertical order for mobile.
-     hero and about live inside panel-intro (one scrollable block).
-     craft, works, gallery, contact are separate panels. */
-  const mobileSectionIds = [
-    "section-hero",
-    "section-about",
-    "panel-craft",
-    "panel-works",
-    "panel-gallery",
-    "panel-contact"
+  /* Snap sections in order — matches rhomboid order */
+  const mobileSnapSections = [
+    "section-hero",    /* rhomboid hidden */
+    "section-about",   /* rhomboid 0 */
+    "panel-craft",     /* rhomboid 1 */
+    "panel-works",     /* rhomboid 2 */
+    "panel-gallery",   /* rhomboid 3 */
+    "panel-contact"    /* rhomboid 4 */
   ];
 
-  /* Rhomboid 1 = about, 2 = craft, 3 = works, 4 = gallery, 5 = contact.
-     About shares rhomboid 0 with hero. */
-  const rhomboidToSectionIndex = [1, 2, 3, 4, 5];
-
-  /* Get the top offset of a section relative to the wrapper */
-  function getSectionTop(sectionIndex) {
-    const id = mobileSectionIds[sectionIndex];
-    const el = document.getElementById(id);
-    if (!el || !wrapper) return 0;
-
-    /* Walk up the DOM accumulating offsetTop until we reach the wrapper */
-    let top = 0;
-    let node = el;
-    while (node && node !== wrapper) {
-      top += node.offsetTop;
-      node = node.offsetParent;
-    }
-    return top;
-  }
-
-  /* ── initMobile: reset all panel transforms so they stack vertically ── */
+  /* ── Reset desktop transforms on mobile ── */
   function initMobile() {
     if (!isMobile()) return;
-
-      /* Allow body to expand vertically */
-    document.documentElement.style.overflow = "hidden auto";
-    document.documentElement.style.height   = "auto";
-    document.body.style.overflow = "hidden auto";
-    document.body.style.height   = "auto";
-
     panels.forEach(panel => {
       if (!panel) return;
-      panel.style.transform  = "none";
-      panel.style.position   = "relative";
-      panel.style.left       = "0";
-      panel.style.width      = "100vw";
-      panel.style.minHeight  = "100vh";
-      panel.style.height     = "auto";
+      panel.style.transform = "none";
+      panel.style.position  = "relative";
+      panel.style.left      = "0";
+      panel.style.width     = "100vw";
+      panel.style.height    = "auto";
     });
-    /* Disable internal scroll on panel-intro so the wrapper scrolls instead */
-    const introContent = document.getElementById("panel-intro-content");
-    if (introContent) {
-      introContent.style.overflow = "visible";
-      introContent.style.height   = "auto";
-    }
-
-    if (wrapper) {
-      wrapper.style.overflowY = "auto";
-      wrapper.style.height    = "100%";
-      wrapper.scrollTop       = 0;
-    }
-    mobileCurrentSection = 0;
-    updateMobileRhomboids(0);
-    updateMobileCentreName(false);
+    if (wrapper) wrapper.scrollTop = 0;
   }
 
-  /* ── Snap scroll to a section ── */
-  function mobileScrollToSection(sectionIndex) {
-    if (!wrapper) return;
-    const clampedIndex = Math.max(0, Math.min(sectionIndex, mobileSectionIds.length - 1));
-    mobileCurrentSection = clampedIndex;
-    mobileIsSnapping = true;
-
-    const top = getSectionTop(clampedIndex);
-    wrapper.scrollTo({ top, behavior: "smooth" });
-
-    /* Update rhomboid */
-    const rIdx = rhomboidToSectionIndex.indexOf(clampedIndex);
-    if (rIdx >= 0) updateMobileRhomboids(rIdx);
-    /* section 0 (hero) → no rhomboid highlighted, section 1 (about) → rhomboid 0 */
-
-    updateMobileCentreName(clampedIndex > 0);
-
-    setTimeout(() => { mobileIsSnapping = false; }, 800);
+  /* ── Scroll to a section by id ── */
+  function mobileGoTo(sectionId) {
+    const el = document.getElementById(sectionId);
+    if (!el || !wrapper) return;
+    el.scrollIntoView({ behavior: "smooth" });
   }
 
-  /* ── Rhomboid highlight ── */
-  function updateMobileRhomboids(activeIndex) {
+  /* ── Update rhomboids (section index 0=hero,1=about,2=craft...) ── */
+  function updateMobileRhomboids(sectionIndex) {
+    /* rhomboid 0 = about (index 1), rhomboid 1 = craft (index 2) etc.
+       hero (index 0) = no active rhomboid */
+    const rhomboidIndex = sectionIndex - 1;
     mobileRhomboids.forEach((r, i) => {
-      r.classList.toggle("active", i === activeIndex);
+      r.classList.toggle("active", i === rhomboidIndex);
     });
   }
 
-  /* ── Centre name visibility ── */
+  /* ── Show/hide centre name and rhomboid panel ── */
   function updateMobileCentreName(visible) {
     if (mobileCentreName) mobileCentreName.classList.toggle("visible", visible);
-    document.body.classList.toggle("mobile-hero", !visible);
     const prog = document.getElementById("mobile-progress");
     if (prog) prog.classList.toggle("visible", visible);
   }
 
-  /* ── Hamburger open/close ── */
-  function openMobileMenu() {
+  /* ── Hamburger ── */
+  function openMobileMenu()  {
     if (mobileMenu) mobileMenu.classList.add("open");
     if (mobileMenuBackdrop) mobileMenuBackdrop.classList.add("visible");
   }
@@ -421,130 +362,101 @@ document.addEventListener("DOMContentLoaded", () => {
   if (mobileMenuClose)    mobileMenuClose.addEventListener("click", closeMobileMenu);
   if (mobileMenuBackdrop) mobileMenuBackdrop.addEventListener("click", closeMobileMenu);
 
-  /* ── Menu links: 0=about 1=craft 2=works 3=gallery 4=contact ── */
-  const menuIndexToSection = [1, 2, 3, 4, 5];
+  /* Menu links: about, craft, works, gallery, contact */
+  const menuSectionIds = [
+    "section-about",
+    "panel-craft",
+    "panel-works",
+    "panel-gallery",
+    "panel-contact"
+  ];
   mobileMenuLinks.forEach((link, i) => {
     link.addEventListener("click", () => {
       if (!isMobile()) return;
       closeMobileMenu();
-      setTimeout(() => mobileScrollToSection(menuIndexToSection[i]), 350);
+      setTimeout(() => mobileGoTo(menuSectionIds[i]), 350);
     });
   });
 
-  /* ── Rhomboid clicks ── */
+  /* Rhomboid clicks: about, craft, works, gallery, contact */
+  const rhomboidSectionIds = [
+    "section-about",
+    "panel-craft",
+    "panel-works",
+    "panel-gallery",
+    "panel-contact"
+  ];
   mobileRhomboids.forEach((r, i) => {
     r.addEventListener("click", () => {
       if (!isMobile()) return;
-      mobileScrollToSection(rhomboidToSectionIndex[i]);
+      mobileGoTo(rhomboidSectionIds[i]);
     });
   });
 
-  /* ── Centre name click → back to hero ── */
+  /* Centre name and M. brand → back to hero */
   if (mobileCentreName) {
     mobileCentreName.addEventListener("click", () => {
-      if (isMobile()) mobileScrollToSection(0);
+      if (isMobile()) mobileGoTo("section-hero");
     });
   }
 
-  /* ── M. brand click → back to hero on mobile ── */
   const navBrand = document.querySelector(".nav-brand");
   if (navBrand) {
     navBrand.addEventListener("click", (e) => {
       if (!isMobile()) return;
       e.preventDefault();
       e.stopImmediatePropagation();
-      mobileScrollToSection(0);
-    }, true); /* capture phase — fires before the desktop listener */
+      mobileGoTo("section-hero");
+    }, true);
   }
 
-  /* ── Mirror language buttons in mobile menu ── */
+  /* Mirror language buttons in mobile menu */
   if (mobileBtnEn) mobileBtnEn.addEventListener("click", () => setLanguage("en"));
   if (mobileBtnEl) mobileBtnEl.addEventListener("click", () => setLanguage("el"));
 
-  /* ── Wrapper scroll: update centre name + snap after scroll stops ── */
-  if (wrapper) {
-    wrapper.addEventListener("scroll", () => {
-      if (!isMobile()) return;
+  /* ── IntersectionObserver: track which section is visible ── */
+  const observerOptions = {
+    root: null, /* use viewport as root, works for both snap and non-snap */
+    threshold: 0.4
+  };
 
-      /* Centre name: show once scrolled past half the hero height */
-      updateMobileCentreName(wrapper.scrollTop > window.innerHeight * 0.5);
+  const sectionObserver = new IntersectionObserver((entries) => {
+    if (!isMobile()) return; /* ignore on desktop */
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const id = entry.target.id;
+      const index = mobileSnapSections.indexOf(id);
+      if (index < 0) return;
+      updateMobileRhomboids(index);
+      updateMobileCentreName(index > 0);
+    });
+  }, observerOptions);
 
-      /* Snap: fire 150ms after scroll stops */
-      clearTimeout(mobileScrollTimer);
-      mobileScrollTimer = setTimeout(() => {
-        if (mobileIsSnapping) return;
+  mobileSnapSections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) sectionObserver.observe(el);
+  });
 
-        /* Find the section whose top is closest to current scrollTop */
-        let closestIndex = 0;
-        let closestDist  = Infinity;
-        mobileSectionIds.forEach((id, i) => {
-          const top  = getSectionTop(i);
-          const dist = Math.abs(top - wrapper.scrollTop);
-          if (dist < closestDist) { closestDist = dist; closestIndex = i; }
-        });
-
-        if (closestIndex !== mobileCurrentSection) {
-          mobileScrollToSection(closestIndex);
-        }
-      }, 150);
-
-    }, { passive: true });
-  }
-
-  /* ── Touch swipe: advance at boundary ── */
-  let touchStartY = 0;
-  let touchStartX = 0;
-
-  window.addEventListener("touchstart", (e) => {
-    touchStartY = e.touches[0].clientY;
-    touchStartX = e.touches[0].clientX;
-  }, { passive: true });
-
-  window.addEventListener("touchend", (e) => {
-    if (!isMobile()) return;
-    const deltaY = touchStartY - e.changedTouches[0].clientY;
-    const deltaX = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(deltaX) > Math.abs(deltaY)) return;
-    if (Math.abs(deltaY) < 40) return;
-    if (mobileIsSnapping) return;
-
-    const atBottom = wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 60;
-    const atTop    = wrapper.scrollTop <= 60;
-
-    if (deltaY > 0 && atBottom) {
-      mobileScrollToSection(mobileCurrentSection + 1);
-    } else if (deltaY < 0 && atTop) {
-      mobileScrollToSection(mobileCurrentSection - 1);
-    }
-  }, { passive: true });
-
-  /* ── Resize: switch between mobile and desktop ── */
+  /* ── Resize: restore desktop on wider screens ── */
   window.addEventListener("resize", () => {
-    if (isMobile()) {
-      initMobile();
-    } else {
-      /* Restore desktop panel positions */
+    if (!isMobile()) {
       panels.forEach((panel, i) => {
         if (!panel) return;
         panel.style.position  = "";
         panel.style.width     = "";
         panel.style.height    = "";
-        panel.style.minHeight = "";
         panel.style.left      = "";
         panel.style.transform = i <= currentTabIndex
           ? "translateX(0)"
           : "translateX(100vw)";
       });
-      if (wrapper) {
-        wrapper.style.overflowY = "";
-        wrapper.style.height    = "";
-      }
+    } else {
+      initMobile();
     }
   });
 
   /* ── Boot ── */
   initMobile();
-  updateMobileCentreName(false);
 
   // ------------------------------------------------------------------------
   // 2. LANGUAGE SWITCHER (EN / ΕΛ / 中文)
