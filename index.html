@@ -11,7 +11,7 @@
   <!-- Google Fonts: Playfair Display + Cormorant Garamond + IBM Plex Mono (Full Greek & Latin support) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
 
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="style.css">
@@ -65,7 +65,81 @@
       <!-- <span class="lang-sep">/</span>
       <button class="lang-btn" id="btn-lang-cn">中文</button> -->
     </div>
+      <!-- MOBILE ONLY: hamburger button — hidden on desktop via CSS -->
+    <button id="mobile-hamburger" class="mobile-hamburger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </nav>
+
+<!-- MOBILE ONLY: centre name in top bar (appears when leaving hero) -->
+<div id="mobile-centre-name" class="mobile-centre-name">
+  <span class="lang-en">Michaïl Chatziasemidis</span>
+  <span class="lang-el">Μιχαήλ Χατζηασεμίδης</span>
+  <span class="lang-cn">米哈伊尔·Chatziasemidis</span>
+</div>
+
+<!-- MOBILE ONLY: hamburger menu overlay -->
+<div id="mobile-menu" class="mobile-menu">
+  <button id="mobile-menu-close" class="mobile-menu-close">✕</button>
+  <nav class="mobile-menu-nav">
+    <a class="mobile-menu-link" data-mobile-section="0">
+      <span class="lang-en">About</span>
+      <span class="lang-el">Σχετικά</span>
+      <span class="lang-cn">关于</span>
+    </a>
+    <a class="mobile-menu-link" data-mobile-section="1">
+      <span class="lang-en">Craft</span>
+      <span class="lang-el">Ειδικότητες</span>
+      <span class="lang-cn">专业</span>
+    </a>
+    <a class="mobile-menu-link" data-mobile-section="2">
+      <span class="lang-en">Works</span>
+      <span class="lang-el">Έργα</span>
+      <span class="lang-cn">作品</span>
+    </a>
+    <a class="mobile-menu-link" data-mobile-section="3">
+      <span class="lang-en">Gallery</span>
+      <span class="lang-el">Γκαλερί</span>
+      <span class="lang-cn">画廊</span>
+    </a>
+    <a class="mobile-menu-link" data-mobile-section="4">
+      <span class="lang-en">Contact</span>
+      <span class="lang-el">Επικοινωνία</span>
+      <span class="lang-cn">联系</span>
+    </a>
+  </nav>
+  <div class="mobile-menu-lang">
+    <button class="lang-btn" id="mobile-btn-lang-en">EN</button>
+    <span class="lang-sep">/</span>
+    <button class="lang-btn" id="mobile-btn-lang-el">ΕΛ</button>
+  </div>
+</div>
+
+<!-- MOBILE ONLY: rhomboid progress indicator -->
+<div id="mobile-progress" class="mobile-progress">
+  <button class="mobile-rhomboid active" data-mobile-section="0">✦</button>
+  <button class="mobile-rhomboid" data-mobile-section="1">✦</button>
+  <button class="mobile-rhomboid" data-mobile-section="2">✦</button>
+  <button class="mobile-rhomboid" data-mobile-section="3">✦</button>
+  <button class="mobile-rhomboid" data-mobile-section="4">✦</button>
+</div>
+
+<!-- MOBILE ONLY: dim overlay behind menu -->
+<div id="mobile-menu-backdrop" class="mobile-menu-backdrop"></div>
+
+<!-- MOBILE ONLY: return to cover / top button -->
+<button id="mobile-back-to-top" class="mobile-back-to-top" aria-label="Return to cover">
+  <span class="back-to-top-arrow">↑</span>
+  <span class="lang-en">Cover</span>
+  <span class="lang-el">Αρχική</span>
+  <span class="lang-cn">封面</span>
+</button>
+
+<div class="book-slider-wrapper">
+
+
 
   <!-- Horizontal Book/Score Slider Wrapper (Stacked Leaves Architecture) -->
   <div class="book-slider-wrapper">

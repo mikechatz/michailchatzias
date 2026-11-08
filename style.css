@@ -822,3 +822,426 @@ nav {
     justify-content: flex-start;
   }
 }
+
+/* ==========================================================================
+   MOBILE LAYOUT (max-width: 768px) — CSS Snap System
+   ========================================================================== */
+
+/* Hide mobile-only elements on desktop */
+.mobile-centre-name,
+.mobile-menu,
+.mobile-menu-backdrop,
+.mobile-progress,
+.mobile-hamburger,
+.mobile-back-to-top {
+  display: none;
+}
+
+@media (max-width: 768px) {
+
+  /* ── BASE ── */
+  html, body {
+    overflow: hidden;
+    height: 100%;
+  }
+
+  /* ── SNAP CONTAINER ── */
+  .book-slider-wrapper {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100vh;
+    scroll-snap-type: y mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ── SNAP SECTIONS ── */
+  .slide-panel {
+    position: relative !important;
+    transform: none !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 100vh;
+    scroll-snap-align: start;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  /* panel-intro is special: hero and about are two separate snap points */
+  #panel-intro {
+    height: auto !important;
+    min-height: 200vh; /* tall enough to hold hero + about */
+    scroll-snap-align: none; /* parent doesn't snap — children do */
+  }
+
+  #panel-intro-content {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  #section-hero {
+    scroll-snap-align: start;
+    min-height: 100vh;
+    height: 100vh;
+  }
+
+  #section-about {
+    scroll-snap-align: start;
+    min-height: 100vh;
+  }
+
+  /* Long sections scroll freely inside themselves */
+  #panel-contact .leaf-content {
+    overflow-y: auto;
+    max-height: 100vh;
+  }
+
+  /* ── SPINES: hidden on mobile ── */
+  .leaf-spine,
+  #panel-intro-spine {
+    display: none;
+  }
+
+  /* ── LEAF CONTENT ── */
+  .leaf-content {
+    height: auto;
+    overflow: visible;
+    padding-top: 70px;
+    padding-bottom: 40px;
+  }
+
+  /* ── CONTAINER CLEARANCE FOR FLOATING RHOMBOIDS ── */
+  .wrap {
+    padding-left: 20px;
+    padding-right: 42px;
+  }
+
+  .hero-block .wrap {
+    padding-right: 20px;
+  }
+
+  /* ── TOP BAR ── */
+  nav {
+    padding: 0 20px;
+    height: 52px;
+    background: rgba(11, 11, 10, 0.97);
+    backdrop-filter: blur(10px);
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  .nav-brand {
+    font-size: 18px;
+    z-index: 2;
+  }
+
+  .nav-tabs,
+  .lang-switcher {
+    display: none;
+  }
+
+  /* ── PROGRESS BAR: hidden on mobile ── */
+  #slide-progress {
+    display: none;
+  }
+
+  /* ── HAMBURGER ── */
+  .mobile-hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    margin-left: auto;
+    z-index: 2;
+  }
+
+  .mobile-hamburger span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--fg);
+  }
+
+  /* ── CENTRE NAME ── */
+  .mobile-centre-name {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 52px;
+    line-height: 52px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    color: var(--fg);
+    z-index: 89;
+    pointer-events: auto;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .mobile-centre-name.visible {
+    opacity: 1;
+  }
+
+  /* ── HAMBURGER MENU PANEL ── */
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 40px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 85vw;
+    height: 100vh;
+    background: rgba(11, 11, 10, 0.98);
+    border-left: 1px solid var(--line);
+    z-index: 200;
+    padding: 60px 40px;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .mobile-menu.open {
+    transform: translateX(0);
+  }
+
+  .mobile-menu-close {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--mute);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 8px;
+  }
+
+  .mobile-menu-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mobile-menu-link {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--mute);
+    cursor: pointer;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    transition: color 0.2s, padding-left 0.2s;
+    display: block;
+  }
+
+  .mobile-menu-link:last-child {
+    border-bottom: none;
+  }
+
+  .mobile-menu-link:hover,
+  .mobile-menu-link.active {
+    color: var(--fg);
+    padding-left: 8px;
+  }
+
+  .mobile-menu-lang {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ── BACKDROP ── */
+  .mobile-menu-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 199;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .mobile-menu-backdrop.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ── RHOMBOID PROGRESS ── */
+  .mobile-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%) translateX(100%);
+    z-index: 88;
+    padding: 10px 14px;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .mobile-progress.visible {
+    transform: translateY(-50%) translateX(0);
+  }
+
+  .mobile-rhomboid {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--mute);
+    opacity: 0.3;
+    transition: color 0.3s, opacity 0.3s;
+    line-height: 1;
+  }
+
+  .mobile-rhomboid.active {
+    color: var(--accent);
+    opacity: 1;
+  }
+
+  /* ── RETURN TO COVER / TOP BUTTON ── */
+  .mobile-back-to-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    position: fixed;
+    bottom: max(20px, env(safe-area-inset-bottom, 20px));
+    right: 18px;
+    z-index: 89;
+    background: rgba(18, 17, 15, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 7px 12px;
+    border-radius: 2px;
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s, border-color 0.2s, color 0.2s;
+  }
+
+  .mobile-back-to-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .mobile-back-to-top:hover,
+  .mobile-back-to-top:active {
+    background: rgba(28, 26, 23, 0.95);
+    border-color: rgba(255, 255, 255, 0.28);
+    color: var(--accent);
+  }
+
+  .mobile-back-to-top .back-to-top-arrow {
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 300;
+    opacity: 0.85;
+  }
+
+  /* ── LAYOUTS ── */
+  .about-grid,
+  .contact-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .portrait-frame {
+    aspect-ratio: 4/3;
+    max-height: 300px;
+  }
+
+  .contact-links a {
+    font-size: clamp(18px, 5vw, 28px);
+    padding: 14px 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .contact-links a span {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    word-break: break-all;
+  }
+
+  .contact-form-wrapper {
+    padding: 0;
+  }
+
+  .gallery-item {
+    grid-column: span 12 !important;
+    min-height: 220px;
+  }
+
+  .track-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .panel-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  body.lang-en-active .panel-footer .slide-next-hint,
+  body.lang-el-active .panel-footer .slide-next-hint,
+  body.lang-cn-active .panel-footer .slide-next-hint,
+  .panel-footer .label:not([class*="lang-"]) {
+    display: none !important;
+  }
+
+  /* ── TYPOGRAPHY ── */
+  h2 {
+    font-size: clamp(28px, 8vw, 52px);
+  }
+
+  .about-text p {
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .banner-items {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .hero-block {
+    min-height: calc(100svh - 52px);
+  }
+
+  #hero-scroll-btn {
+    display: none;
+  }
+
+  .craft-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

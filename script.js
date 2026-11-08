@@ -285,219 +285,351 @@ document.addEventListener("DOMContentLoaded", () => {
   }, { passive: true });
   
   // ------------------------------------------------------------------------
-  // TOUCH SWIPE NAVIGATION (MOBILE)
+  // MOBILE NAVIGATION SYSTEM — CSS Snap, minimal JS
   // ------------------------------------------------------------------------
-  let touchStartY = 0;
-  let touchStartX = 0;
+  const isMobile = () => window.innerWidth <= 768;
 
-  window.addEventListener("touchstart", (e) => {
-    touchStartY = e.touches[0].clientY;
-    touchStartX = e.touches[0].clientX;
-  }, { passive: true });
+  const wrapper            = document.querySelector(".book-slider-wrapper");
+  const mobileCentreName   = document.getElementById("mobile-centre-name");
+  const mobileMenu         = document.getElementById("mobile-menu");
+  const mobileMenuBackdrop = document.getElementById("mobile-menu-backdrop");
+  const mobileHamburger    = document.getElementById("mobile-hamburger");
+  const mobileMenuClose    = document.getElementById("mobile-menu-close");
+  const mobileRhomboids    = document.querySelectorAll(".mobile-rhomboid");
+  const mobileMenuLinks    = document.querySelectorAll(".mobile-menu-link");
+  const mobileBtnEn        = document.getElementById("mobile-btn-lang-en");
+  const mobileBtnEl        = document.getElementById("mobile-btn-lang-el");
+  const mobileBackToTop    = document.getElementById("mobile-back-to-top");
 
-  window.addEventListener("touchend", (e) => {
-    const deltaY = touchStartY - e.changedTouches[0].clientY;
-    const deltaX = touchStartX - e.changedTouches[0].clientX;
+  /* Snap sections in order — matches rhomboid order */
+  const mobileSnapSections = [
+    "section-hero",    /* rhomboid hidden */
+    "section-about",   /* rhomboid 0 */
+    "panel-craft",     /* rhomboid 1 */
+    "panel-works",     /* rhomboid 2 */
+    "panel-gallery",   /* rhomboid 3 */
+    "panel-contact"    /* rhomboid 4 */
+  ];
 
-  // Ignore horizontal swipes (e.g. accidentally grazing the screen)
-  if (Math.abs(deltaX) > Math.abs(deltaY)) return;
+  /* ── Reset desktop transforms on mobile ── */
+  function initMobile() {
+    if (!isMobile()) return;
+    panels.forEach(panel => {
+      if (!panel) return;
+      panel.style.transform = "none";
+      panel.style.position  = "relative";
+      panel.style.left      = "0";
+      panel.style.width     = "100vw";
+      panel.style.height    = "auto";
+    });
+    if (wrapper) wrapper.scrollTop = 0;
+  }
 
-  // Ignore tiny movements — must swipe at least 40px to count
-  if (Math.abs(deltaY) < 40) return;
+  /* ── Scroll to a section by id ── */
+  function mobileGoTo(sectionId) {
+    const el = document.getElementById(sectionId);
+    if (!el || !wrapper) return;
+    el.scrollIntoView({ behavior: "smooth" });
+  }
 
-  if (deltaY > 0) {
-    // Swiped UP (finger moved up = user wants to go forward/down)
-    if (currentTabIndex === 0) {
-      if (introStep === 0) {
-        handleGoNext();
+  /* ── Update rhomboids (section index 0=hero,1=about,2=craft...) ── */
+  function updateMobileRhomboids(sectionIndex) {
+    /* rhomboid 0 = about (index 1), rhomboid 1 = craft (index 2) etc.
+       hero (index 0) = no active rhomboid */
+    const rhomboidIndex = sectionIndex - 1;
+    mobileRhomboids.forEach((r, i) => {
+      r.classList.toggle("active", i === rhomboidIndex);
+    });
+  }
+
+  /* ── Show/hide centre name, rhomboid panel, and back to top button ── */
+  function updateMobileCentreName(visible) {
+    if (mobileCentreName) mobileCentreName.classList.toggle("visible", visible);
+    const prog = document.getElementById("mobile-progress");
+    if (prog) prog.classList.toggle("visible", visible);
+    if (mobileBackToTop) mobileBackToTop.classList.toggle("visible", visible);
+  }
+
+  /* ── Hamburger ── */
+  function openMobileMenu()  {
+    if (mobileMenu) mobileMenu.classList.add("open");
+    if (mobileMenuBackdrop) mobileMenuBackdrop.classList.add("visible");
+  }
+  function closeMobileMenu() {
+    if (mobileMenu) mobileMenu.classList.remove("open");
+    if (mobileMenuBackdrop) mobileMenuBackdrop.classList.remove("visible");
+  }
+
+  if (mobileHamburger)    mobileHamburger.addEventListener("click", openMobileMenu);
+  if (mobileMenuClose)    mobileMenuClose.addEventListener("click", closeMobileMenu);
+  if (mobileMenuBackdrop) mobileMenuBackdrop.addEventListener("click", closeMobileMenu);
+
+  /* Menu links: about, craft, works, gallery, contact */
+  const menuSectionIds = [
+    "section-about",
+    "panel-craft",
+    "panel-works",
+    "panel-gallery",
+    "panel-contact"
+  ];
+  mobileMenuLinks.forEach((link, i) => {
+    link.addEventListener("click", () => {
+      if (!isMobile()) return;
+      closeMobileMenu();
+      setTimeout(() => mobileGoTo(menuSectionIds[i]), 350);
+    });
+  });
+
+  /* Rhomboid clicks: about, craft, works, gallery, contact */
+  const rhomboidSectionIds = [
+    "section-about",
+    "panel-craft",
+    "panel-works",
+    "panel-gallery",
+    "panel-contact"
+  ];
+  mobileRhomboids.forEach((r, i) => {
+    r.addEventListener("click", () => {
+      if (!isMobile()) return;
+      mobileGoTo(rhomboidSectionIds[i]);
+    });
+  });
+
+  /* Centre name and M. brand → back to hero */
+  if (mobileCentreName) {
+    mobileCentreName.addEventListener("click", () => {
+      if (isMobile()) mobileGoTo("section-hero");
+    });
+  }
+
+  const navBrand = document.querySelector(".nav-brand");
+  if (navBrand) {
+    navBrand.addEventListener("click", (e) => {
+      if (!isMobile()) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      mobileGoTo("section-hero");
+    }, true);
+  }
+
+  /* Return to cover / top button */
+  if (mobileBackToTop) {
+    mobileBackToTop.addEventListener("click", () => {
+      if (!isMobile()) return;
+      mobileGoTo("section-hero");
+      if (wrapper) wrapper.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  /* Keep return button and mobile UI in sync with wrapper scrolling */
+  if (wrapper) {
+    wrapper.addEventListener("scroll", () => {
+      if (!isMobile() || !mobileBackToTop) return;
+      if (wrapper.scrollTop > 80) {
+        mobileBackToTop.classList.add("visible");
       } else {
-        const atBottom = panelIntroContent.scrollTop + panelIntroContent.clientHeight
-                         >= panelIntroContent.scrollHeight - 40;
-        if (atBottom) handleGoNext();
+        mobileBackToTop.classList.remove("visible");
       }
-    } else {
-      const content = panels[currentTabIndex].querySelector(".leaf-content");
-      const atBottom = content.scrollTop + content.clientHeight >= content.scrollHeight - 40;
-      if (atBottom) handleGoNext();
-    }
-  } else {
-    // Swiped DOWN (finger moved down = user wants to go back/up)
-    if (currentTabIndex === 0) {
-      if (panelIntroContent.scrollTop <= 80) handleGoPrev();
-    } else {
-      const content = panels[currentTabIndex].querySelector(".leaf-content");
-      const atTop = content.scrollTop <= 40;
-      if (atTop) handleGoPrev();
-    }
-    }
-  }, { passive: true });
+    }, { passive: true });
+  }
 
+  /* Mirror language buttons in mobile menu */
+  if (mobileBtnEn) mobileBtnEn.addEventListener("click", () => setLanguage("en"));
+  if (mobileBtnEl) mobileBtnEl.addEventListener("click", () => setLanguage("el"));
 
-
-  // ------------------------------------------------------------------------
-// 2. LANGUAGE SWITCHER (EN / ΕΛ / 中文)
-//
-// To add a new language in the future:
-// JS:   1. Add entry to LANG_TITLES: xx: "Page title"
-//       2. Add entry to LANG_BUTTONS: xx: document.getElementById("btn-lang-xx")
-//       Everything else in this block is automatic.
-// HTML: 3. Add <button id="btn-lang-xx"> in the nav switcher
-//       4. Add <span class="lang-xx"> next to every lang-en/lang-el span
-// CSS:  5. Add display rules for span/div/p.lang-xx in the language block
-// ------------------------------------------------------------------------
-
-const LANG_TITLES = {
-  en: "Michaïl Chatziasemidis — Composer · Orchestrator · Violinist",
-  el: "Μιχαήλ Χατζηασεμίδης — Συνθέτης · Ενορχηστρωτής · Βιολονίστας",
-  cn: "米哈伊尔·Chatziasemidis — 作曲家 · 管弦乐编曲家 · 小提琴家",
-  /* Add future languages here:
-  fr: "Michaïl Chatziasemidis — Compositeur · Orchestrateur · Violoniste",
-  de: "Michaïl Chatziasemidis — Komponist · Orchstrator · Geiger", */
-};
-
-const LANG_BUTTONS = {
-  en: document.getElementById("btn-lang-en"),
-  el: document.getElementById("btn-lang-el"),
-  cn: document.getElementById("btn-lang-cn"),
-  /* Add future languages here:
-  fr: document.getElementById("btn-lang-fr"),
-  de: document.getElementById("btn-lang-de"), */
-};
-
-function setLanguage(lang) {
-  /* Remove all lang classes from body, add only the active one */
-  Object.keys(LANG_BUTTONS).forEach(l => {
-    document.body.classList.remove(`lang-${l}-active`);
-  });
-  document.body.classList.add(`lang-${lang}-active`);
-  document.documentElement.lang = lang;
-
-  /* Update button states */
-  Object.entries(LANG_BUTTONS).forEach(([l, btn]) => {
-    if (btn) btn.classList.toggle("active", l === lang);
-  });
-
-  /* Set page title — falls back to English if language is missing */
-  document.title = LANG_TITLES[lang] || LANG_TITLES.en;
-
-  localStorage.setItem("preferred_lang", lang);
-
-  /* Update input placeholders per language */
-  const placeholders = {
-    en: {
-      "form-name":    "Name / Ensemble",
-      "form-email":   "you@domain.com",
-      "form-subject": "Game Audio / Composition Commission",
-      "form-message": "Tell me about your project or inquiry..."
-    },
-    el: {
-      "form-name":    "Όνομα / Σύνολο",
-      "form-email":   "you@domain.com",
-      "form-subject": "Game Audio / Ανάθεση Σύνθεσης",
-      "form-message": "Πείτε μου για το έργο ή το αίτημά σας..."
-    },
-    cn: {
-      "form-name":    "姓名 / 乐团",
-      "form-email":   "you@domain.com",
-      "form-subject": "游戏音频 / 委约作曲",
-      "form-message": "请告诉我您的项目或咨询内容..."
-    }
+  /* ── IntersectionObserver: track which section is visible ── */
+  const observerOptions = {
+    root: null, /* use viewport as root, works for both snap and non-snap */
+    threshold: 0.4
   };
 
-  const p = placeholders[lang] || placeholders.en;
-  Object.entries(p).forEach(([id, text]) => {
+  const sectionObserver = new IntersectionObserver((entries) => {
+    if (!isMobile()) return; /* ignore on desktop */
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const id = entry.target.id;
+      const index = mobileSnapSections.indexOf(id);
+      if (index < 0) return;
+      updateMobileRhomboids(index);
+      updateMobileCentreName(index > 0);
+    });
+  }, observerOptions);
+
+  mobileSnapSections.forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.placeholder = text;
+    if (el) sectionObserver.observe(el);
   });
-}
 
-/* Event listeners — automatic for all entries in LANG_BUTTONS */
-Object.entries(LANG_BUTTONS).forEach(([lang, btn]) => {
-  if (btn) btn.addEventListener("click", () => setLanguage(lang));
-});
+  /* ── Resize: restore desktop on wider screens ── */
+  window.addEventListener("resize", () => {
+    if (!isMobile()) {
+      panels.forEach((panel, i) => {
+        if (!panel) return;
+        panel.style.position  = "";
+        panel.style.width     = "";
+        panel.style.height    = "";
+        panel.style.left      = "";
+        panel.style.transform = i <= currentTabIndex
+          ? "translateX(0)"
+          : "translateX(100vw)";
+      });
+    } else {
+      initMobile();
+    }
+  });
 
-const savedLang = localStorage.getItem("preferred_lang") || "en";
-setLanguage(savedLang);
+  /* ── Boot ── */
+  initMobile();
 
-  /* // ------------------------------------------------------------------------
-  // 3. PORTRAIT IMAGE DETECTOR
   // ------------------------------------------------------------------------
-   const portraitBox = document.getElementById("portrait-box");
-  if (portraitBox) {
-    const portraitImg = new Image();
-    portraitImg.src = "assets/portrait.jpg";
-    portraitImg.onload = () => {
-      portraitBox.innerHTML = `<img src="assets/portrait.jpg" alt="Michaïl Chatziasemidis" loading="lazy">`;
+  // 2. LANGUAGE SWITCHER (EN / ΕΛ / 中文)
+  //
+  // To add a new language in the future:
+  // JS:   1. Add entry to LANG_TITLES: xx: "Page title"
+  //       2. Add entry to LANG_BUTTONS: xx: document.getElementById("btn-lang-xx")
+  //       Everything else in this block is automatic.
+  // HTML: 3. Add <button id="btn-lang-xx"> in the nav switcher
+  //       4. Add <span class="lang-xx"> next to every lang-en/lang-el span
+  // CSS:  5. Add display rules for body.lang-xx-active in the language block
+  // ------------------------------------------------------------------------
+
+  const LANG_TITLES = {
+    en: "Michaïl Chatziasemidis — Composer · Orchestrator · Violinist",
+    el: "Μιχαήλ Χατζηασεμίδης — Συνθέτης · Ενορχηστρωτής · Βιολονίστας",
+    cn: "米哈伊尔·Chatziasemidis — 作曲家 · 管弦乐编曲家 · 小提琴家",
+  };
+
+  const LANG_BUTTONS = {
+    en: document.getElementById("btn-lang-en"),
+    el: document.getElementById("btn-lang-el"),
+    cn: document.getElementById("btn-lang-cn"),
+  };
+
+  function setLanguage(lang) {
+    Object.keys(LANG_BUTTONS).forEach(l => {
+      document.body.classList.remove(`lang-${l}-active`);
+    });
+    document.body.classList.add(`lang-${lang}-active`);
+    document.documentElement.lang = lang;
+
+    Object.entries(LANG_BUTTONS).forEach(([l, btn]) => {
+      if (btn) btn.classList.toggle("active", l === lang);
+    });
+
+    /* Mirror active state to mobile menu buttons too */
+    const mEn = document.getElementById("mobile-btn-lang-en");
+    const mEl = document.getElementById("mobile-btn-lang-el");
+    if (mEn) mEn.classList.toggle("active", lang === "en");
+    if (mEl) mEl.classList.toggle("active", lang === "el");
+
+    document.title = LANG_TITLES[lang] || LANG_TITLES.en;
+    localStorage.setItem("preferred_lang", lang);
+
+    const placeholders = {
+      en: {
+        "form-name":    "Name / Ensemble",
+        "form-email":   "you@domain.com",
+        "form-subject": "Game Audio / Composition Commission",
+        "form-message": "Tell me about your project or inquiry..."
+      },
+      el: {
+        "form-name":    "Όνομα / Σύνολο",
+        "form-email":   "you@domain.com",
+        "form-subject": "Game Audio / Ανάθεση Σύνθεσης",
+        "form-message": "Πείτε μου για το έργο ή το αίτημά σας..."
+      },
+      cn: {
+        "form-name":    "姓名 / 乐团",
+        "form-email":   "you@domain.com",
+        "form-subject": "游戏音频 / 委约作曲",
+        "form-message": "请告诉我您的项目或咨询内容..."
+      }
     };
-  } */
-//obsolete, since the img src has changed in the html. there's no placeholder anymore.
+
+    const p = placeholders[lang] || placeholders.en;
+    Object.entries(p).forEach(([id, text]) => {
+      const el = document.getElementById(id);
+      if (el) el.placeholder = text;
+    });
+  }
+
+  Object.entries(LANG_BUTTONS).forEach(([lang, btn]) => {
+    if (btn) btn.addEventListener("click", () => setLanguage(lang));
+  });
+
+  const savedLang = localStorage.getItem("preferred_lang") || "en";
+  setLanguage(savedLang);
 
   // ------------------------------------------------------------------------
   // 4. CONTACT FORM SUBMISSION
   // ------------------------------------------------------------------------
-if (contactForm) {
-  contactForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const lang = document.documentElement.lang || "en";
+  const contactForm    = document.getElementById("contact-form");
+  const formStatus     = document.getElementById("form-status");
+  const formSubmitBtn  = document.getElementById("form-submit-btn");
 
-    const i18n = {
-      en: {
-        sending: "Sending...",
-        success: "Thank you! Your message has been sent.",
-        error:   "Oops! There was a problem. Please try again or email directly.",
-        submit:  "Send Message"
-      },
-      el: {
-        sending: "ΑΠΟΣΤΟΛΗ...",
-        success: "Ευχαριστώ! Το μήνυμά σας εστάλη επιτυχώς.",
-        error:   "Παρουσιάστηκε σφάλμα. Παρακαλώ δοκιμάστε ξανά ή στείλτε απευθείας email.",
-        submit:  "ΑΠΟΣΤΟΛΗ ΜΗΝΥΜΑΤΟΣ"
-      },
-      cn: {
-        sending: "发送中...",
-        success: "谢谢！您的消息已成功发送。",
-        error:   "发送失败，请重试或直接发送电子邮件。",
-        submit:  "发送消息"
+  if (contactForm) {
+    contactForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const lang = document.documentElement.lang || "en";
+
+      const i18n = {
+        en: {
+          sending: "Sending...",
+          success: "Thank you! Your message has been sent.",
+          error:   "Oops! There was a problem. Please try again or email directly.",
+          submit:  "Send Message"
+        },
+        el: {
+          sending: "ΑΠΟΣΤΟΛΗ...",
+          success: "Ευχαριστώ! Το μήνυμά σας εστάλη επιτυχώς.",
+          error:   "Παρουσιάστηκε σφάλμα. Παρακαλώ δοκιμάστε ξανά ή στείλτε απευθείας email.",
+          submit:  "ΑΠΟΣΤΟΛΗ ΜΗΝΥΜΑΤΟΣ"
+        },
+        cn: {
+          sending: "发送中...",
+          success: "谢谢！您的消息已成功发送。",
+          error:   "发送失败，请重试或直接发送电子邮件。",
+          submit:  "发送消息"
+        }
+      };
+
+      const t = i18n[lang] || i18n.en;
+
+      formSubmitBtn.disabled = true;
+      formSubmitBtn.textContent = t.sending;
+      formStatus.className = "form-status";
+      formStatus.style.display = "none";
+
+      const action   = contactForm.getAttribute("action");
+      const formData = new FormData(contactForm);
+
+      try {
+        if (action && !action.includes("YOUR_FORMSPREE_ID")) {
+          const response = await fetch(action, {
+            method: "POST",
+            body: formData,
+            headers: { "Accept": "application/json" }
+          });
+          if (!response.ok) throw new Error("Submission failed");
+        } else {
+          await new Promise(res => setTimeout(res, 600));
+        }
+        formStatus.textContent = t.success;
+        formStatus.classList.add("success");
+        formStatus.style.display = "block";
+        contactForm.reset();
+      } catch (err) {
+        formStatus.textContent = t.error;
+        formStatus.classList.add("error");
+        formStatus.style.display = "block";
+      } finally {
+        formSubmitBtn.disabled = false;
+        formSubmitBtn.textContent = t.submit;
       }
-      /* Add future languages here */
-    };
+    });
+  }
 
-    const t = i18n[lang] || i18n.en;
-
-    formSubmitBtn.disabled = true;
-    formSubmitBtn.textContent = t.sending;
-    formStatus.className = "form-status";
-    formStatus.style.display = "none";
-
-    const action = contactForm.getAttribute("action");
-    const formData = new FormData(contactForm);
-
-    try {
-      if (action && !action.includes("YOUR_FORMSPREE_ID")) {
-        const response = await fetch(action, {
-          method: "POST",
-          body: formData,
-          headers: { "Accept": "application/json" }
-        });
-        if (!response.ok) throw new Error("Submission failed");
-      } else {
-        await new Promise(res => setTimeout(res, 600));
-      }
-
-      formStatus.textContent = t.success;
-      formStatus.classList.add("success");
-      formStatus.style.display = "block";
-      contactForm.reset();
-    } catch (err) {
-      formStatus.textContent = t.error;
-      formStatus.classList.add("error");
-      formStatus.style.display = "block";
-    } finally {
-      formSubmitBtn.disabled = false;
-      formSubmitBtn.textContent = t.submit;
-    }
-  });
-}
   // Initial Progress Bar boot (0 at Hero)
   updateProgress();
-});
+
+}); // ← closes DOMContentLoaded
