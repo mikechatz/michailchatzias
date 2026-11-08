@@ -276,10 +276,89 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     } else {
-      if (e.deltaY > 0) {
-        handleGoNext();
+      const activeContent = panels[currentTabIndex] ? panels[currentTabIndex].querySelector(".leaf-content") : null;
+      if (activeContent) {
+        if (e.deltaY > 0) {
+          // Scrolling down: check if reached bottom of leaf-content
+          const atBottom = activeContent.scrollTop + activeContent.clientHeight >= activeContent.scrollHeight - 10;
+          if (atBottom) {
+            handleGoNext();
+          }
+        } else {
+          // Scrolling up: check if reached top of leaf-content
+          const atTop = activeContent.scrollTop <= 10;
+          if (atTop) {
+            handleGoPrev();
+          }
+        }
       } else {
-        handleGoPrev();
+        if (e.deltaY > 0) {
+          handleGoNext();
+        } else {
+          handleGoPrev();
+        }
+      }
+    }
+  }, { passive: true });
+
+  // Touch Swipe Navigation for Desktop / Landscape Mode
+  // Allows swipe-scrolling to seamlessly transition to next/prev section when reaching edges
+  let touchStartY = 0;
+  let touchStartX = 0;
+
+  window.addEventListener("touchstart", (e) => {
+    if (isMobile()) return; // Mobile portrait snap system handles itself
+    if (e.touches && e.touches.length > 0) {
+      touchStartY = e.touches[0].clientY;
+      touchStartX = e.touches[0].clientX;
+    }
+  }, { passive: true });
+
+  window.addEventListener("touchend", (e) => {
+    if (isMobile()) return;
+    if (!e.changedTouches || e.changedTouches.length === 0) return;
+
+    const deltaY = touchStartY - e.changedTouches[0].clientY; // positive = swipe up (scroll down)
+    const deltaX = touchStartX - e.changedTouches[0].clientX;
+
+    // Must be predominantly vertical swipe with minimum distance
+    if (Math.abs(deltaY) < 35 || Math.abs(deltaY) < Math.abs(deltaX)) return;
+
+    if (currentTabIndex === 0) {
+      if (deltaY > 0) {
+        // Swipe up / scroll down
+        if (introStep === 0) {
+          handleGoNext();
+        } else {
+          const atBottom = panelIntroContent.scrollTop + panelIntroContent.clientHeight >= panelIntroContent.scrollHeight - 20;
+          if (atBottom) handleGoNext();
+        }
+      } else {
+        // Swipe down / scroll up
+        if (introStep === 1) {
+          const atTop = panelIntroContent.scrollTop <= 80;
+          if (atTop) handleGoPrev();
+        }
+      }
+    } else {
+      const activeContent = panels[currentTabIndex] ? panels[currentTabIndex].querySelector(".leaf-content") : null;
+      if (activeContent) {
+        if (deltaY > 0) {
+          // Swiping up (scrolling down): transition when bottom reached
+          const atBottom = activeContent.scrollTop + activeContent.clientHeight >= activeContent.scrollHeight - 15;
+          if (atBottom) {
+            handleGoNext();
+          }
+        } else {
+          // Swiping down (scrolling up): transition when top reached
+          const atTop = activeContent.scrollTop <= 15;
+          if (atTop) {
+            handleGoPrev();
+          }
+        }
+      } else {
+        if (deltaY > 0) handleGoNext();
+        else handleGoPrev();
       }
     }
   }, { passive: true });
@@ -312,7 +391,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   /* ── Reset desktop transforms on mobile ── */
-  function initMobile() {
+  function initMobile(syncCurrentSection = false) {
     if (!isMobile()) return;
     panels.forEach(panel => {
       if (!panel) return;
@@ -322,14 +401,39 @@ document.addEventListener("DOMContentLoaded", () => {
       panel.style.width     = "100vw";
       panel.style.height    = "auto";
     });
-    if (wrapper) wrapper.scrollTop = 0;
+
+    if (syncCurrentSection) {
+      let targetSectionId = "section-hero";
+      let snapIndex = 0;
+
+      if (currentTabIndex === 0) {
+        if (introStep === 1) {
+          targetSectionId = "section-about";
+          snapIndex = 1;
+        } else {
+          targetSectionId = "section-hero";
+          snapIndex = 0;
+        }
+      } else {
+        targetSectionId = panels[currentTabIndex] ? panels[currentTabIndex].id : "section-hero";
+        snapIndex = currentTabIndex + 1; // craft (tab 1) -> snap index 2, works (2) -> 3, gallery (3) -> 4, contact (4) -> 5
+      }
+
+      mobileGoTo(targetSectionId, false);
+      updateMobileRhomboids(snapIndex);
+      updateMobileCentreName(snapIndex > 0);
+    } else {
+      if (wrapper) wrapper.scrollTop = 0;
+      updateMobileRhomboids(0);
+      updateMobileCentreName(false);
+    }
   }
 
   /* ── Scroll to a section by id ── */
-  function mobileGoTo(sectionId) {
+  function mobileGoTo(sectionId, smooth = true) {
     const el = document.getElementById(sectionId);
     if (!el || !wrapper) return;
-    el.scrollIntoView({ behavior: "smooth" });
+    el.scrollIntoView({ behavior: smooth ? "smooth" : "instant" });
   }
 
   /* ── Update rhomboids (section index 0=hero,1=about,2=craft...) ── */
@@ -452,6 +556,17 @@ document.addEventListener("DOMContentLoaded", () => {
       if (index < 0) return;
       updateMobileRhomboids(index);
       updateMobileCentreName(index > 0);
+
+      // Keep desktop state variables in sync with user's mobile scrolling
+      if (index === 0) {
+        currentTabIndex = 0;
+        introStep = 0;
+      } else if (index === 1) {
+        currentTabIndex = 0;
+        introStep = 1;
+      } else {
+        currentTabIndex = index - 1; // index 2 -> panel-craft (1), 3 -> works (2), 4 -> gallery (3), 5 -> contact (4)
+      }
     });
   }, observerOptions);
 
@@ -460,9 +575,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (el) sectionObserver.observe(el);
   });
 
-  /* ── Resize: restore desktop on wider screens ── */
-  window.addEventListener("resize", () => {
-    if (!isMobile()) {
+  /* ── Resize & Orientation Change Handling ── */
+  let lastOrientationMobile = isMobile();
+
+  function handleOrientationOrResize() {
+    const currentlyMobile = isMobile();
+    if (!currentlyMobile) {
+      // Switched to Landscape / Desktop view: restore panels and activate current section
       panels.forEach((panel, i) => {
         if (!panel) return;
         panel.style.position  = "";
@@ -473,9 +592,17 @@ document.addEventListener("DOMContentLoaded", () => {
           ? "translateX(0)"
           : "translateX(100vw)";
       });
+      goToTab(currentTabIndex, introStep === 1 ? "about" : null);
     } else {
-      initMobile();
+      // Switched to Portrait / Mobile view: jump immediately to current section without animation
+      initMobile(true);
     }
+    lastOrientationMobile = currentlyMobile;
+  }
+
+  window.addEventListener("resize", handleOrientationOrResize);
+  window.addEventListener("orientationchange", () => {
+    setTimeout(handleOrientationOrResize, 50);
   });
 
   /* ── Boot ── */

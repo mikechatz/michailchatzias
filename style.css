@@ -634,6 +634,13 @@ nav {
   position: relative;
 }
 
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .gallery-item:nth-child(1) { grid-column: span 7; min-height: 440px; }
 .gallery-item:nth-child(2) { grid-column: span 5; }
 .gallery-item:nth-child(3) { grid-column: span 4; }
