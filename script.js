@@ -299,6 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const mobileMenuLinks    = document.querySelectorAll(".mobile-menu-link");
   const mobileBtnEn        = document.getElementById("mobile-btn-lang-en");
   const mobileBtnEl        = document.getElementById("mobile-btn-lang-el");
+  const mobileBackToTop    = document.getElementById("mobile-back-to-top");
 
   /* Snap sections in order — matches rhomboid order */
   const mobileSnapSections = [
@@ -341,11 +342,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* ── Show/hide centre name and rhomboid panel ── */
+  /* ── Show/hide centre name, rhomboid panel, and back to top button ── */
   function updateMobileCentreName(visible) {
     if (mobileCentreName) mobileCentreName.classList.toggle("visible", visible);
     const prog = document.getElementById("mobile-progress");
     if (prog) prog.classList.toggle("visible", visible);
+    if (mobileBackToTop) mobileBackToTop.classList.toggle("visible", visible);
   }
 
   /* ── Hamburger ── */
@@ -408,6 +410,27 @@ document.addEventListener("DOMContentLoaded", () => {
       e.stopImmediatePropagation();
       mobileGoTo("section-hero");
     }, true);
+  }
+
+  /* Return to cover / top button */
+  if (mobileBackToTop) {
+    mobileBackToTop.addEventListener("click", () => {
+      if (!isMobile()) return;
+      mobileGoTo("section-hero");
+      if (wrapper) wrapper.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  /* Keep return button and mobile UI in sync with wrapper scrolling */
+  if (wrapper) {
+    wrapper.addEventListener("scroll", () => {
+      if (!isMobile() || !mobileBackToTop) return;
+      if (wrapper.scrollTop > 80) {
+        mobileBackToTop.classList.add("visible");
+      } else {
+        mobileBackToTop.classList.remove("visible");
+      }
+    }, { passive: true });
   }
 
   /* Mirror language buttons in mobile menu */
