@@ -335,109 +335,169 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // ------------------------------------------------------------------------
-  // 2. BILINGUAL LANGUAGE SWITCHER (EN / ΕΛ)
-  // ------------------------------------------------------------------------
-  const btnEn = document.getElementById("btn-lang-en");
-  const btnEl = document.getElementById("btn-lang-el");
-  //const btnCn = document.getElementById("btn-lang-cn");
+// 2. LANGUAGE SWITCHER (EN / ΕΛ / 中文)
+//
+// To add a new language in the future:
+// JS:   1. Add entry to LANG_TITLES: xx: "Page title"
+//       2. Add entry to LANG_BUTTONS: xx: document.getElementById("btn-lang-xx")
+//       Everything else in this block is automatic.
+// HTML: 3. Add <button id="btn-lang-xx"> in the nav switcher
+//       4. Add <span class="lang-xx"> next to every lang-en/lang-el span
+// CSS:  5. Add display rules for span/div/p.lang-xx in the language block
+// ------------------------------------------------------------------------
 
-  function setLanguage(lang) {
-    const isGreek = lang === "el";
-    const isEnglish = lang === "en";
-    //const isChinese = lang === "cn";
+const LANG_TITLES = {
+  en: "Michaïl Chatziasemidis — Composer · Orchestrator · Violinist",
+  el: "Μιχαήλ Χατζηασεμίδης — Συνθέτης · Ενορχηστρωτής · Βιολονίστας",
+  cn: "米哈伊尔·Chatziasemidis — 作曲家 · 管弦乐编曲家 · 小提琴家",
+  /* Add future languages here:
+  fr: "Michaïl Chatziasemidis — Compositeur · Orchestrateur · Violoniste",
+  de: "Michaïl Chatziasemidis — Komponist · Orchstrator · Geiger", */
+};
 
-    // 1. Σωστό toggle για το CSS του body (χρειαζόμαστε κλάση για κάθε γλώσσα)
-    document.body.classList.toggle("lang-en-active", isEnglish);
-    document.body.classList.toggle("lang-el-active", isGreek);
-   // document.body.classList.toggle("lang-cn-active", isChinese);
-    
-    document.documentElement.lang = lang;
+const LANG_BUTTONS = {
+  en: document.getElementById("btn-lang-en"),
+  el: document.getElementById("btn-lang-el"),
+  cn: document.getElementById("btn-lang-cn"),
+  /* Add future languages here:
+  fr: document.getElementById("btn-lang-fr"),
+  de: document.getElementById("btn-lang-de"), */
+};
 
-    // 2. Σωστό toggle για τα κουμπιά (μόνο 2 ορίσματα επιτρέπονται)
-    if (btnEn) btnEn.classList.toggle("active", isEnglish);
-    if (btnEl) btnEl.classList.toggle("active", isGreek);
-    //if (btnCn) btnCn.classList.toggle("active", isChinese);
+function setLanguage(lang) {
+  /* Remove all lang classes from body, add only the active one */
+  Object.keys(LANG_BUTTONS).forEach(l => {
+    document.body.classList.remove(`lang-${l}-active`);
+  });
+  document.body.classList.add(`lang-${lang}-active`);
+  document.documentElement.lang = lang;
 
-    // 3. Σωστός τίτλος για 3 γλώσσες (φωλιασμένος τριαδικός τελεστής)
-    document.title = isGreek
-      ? "Μιχαήλ Χατζηασεμίδης — Συνθέτης · Ενορχηστρωτής · Βιολονίστας"
-      : isChinese
-      ? "米哈伊尔·哈齐亚塞米迪斯 — 作曲家 · 管弦乐编曲家 · 小提琴家"
-      : "Michaïl Chatziasemidis — Composer · Orchestrator · Violinist";
+  /* Update button states */
+  Object.entries(LANG_BUTTONS).forEach(([l, btn]) => {
+    if (btn) btn.classList.toggle("active", l === lang);
+  });
 
+  /* Set page title — falls back to English if language is missing */
+  document.title = LANG_TITLES[lang] || LANG_TITLES.en;
 
-    localStorage.setItem("preferred_lang", lang);
-  }
+  localStorage.setItem("preferred_lang", lang);
 
-  if (btnEn) btnEn.addEventListener("click", () => setLanguage("en"));
-  if (btnEl) btnEl.addEventListener("click", () => setLanguage("el"));
-  //if (btnCn) btnCn.addEventListener("click", () => setLanguage("cn"));
+  /* Update input placeholders per language */
+  const placeholders = {
+    en: {
+      "form-name":    "Name / Ensemble",
+      "form-email":   "you@domain.com",
+      "form-subject": "Game Audio / Composition Commission",
+      "form-message": "Tell me about your project or inquiry..."
+    },
+    el: {
+      "form-name":    "Όνομα / Σύνολο",
+      "form-email":   "you@domain.com",
+      "form-subject": "Game Audio / Ανάθεση Σύνθεσης",
+      "form-message": "Πείτε μου για το έργο ή το αίτημά σας..."
+    },
+    cn: {
+      "form-name":    "姓名 / 乐团",
+      "form-email":   "you@domain.com",
+      "form-subject": "游戏音频 / 委约作曲",
+      "form-message": "请告诉我您的项目或咨询内容..."
+    }
+  };
 
-  const savedLang = localStorage.getItem("preferred_lang") || "en";
-  setLanguage(savedLang);
+  const p = placeholders[lang] || placeholders.en;
+  Object.entries(p).forEach(([id, text]) => {
+    const el = document.getElementById(id);
+    if (el) el.placeholder = text;
+  });
+}
 
-  // ------------------------------------------------------------------------
+/* Event listeners — automatic for all entries in LANG_BUTTONS */
+Object.entries(LANG_BUTTONS).forEach(([lang, btn]) => {
+  if (btn) btn.addEventListener("click", () => setLanguage(lang));
+});
+
+const savedLang = localStorage.getItem("preferred_lang") || "en";
+setLanguage(savedLang);
+
+  /* // ------------------------------------------------------------------------
   // 3. PORTRAIT IMAGE DETECTOR
   // ------------------------------------------------------------------------
-  const portraitBox = document.getElementById("portrait-box");
+   const portraitBox = document.getElementById("portrait-box");
   if (portraitBox) {
     const portraitImg = new Image();
     portraitImg.src = "assets/portrait.jpg";
     portraitImg.onload = () => {
       portraitBox.innerHTML = `<img src="assets/portrait.jpg" alt="Michaïl Chatziasemidis" loading="lazy">`;
     };
-  }
-
+  } */
+//obsolete, since the img src has changed in the html. there's no placeholder anymore.
 
   // ------------------------------------------------------------------------
   // 4. CONTACT FORM SUBMISSION
   // ------------------------------------------------------------------------
-  const contactForm = document.getElementById("contact-form");
-  const formStatus = document.getElementById("form-status");
-  const formSubmitBtn = document.getElementById("form-submit-btn");
+if (contactForm) {
+  contactForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const lang = document.documentElement.lang || "en";
 
-  if (contactForm) {
-    contactForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const isGreek = document.body.classList.contains("lang-el-active");
-
-      formSubmitBtn.disabled = true;
-      formSubmitBtn.textContent = isGreek ? "ΑΠΟΣΤΟΛΗ..." : "Sending...";
-      formStatus.className = "form-status";
-      formStatus.style.display = "none";
-
-      const action = contactForm.getAttribute("action");
-      const formData = new FormData(contactForm);
-
-      try {
-        if (action && !action.includes("YOUR_FORMSPREE_ID")) {
-          const response = await fetch(action, {
-            method: "POST",
-            body: formData,
-            headers: { "Accept": "application/json" }
-          });
-          if (!response.ok) throw new Error("Submission failed");
-        } else {
-          await new Promise(res => setTimeout(res, 600));
-        }
-
-        formStatus.textContent = isGreek 
-          ? "Ευχαριστώ! Το μήνυμά σας εστάλη επιτυχώς." 
-          : "Thank you! Your message has been sent.";
-        formStatus.classList.add("success");
-        contactForm.reset();
-      } catch (err) {
-        formStatus.textContent = isGreek
-          ? "Παρουσιάστηκε σφάλμα. Παρακαλώ δοκιμάστε ξανά ή στείλτε απευθείας email."
-          : "Oops! There was a problem. Please try again or email directly.";
-        formStatus.classList.add("error");
-      } finally {
-        formSubmitBtn.disabled = false;
-        formSubmitBtn.textContent = isGreek ? "ΑΠΟΣΤΟΛΗ ΜΗΝΥΜΑΤΟΣ" : "Send Message";
+    const i18n = {
+      en: {
+        sending: "Sending...",
+        success: "Thank you! Your message has been sent.",
+        error:   "Oops! There was a problem. Please try again or email directly.",
+        submit:  "Send Message"
+      },
+      el: {
+        sending: "ΑΠΟΣΤΟΛΗ...",
+        success: "Ευχαριστώ! Το μήνυμά σας εστάλη επιτυχώς.",
+        error:   "Παρουσιάστηκε σφάλμα. Παρακαλώ δοκιμάστε ξανά ή στείλτε απευθείας email.",
+        submit:  "ΑΠΟΣΤΟΛΗ ΜΗΝΥΜΑΤΟΣ"
+      },
+      cn: {
+        sending: "发送中...",
+        success: "谢谢！您的消息已成功发送。",
+        error:   "发送失败，请重试或直接发送电子邮件。",
+        submit:  "发送消息"
       }
-    });
-  }
+      /* Add future languages here */
+    };
 
+    const t = i18n[lang] || i18n.en;
+
+    formSubmitBtn.disabled = true;
+    formSubmitBtn.textContent = t.sending;
+    formStatus.className = "form-status";
+    formStatus.style.display = "none";
+
+    const action = contactForm.getAttribute("action");
+    const formData = new FormData(contactForm);
+
+    try {
+      if (action && !action.includes("YOUR_FORMSPREE_ID")) {
+        const response = await fetch(action, {
+          method: "POST",
+          body: formData,
+          headers: { "Accept": "application/json" }
+        });
+        if (!response.ok) throw new Error("Submission failed");
+      } else {
+        await new Promise(res => setTimeout(res, 600));
+      }
+
+      formStatus.textContent = t.success;
+      formStatus.classList.add("success");
+      formStatus.style.display = "block";
+      contactForm.reset();
+    } catch (err) {
+      formStatus.textContent = t.error;
+      formStatus.classList.add("error");
+      formStatus.style.display = "block";
+    } finally {
+      formSubmitBtn.disabled = false;
+      formSubmitBtn.textContent = t.submit;
+    }
+  });
+}
   // Initial Progress Bar boot (0 at Hero)
   updateProgress();
 });
