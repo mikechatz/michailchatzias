@@ -909,6 +909,16 @@ nav {
     padding-bottom: 40px;
   }
 
+  /* ── CONTAINER CLEARANCE FOR FLOATING RHOMBOIDS ── */
+  .wrap {
+    padding-left: 20px;
+    padding-right: 42px;
+  }
+
+  .hero-block .wrap {
+    padding-right: 20px;
+  }
+
   /* ── TOP BAR ── */
   nav {
     padding: 0 20px;
