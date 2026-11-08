@@ -1044,24 +1044,17 @@ nav {
 
   /* ── PANELS: reset horizontal book to vertical stack ── */
    .book-slider-wrapper {
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: 100%;
-    min-height: 100vh;
-    max-height: none;
-    position: relative;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    height: 100vh;
   }
 
   .slide-panel {
-    position: relative;
-    transform: none !important;
-    left: 0 !important;
-    width: 100vw !important;
+    scroll-snap-align: start;
+    min-height: 100vh;
     height: auto;
-    min-height: calc(100vh - 52px);
-    display: block;
-    box-shadow: none;
   }
+
 
   .leaf-spine {
     display: none;
