@@ -52,30 +52,26 @@ a {
 }
 
 /* ==========================================================================
-   BILINGUAL DISPLAY RULES (HTML-FIRST)
+   MULTILINGUAL DISPLAY RULES (HTML-FIRST)
    ========================================================================== */
-/* 1. Κρύβουμε όλα τα μεταφρασμένα στοιχεία εξ ορισμού */
-.lang-en, 
-.lang-el, 
+/* Hide all language elements by default */
+.lang-en,
+.lang-el,
 .lang-cn {
   display: none !important;
 }
 
-/* 2. Εμφανίζουμε ΜΟΝΟ τα στοιχεία της γλώσσας που είναι ενεργή */
-body.lang-en-active .lang-en {
-  display: block !important; /* ή inline, ή flex ανάλογα με το στοιχείο σας */
-}
+body.lang-en-active .lang-en { display: revert !important; }
+body.lang-el-active .lang-el { display: revert !important; }
+body.lang-cn-active .lang-cn { display: revert !important; }
 
-body.lang-el-active .lang-el {
-  display: block !important;
+/* When Chinese is active, fix the spine title orientation */
+body.lang-cn-active .leaf-spine-title {
+  writing-mode: vertical-lr;
+  transform: none;
 }
-
-body.lang-cn-active .lang-cn {
-  display: block !important;
-}
-
 /* ==========================================================================
-   BACKGROUND ATMOSPHERE & RED TINT IN TOP-RIGHT (Marvi Style Restored)
+   BACKGROUND ATMOSPHERE & RED TINT IN TOP-RIGHT
    ========================================================================== */
 .bg-atmosphere {
   position: fixed;
