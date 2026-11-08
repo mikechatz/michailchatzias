@@ -285,8 +285,213 @@ document.addEventListener("DOMContentLoaded", () => {
   }, { passive: true });
   
   // ------------------------------------------------------------------------
-  // TOUCH SWIPE NAVIGATION (MOBILE)
+  // MOBILE NAVIGATION SYSTEM
   // ------------------------------------------------------------------------
+  const isMobile = () => window.innerWidth <= 768;
+
+  const wrapper        = document.querySelector(".book-slider-wrapper");
+  const mobileCentreName   = document.getElementById("mobile-centre-name");
+  const mobileMenu         = document.getElementById("mobile-menu");
+  const mobileMenuBackdrop = document.getElementById("mobile-menu-backdrop");
+  const mobileHamburger    = document.getElementById("mobile-hamburger");
+  const mobileMenuClose    = document.getElementById("mobile-menu-close");
+  const mobileRhomboids    = document.querySelectorAll(".mobile-rhomboid");
+  const mobileMenuLinks    = document.querySelectorAll(".mobile-menu-link");
+  const mobileBtnEn        = document.getElementById("mobile-btn-lang-en");
+  const mobileBtnEl        = document.getElementById("mobile-btn-lang-el");
+
+  let mobileCurrentSection = 0;
+  let mobileIsSnapping     = false;
+  let mobileScrollTimer    = null;
+
+  /* Section elements in vertical order for mobile.
+     hero and about live inside panel-intro (one scrollable block).
+     craft, works, gallery, contact are separate panels. */
+  const mobileSectionIds = [
+    "section-hero",
+    "section-about",
+    "panel-craft",
+    "panel-works",
+    "panel-gallery",
+    "panel-contact"
+  ];
+
+  /* Rhomboid 1 = about, 2 = craft, 3 = works, 4 = gallery, 5 = contact.
+     About shares rhomboid 0 with hero. */
+  const rhomboidToSectionIndex = [1, 2, 3, 4, 5];
+
+  /* Get the top offset of a section relative to the wrapper */
+  function getSectionTop(sectionIndex) {
+    const id = mobileSectionIds[sectionIndex];
+    const el = document.getElementById(id);
+    if (!el || !wrapper) return 0;
+
+    /* Walk up the DOM accumulating offsetTop until we reach the wrapper */
+    let top = 0;
+    let node = el;
+    while (node && node !== wrapper) {
+      top += node.offsetTop;
+      node = node.offsetParent;
+    }
+    return top;
+  }
+
+  /* ── initMobile: reset all panel transforms so they stack vertically ── */
+  function initMobile() {
+    if (!isMobile()) return;
+
+      /* Allow body to expand vertically */
+    document.documentElement.style.overflow = "hidden auto";
+    document.documentElement.style.height   = "auto";
+    document.body.style.overflow = "hidden auto";
+    document.body.style.height   = "auto";
+
+    panels.forEach(panel => {
+      if (!panel) return;
+      panel.style.transform  = "none";
+      panel.style.position   = "relative";
+      panel.style.left       = "0";
+      panel.style.width      = "100vw";
+      panel.style.minHeight  = "100vh";
+      panel.style.height     = "auto";
+    });
+    /* Disable internal scroll on panel-intro so the wrapper scrolls instead */
+    const introContent = document.getElementById("panel-intro-content");
+    if (introContent) {
+      introContent.style.overflow = "visible";
+      introContent.style.height   = "auto";
+    }
+
+    if (wrapper) {
+      wrapper.style.overflowY = "auto";
+      wrapper.style.height    = "100%";
+      wrapper.scrollTop       = 0;
+    }
+    mobileCurrentSection = 0;
+    updateMobileRhomboids(0);
+    updateMobileCentreName(false);
+  }
+
+  /* ── Snap scroll to a section ── */
+  function mobileScrollToSection(sectionIndex) {
+    if (!wrapper) return;
+    const clampedIndex = Math.max(0, Math.min(sectionIndex, mobileSectionIds.length - 1));
+    mobileCurrentSection = clampedIndex;
+    mobileIsSnapping = true;
+
+    const top = getSectionTop(clampedIndex);
+    wrapper.scrollTo({ top, behavior: "smooth" });
+
+    /* Update rhomboid */
+    const rIdx = rhomboidToSectionIndex.indexOf(clampedIndex);
+    if (rIdx >= 0) updateMobileRhomboids(rIdx);
+    /* section 0 (hero) → no rhomboid highlighted, section 1 (about) → rhomboid 0 */
+
+    updateMobileCentreName(clampedIndex > 0);
+
+    setTimeout(() => { mobileIsSnapping = false; }, 800);
+  }
+
+  /* ── Rhomboid highlight ── */
+  function updateMobileRhomboids(activeIndex) {
+    mobileRhomboids.forEach((r, i) => {
+      r.classList.toggle("active", i === activeIndex);
+    });
+  }
+
+  /* ── Centre name visibility ── */
+  function updateMobileCentreName(visible) {
+    if (mobileCentreName) mobileCentreName.classList.toggle("visible", visible);
+    document.body.classList.toggle("mobile-hero", !visible);
+    const prog = document.getElementById("mobile-progress");
+    if (prog) prog.classList.toggle("visible", visible);
+  }
+
+  /* ── Hamburger open/close ── */
+  function openMobileMenu() {
+    if (mobileMenu) mobileMenu.classList.add("open");
+    if (mobileMenuBackdrop) mobileMenuBackdrop.classList.add("visible");
+  }
+  function closeMobileMenu() {
+    if (mobileMenu) mobileMenu.classList.remove("open");
+    if (mobileMenuBackdrop) mobileMenuBackdrop.classList.remove("visible");
+  }
+
+  if (mobileHamburger)    mobileHamburger.addEventListener("click", openMobileMenu);
+  if (mobileMenuClose)    mobileMenuClose.addEventListener("click", closeMobileMenu);
+  if (mobileMenuBackdrop) mobileMenuBackdrop.addEventListener("click", closeMobileMenu);
+
+  /* ── Menu links: 0=about 1=craft 2=works 3=gallery 4=contact ── */
+  const menuIndexToSection = [1, 2, 3, 4, 5];
+  mobileMenuLinks.forEach((link, i) => {
+    link.addEventListener("click", () => {
+      if (!isMobile()) return;
+      closeMobileMenu();
+      setTimeout(() => mobileScrollToSection(menuIndexToSection[i]), 350);
+    });
+  });
+
+  /* ── Rhomboid clicks ── */
+  mobileRhomboids.forEach((r, i) => {
+    r.addEventListener("click", () => {
+      if (!isMobile()) return;
+      mobileScrollToSection(rhomboidToSectionIndex[i]);
+    });
+  });
+
+  /* ── Centre name click → back to hero ── */
+  if (mobileCentreName) {
+    mobileCentreName.addEventListener("click", () => {
+      if (isMobile()) mobileScrollToSection(0);
+    });
+  }
+
+  /* ── M. brand click → back to hero on mobile ── */
+  const navBrand = document.querySelector(".nav-brand");
+  if (navBrand) {
+    navBrand.addEventListener("click", (e) => {
+      if (!isMobile()) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      mobileScrollToSection(0);
+    }, true); /* capture phase — fires before the desktop listener */
+  }
+
+  /* ── Mirror language buttons in mobile menu ── */
+  if (mobileBtnEn) mobileBtnEn.addEventListener("click", () => setLanguage("en"));
+  if (mobileBtnEl) mobileBtnEl.addEventListener("click", () => setLanguage("el"));
+
+  /* ── Wrapper scroll: update centre name + snap after scroll stops ── */
+  if (wrapper) {
+    wrapper.addEventListener("scroll", () => {
+      if (!isMobile()) return;
+
+      /* Centre name: show once scrolled past half the hero height */
+      updateMobileCentreName(wrapper.scrollTop > window.innerHeight * 0.5);
+
+      /* Snap: fire 150ms after scroll stops */
+      clearTimeout(mobileScrollTimer);
+      mobileScrollTimer = setTimeout(() => {
+        if (mobileIsSnapping) return;
+
+        /* Find the section whose top is closest to current scrollTop */
+        let closestIndex = 0;
+        let closestDist  = Infinity;
+        mobileSectionIds.forEach((id, i) => {
+          const top  = getSectionTop(i);
+          const dist = Math.abs(top - wrapper.scrollTop);
+          if (dist < closestDist) { closestDist = dist; closestIndex = i; }
+        });
+
+        if (closestIndex !== mobileCurrentSection) {
+          mobileScrollToSection(closestIndex);
+        }
+      }, 150);
+
+    }, { passive: true });
+  }
+
+  /* ── Touch swipe: advance at boundary ── */
   let touchStartY = 0;
   let touchStartX = 0;
 
@@ -296,43 +501,50 @@ document.addEventListener("DOMContentLoaded", () => {
   }, { passive: true });
 
   window.addEventListener("touchend", (e) => {
+    if (!isMobile()) return;
     const deltaY = touchStartY - e.changedTouches[0].clientY;
     const deltaX = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(deltaX) > Math.abs(deltaY)) return;
+    if (Math.abs(deltaY) < 40) return;
+    if (mobileIsSnapping) return;
 
-  // Ignore horizontal swipes (e.g. accidentally grazing the screen)
-  if (Math.abs(deltaX) > Math.abs(deltaY)) return;
+    const atBottom = wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 60;
+    const atTop    = wrapper.scrollTop <= 60;
 
-  // Ignore tiny movements — must swipe at least 40px to count
-  if (Math.abs(deltaY) < 40) return;
-
-  if (deltaY > 0) {
-    // Swiped UP (finger moved up = user wants to go forward/down)
-    if (currentTabIndex === 0) {
-      if (introStep === 0) {
-        handleGoNext();
-      } else {
-        const atBottom = panelIntroContent.scrollTop + panelIntroContent.clientHeight
-                         >= panelIntroContent.scrollHeight - 40;
-        if (atBottom) handleGoNext();
-      }
-    } else {
-      const content = panels[currentTabIndex].querySelector(".leaf-content");
-      const atBottom = content.scrollTop + content.clientHeight >= content.scrollHeight - 40;
-      if (atBottom) handleGoNext();
-    }
-  } else {
-    // Swiped DOWN (finger moved down = user wants to go back/up)
-    if (currentTabIndex === 0) {
-      if (panelIntroContent.scrollTop <= 80) handleGoPrev();
-    } else {
-      const content = panels[currentTabIndex].querySelector(".leaf-content");
-      const atTop = content.scrollTop <= 40;
-      if (atTop) handleGoPrev();
-    }
+    if (deltaY > 0 && atBottom) {
+      mobileScrollToSection(mobileCurrentSection + 1);
+    } else if (deltaY < 0 && atTop) {
+      mobileScrollToSection(mobileCurrentSection - 1);
     }
   }, { passive: true });
 
+  /* ── Resize: switch between mobile and desktop ── */
+  window.addEventListener("resize", () => {
+    if (isMobile()) {
+      initMobile();
+    } else {
+      /* Restore desktop panel positions */
+      panels.forEach((panel, i) => {
+        if (!panel) return;
+        panel.style.position  = "";
+        panel.style.width     = "";
+        panel.style.height    = "";
+        panel.style.minHeight = "";
+        panel.style.left      = "";
+        panel.style.transform = i <= currentTabIndex
+          ? "translateX(0)"
+          : "translateX(100vw)";
+      });
+      if (wrapper) {
+        wrapper.style.overflowY = "";
+        wrapper.style.height    = "";
+      }
+    }
+  });
 
+  /* ── Boot ── */
+  initMobile();
+  updateMobileCentreName(false);
 
   // ------------------------------------------------------------------------
   // 2. LANGUAGE SWITCHER (EN / ΕΛ / 中文)
@@ -350,39 +562,34 @@ document.addEventListener("DOMContentLoaded", () => {
     en: "Michaïl Chatziasemidis — Composer · Orchestrator · Violinist",
     el: "Μιχαήλ Χατζηασεμίδης — Συνθέτης · Ενορχηστρωτής · Βιολονίστας",
     cn: "米哈伊尔·Chatziasemidis — 作曲家 · 管弦乐编曲家 · 小提琴家",
-    /* Add future languages here:
-    fr: "Michaïl Chatziasemidis — Compositeur · Orchestrateur · Violoniste",
-    de: "Michaïl Chatziasemidis — Komponist · Orchstrator · Geiger", */
   };
 
   const LANG_BUTTONS = {
     en: document.getElementById("btn-lang-en"),
     el: document.getElementById("btn-lang-el"),
     cn: document.getElementById("btn-lang-cn"),
-    /* Add future languages here:
-    fr: document.getElementById("btn-lang-fr"),
-    de: document.getElementById("btn-lang-de"),  */
   };
 
   function setLanguage(lang) {
-    /* Remove all lang classes from body, add only the active one */
     Object.keys(LANG_BUTTONS).forEach(l => {
       document.body.classList.remove(`lang-${l}-active`);
     });
     document.body.classList.add(`lang-${lang}-active`);
     document.documentElement.lang = lang;
 
-    /* Update button states */
     Object.entries(LANG_BUTTONS).forEach(([l, btn]) => {
       if (btn) btn.classList.toggle("active", l === lang);
     });
 
-    /* Set page title — falls back to English if language is missing */
-    document.title = LANG_TITLES[lang] || LANG_TITLES.en;
+    /* Mirror active state to mobile menu buttons too */
+    const mEn = document.getElementById("mobile-btn-lang-en");
+    const mEl = document.getElementById("mobile-btn-lang-el");
+    if (mEn) mEn.classList.toggle("active", lang === "en");
+    if (mEl) mEl.classList.toggle("active", lang === "el");
 
+    document.title = LANG_TITLES[lang] || LANG_TITLES.en;
     localStorage.setItem("preferred_lang", lang);
 
-    /* Update input placeholders per language */
     const placeholders = {
       en: {
         "form-name":    "Name / Ensemble",
@@ -411,7 +618,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* Event listeners — automatic for all entries in LANG_BUTTONS */
   Object.entries(LANG_BUTTONS).forEach(([lang, btn]) => {
     if (btn) btn.addEventListener("click", () => setLanguage(lang));
   });
@@ -420,15 +626,11 @@ document.addEventListener("DOMContentLoaded", () => {
   setLanguage(savedLang);
 
   // ------------------------------------------------------------------------
-  // 3. PORTRAIT IMAGE DETECTOR — obsolete, img src now in HTML directly
-  // ------------------------------------------------------------------------
-
-  // ------------------------------------------------------------------------
   // 4. CONTACT FORM SUBMISSION
   // ------------------------------------------------------------------------
-  const contactForm = document.getElementById("contact-form");
-  const formStatus = document.getElementById("form-status");
-  const formSubmitBtn = document.getElementById("form-submit-btn");
+  const contactForm    = document.getElementById("contact-form");
+  const formStatus     = document.getElementById("form-status");
+  const formSubmitBtn  = document.getElementById("form-submit-btn");
 
   if (contactForm) {
     contactForm.addEventListener("submit", async (e) => {
@@ -454,7 +656,6 @@ document.addEventListener("DOMContentLoaded", () => {
           error:   "发送失败，请重试或直接发送电子邮件。",
           submit:  "发送消息"
         }
-        /* Add future languages here */
       };
 
       const t = i18n[lang] || i18n.en;
@@ -464,7 +665,7 @@ document.addEventListener("DOMContentLoaded", () => {
       formStatus.className = "form-status";
       formStatus.style.display = "none";
 
-      const action = contactForm.getAttribute("action");
+      const action   = contactForm.getAttribute("action");
       const formData = new FormData(contactForm);
 
       try {
@@ -478,7 +679,6 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           await new Promise(res => setTimeout(res, 600));
         }
-
         formStatus.textContent = t.success;
         formStatus.classList.add("success");
         formStatus.style.display = "block";

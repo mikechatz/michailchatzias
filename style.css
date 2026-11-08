@@ -570,6 +570,7 @@ nav {
   font-size: clamp(20px, 2.2vw, 32px);
   margin: 14px 0 12px;
   text-transform: uppercase;
+  word-break: break-word;
 }
 
 .craft-card p {
@@ -578,6 +579,7 @@ nav {
   font-size: 14px;
   line-height: 1.6;
 }
+
 /* Works */
 .track-row {
   border-top: 1px solid var(--line);
@@ -819,4 +821,335 @@ nav {
   .banner-items {
     justify-content: flex-start;
   }
+}
+
+/* ==========================================================================
+   MOBILE LAYOUT (max-width: 768px)
+   ========================================================================== */
+
+/* Hide mobile-only elements on desktop */
+.mobile-centre-name,
+.mobile-menu,
+.mobile-menu-backdrop,
+.mobile-progress,
+.mobile-hamburger {
+  display: none;
+}
+
+@media (max-width: 768px) {
+
+    /* Fix: allow body and wrapper to scroll vertically on mobile */
+  html, body {
+    overflow: hidden auto;
+    height: 100%;
+    min-height: 100%;
+  }
+
+  /* ── TOP BAR ── */
+  nav {
+    padding: 0 20px;
+    height: 52px;
+    background: rgba(11, 11, 10, 0.97);
+    backdrop-filter: blur(10px);
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  .nav-brand {
+    font-size: 18px;
+    z-index: 2;
+  }
+
+  /* Hide desktop tab links and lang switcher */
+  .nav-tabs,
+  .lang-switcher {
+    display: none;
+  }
+
+  /* Show hamburger */
+  .mobile-hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    margin-left: auto;
+    z-index: 2;
+  }
+
+  .mobile-hamburger span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--fg);
+    transition: opacity 0.2s;
+  }
+
+  /* ── CENTRE NAME ── */
+  .mobile-centre-name {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 52px;
+    line-height: 52px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    color: var(--fg);
+    z-index: 89;
+    pointer-events: auto;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .mobile-centre-name.visible {
+    opacity: 1;
+  }
+
+  /* ── SLIDE PROGRESS BAR: hide on mobile ── */
+  #slide-progress {
+    display: none;
+  }
+
+  /* ── HAMBURGER MENU PANEL ── */
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 40px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 85vw;
+    height: 100vh;
+    background: rgba(11, 11, 10, 0.98);
+    border-left: 1px solid var(--line);
+    z-index: 200;
+    padding: 60px 40px;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .mobile-menu.open {
+    transform: translateX(0);
+  }
+
+  .mobile-menu-close {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--mute);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 8px;
+  }
+
+  .mobile-menu-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mobile-menu-link {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--mute);
+  cursor: pointer;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  transition: color 0.2s, padding-left 0.2s;
+  display: block;
+  }
+
+  .mobile-menu-link:last-child {
+    border-bottom: none;
+  }
+
+  .mobile-menu-link:hover,
+  .mobile-menu-link.active {
+    color: var(--fg);
+    padding-left: 8px;
+  }
+
+  .mobile-menu-lang {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ── BACKDROP ── */
+  .mobile-menu-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 199;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .mobile-menu-backdrop.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ── RHOMBOID PROGRESS ── */
+ .mobile-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%) translateX(100%);
+    z-index: 88;
+    padding: 10px 14px;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .mobile-progress.visible {
+    transform: translateY(-50%) translateX(0);
+  }
+
+  .mobile-rhomboid {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--mute);
+    opacity: 0.4;
+    transition: color 0.3s, opacity 0.3s;
+    line-height: 1;
+  }
+
+  .mobile-rhomboid.active {
+    color: var(--accent);
+    opacity: 1;
+  }
+
+  /* ── PANELS: reset horizontal book to vertical stack ── */
+   .book-slider-wrapper {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    min-height: 100vh;
+    max-height: none;
+    position: relative;
+  }
+
+  .slide-panel {
+    position: relative;
+    transform: none !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: auto;
+    min-height: calc(100vh - 52px);
+    display: block;
+    box-shadow: none;
+  }
+
+  .leaf-spine {
+    display: none;
+  }
+
+  #panel-intro-spine {
+    display: none;
+  }
+
+  .leaf-content {
+    height: auto;
+    overflow: visible;
+    padding-top: 70px;
+    padding-bottom: 60px;
+  }
+
+  #panel-intro-content {
+    height: auto;
+    overflow: visible;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  /* ── LAYOUTS: single column ── */
+  .about-grid,
+  .contact-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .portrait-frame {
+    aspect-ratio: 4/3;
+    max-height: 300px;
+  }
+
+  .contact-links a {
+    font-size: clamp(18px, 5vw, 28px);
+    padding: 14px 0;
+  }
+
+  .contact-form-wrapper {
+    padding: 20px;
+  }
+
+  .gallery-item {
+    grid-column: span 12 !important;
+    min-height: 220px;
+  }
+
+  .track-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .panel-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  body.lang-en-active .panel-footer .slide-next-hint,
+  body.lang-el-active .panel-footer .slide-next-hint,
+  body.lang-cn-active .panel-footer .slide-next-hint,
+  .panel-footer .label:not([class*="lang-"]) {
+    display: none !important;
+  }
+
+  /* ── TYPOGRAPHY ── */
+  h2 {
+    font-size: clamp(28px, 8vw, 52px);
+  }
+
+  .about-text p {
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .banner-items {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .hero-block {
+    min-height: calc(100svh - 52px);
+  }
+    #hero-scroll-btn {
+    display: none;
+  }
+
 }
