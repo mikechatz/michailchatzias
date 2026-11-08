@@ -624,6 +624,30 @@ nav {
   gap: 16px;
 }
 
+/* Gallery Category Headings */
+.gallery-grid h3 {
+  grid-column: 1 / -1; /* Spans all 12 columns */
+  font-family: var(--font-body);
+  font-size: 32px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--mute);
+  margin: 48px 0 58px;
+  border-bottom: 1px solid var(--line);
+  text-align: left; /* Fix: Centered text */
+  padding-bottom: 16px;
+}
+
+.gallery-grid h3:first-child {
+  margin-top: 0;
+}
+
+.gallery-separator {
+  grid-column: 1 / -1; /* Spans full width */
+  margin-bottom: 120px;
+  height: 1px;
+}
+
 .gallery-item {
   background: var(--bg-card);
   border: 1px solid var(--line);
@@ -633,6 +657,7 @@ nav {
   overflow: hidden;
   position: relative;
 }
+
 
 .gallery-item img {
   width: 100%;
