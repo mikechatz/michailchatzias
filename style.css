@@ -895,6 +895,7 @@ nav {
     height: auto !important;
     min-height: 100vh;
     scroll-snap-align: start;
+    scroll-snap-stop: always;
     box-shadow: none;
     overflow: visible;
   }
@@ -922,11 +923,26 @@ nav {
     min-height: 100vh;
   }
 
-  /* Long sections scroll freely inside themselves */
-  #panel-contact .leaf-content {
-    overflow-y: auto;
-    max-height: 100vh;
-  }
+/* Contact: self-contained scroll, snaps as one unit */
+#panel-contact {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  height: 100vh !important;
+  min-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+#panel-contact .leaf-content {
+  height: auto;
+  overflow: visible;
+  min-height: calc(100vh - 52px);
+}
+
+#panel-contact .leaf-spine {
+  display: none;
+}
 
   /* ── SPINES: hidden on mobile ── */
   .leaf-spine,
