@@ -514,17 +514,6 @@ nav {
   filter: grayscale(10%) contrast(1.05);
 }
 
-.portrait-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  color: var(--mute);
-  font-size: 12px;
-  letter-spacing: 0.15em;
-  text-align: center;
-  padding: 20px;
-}
 
 .about-text p {
   margin: 0 0 1.4em;
@@ -1227,8 +1216,21 @@ nav {
   }
 
   .portrait-frame {
-    aspect-ratio: 4/3;
-    max-height: 300px;
+    aspect-ratio: 1/1;
+    max-height: 300%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .portrait-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+
   }
 
   .contact-links a {
