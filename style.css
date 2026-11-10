@@ -518,6 +518,7 @@ nav {
 .about-text p {
   margin: 0 0 1.4em;
   max-width: 62ch;
+  text-align: justify;
   font-size: 16px;
   line-height: 1.8;
   color: #d6d1c5;
@@ -564,6 +565,7 @@ nav {
 
 .craft-card p {
   margin: 0;
+  text-align: justify;
   color: var(--mute);
   font-size: 14px;
   line-height: 1.6;
