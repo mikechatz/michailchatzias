@@ -923,26 +923,33 @@ nav {
     min-height: 100vh;
   }
 
-/* Contact: self-contained scroll, snaps as one unit */
-#panel-contact {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  height: 100vh !important;
-  min-height: 100vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-}
+  #panel-contact {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    height: auto !important;
+    min-height: 100vh;
+    overflow: visible;
+  }
 
-#panel-contact .leaf-content {
-  height: auto;
-  overflow: visible;
-  min-height: calc(100vh - 52px);
-}
+  #panel-contact .leaf-content {
+    height: auto;
+    overflow: visible;
+    padding-bottom: 80px;
+    touch-action: pan-y;
+  }
 
-#panel-contact .leaf-spine {
-  display: none;
-}
+  #panel-contact .leaf-spine {
+    display: none;
+  }
+
+  #panel-contact .contact-links {
+    touch-action: pan-y;
+  }
+
+  #panel-contact .contact-links a {
+    touch-action: pan-y;
+
+  }
 
   /* ── SPINES: hidden on mobile ── */
   .leaf-spine,
