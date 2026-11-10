@@ -254,6 +254,12 @@ nav {
   will-change: transform;
 }
 
+#panel-intro {
+  background: transparent; /* Makes the Hero shot transparent */
+  box-shadow: none;
+}
+
+
 /* Fixed Dock positions for the stacked sheets */
 #panel-intro   { left: 0; width: 100vw; z-index: 10; }
 #panel-craft   { left: var(--spine-w); width: calc(100vw - var(--spine-w)); z-index: 11; transform: translateX(100vw); }
@@ -270,7 +276,7 @@ nav {
   background: transparent; /* Seamless background */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 100px 0 36px;
   cursor: pointer;
@@ -295,16 +301,19 @@ nav {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   font-family: var(--font-display);
-  font-size: 18px; /* Even bigger margin title */
+  font-size: 18px;
   font-weight: 700;
-  letter-spacing: 0.50em; /* Even wider letter spacing */
+  letter-spacing: 0.50em;
   text-transform: uppercase;
   color: var(--fg);
   white-space: nowrap;
   transition: color 0.2s;
+  margin: 0;
 }
 
 .leaf-spine-icon {
+  position: absolute;
+  bottom: 18px;
   font-size: 13px;
   color: var(--accent);
 }
@@ -395,8 +404,8 @@ nav {
   width: 100%;
 }
 
-.hero-block .hero-location {
-  text-align: right;
+.hero-block .hero-meta {
+  text-align: center;
   width: 100%;
 }
 
@@ -406,7 +415,7 @@ nav {
   margin: 16px 0 24px auto;
   line-height: 0.95;
   word-break: break-word;
-  text-align: right;
+  text-align: center;
   width: 100%;
 }
 
@@ -415,7 +424,7 @@ nav {
   text-align: right;
 }
 
-.hero-meta {
+/* .hero-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -424,7 +433,7 @@ nav {
   margin-top: 24px;
   border-top: 1px solid var(--line);
   padding-top: 20px;
-}
+} */ /*obsolete since we have interchanged places with the old .hero-block .hero-meta/ current .hero-block .hero-meta */
 
 .scroll-down-hint {
   cursor: pointer;
@@ -436,9 +445,10 @@ nav {
 }
 
 /* Static Editorial Banner (Kept visible, calm, not hidden) */
-.static-banner {
+/* .static-banner {
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
+  text-align: center;
   padding: 18px 0;
   margin-top: 32px;
   background: rgba(15, 14, 12, 0.4);
@@ -468,7 +478,7 @@ nav {
   color: var(--accent);
   font-style: normal;
   font-size: 13px;
-}
+} */ /* irrelevant since ive removed the banner */
 
 /* About Section */
 .about-block {
@@ -479,7 +489,7 @@ nav {
   padding: 100px 0 80px;
   padding-left: calc(var(--spine-w) * 0.8);
   border-top: 1px solid var(--line);
-  background: rgba(11, 11, 10, 0.4);
+  background: var(--bg);
   position: relative;
   z-index: 2;
   transition: padding-left 0.35s ease;
