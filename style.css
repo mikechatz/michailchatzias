@@ -279,7 +279,7 @@ nav {
   flex-shrink: 0;
   height: 100%;
   border-right: none; /* Seamless with rest of tab */
-  background: transparent; /* Seamless background */
+  background: var(--bg); /* Seamless background */
   display: flex;
   flex-direction: column;
   justify-content: center;
