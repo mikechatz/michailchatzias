@@ -4,6 +4,42 @@
    ========================================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
+
+  //JSON-LD
+  const schemaScript = document.createElement('script');
+  schemaScript.type = 'application/ld+json';
+  schemaScript.text = JSON.stringify({
+    "@context": "https://schema.org/",
+    "@type": "Person",
+    "name": "Michaïl Chatziasemidis",
+    "@id": "https://michailchatzias.com",
+    "alternateName": [
+      "Michail Chatziasemidis",
+      "Michael Chatzeasemides",
+      "Μιχαήλ Χατζηασεμίδης",
+      "米哈伊尔·Chatziasemidis",
+      "米哈伊尔 Chatziasemidis",
+      "ミハイル·ハジアセミディス",
+      "ミハイル ハジアセミディス"
+    ],
+    "url": "https://michailchatzias.com",
+    "jobTitle": [
+      "Composer",
+      "Orchestrator",
+      "Violinist"
+    ],
+    "sameAs": [
+      "https://instagram.com/michailchatzias",
+      "https://youtube.com/@michailchatzias",
+      "https://soundcloud.com/michailchatzias",
+      "https://linkedin.com/in/michail-chatziasemidis",
+      "https://github.com/mikechatz",
+      "https://michailchatzias.bandcamp.com",
+      "https://researchgate.net/profile/Michail-Chatziasemidis"
+    ]
+  });
+  document.head.appendChild(schemaScript);
+
   // ------------------------------------------------------------------------
   // 1. STACKED LEAF BOOK & NAVIGATION CONTROLLER
   // ------------------------------------------------------------------------
