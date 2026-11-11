@@ -289,6 +289,7 @@ nav {
   user-select: none;
   transition: opacity 0.25s, color 0.25s;
   z-index: 5;
+  position: relative;
 }
 
 .leaf-spine:hover .leaf-spine-title {
@@ -861,6 +862,31 @@ nav {
 @media (max-width: 1024px) and (orientation: portrait) {
   .bg-atmosphere {
     background-position: 28% center;
+  }
+  .portrait-frame {
+    max-width: 480px;
+    margin: 0 auto;
+    aspect-ratio: 4/3;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    width: 100%;
+  }
+
+  .about-text {
+    width: 100%;
+    max-width: 100%;
+    padding-right: 0;
+  }
+
+  .portrait-frame img {
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
   }
 }
 
