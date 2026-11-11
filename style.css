@@ -421,6 +421,7 @@ nav {
   color: rgba(210, 70, 50, 0.90);
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.8);
   width: 100%;
+  font-size:small;
 }
 
 .hero-block h1 {
@@ -854,6 +855,12 @@ nav {
   .gallery-item:nth-child(n) {
     grid-column: span 12;
     min-height: 260px;
+  }
+}
+
+@media (max-width: 1024px) and (orientation: portrait) {
+  .bg-atmosphere {
+    background-position: 28% center;
   }
 }
 
