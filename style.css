@@ -277,7 +277,7 @@ nav {
 .leaf-spine {
   width: var(--spine-w);
   flex-shrink: 0;
-  height: 100vh;
+  height: 100%;
   border-right: none; /* Seamless with rest of tab */
   background: var(--bg); /* Seamless background */
   display: flex;
