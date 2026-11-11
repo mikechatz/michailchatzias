@@ -123,13 +123,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const heroScrollBtn = document.getElementById("hero-scroll-btn");
   if (heroScrollBtn) {
     heroScrollBtn.addEventListener("click", () => {
-      introStep = 1;
-      scrollToAbout();
-      updateActiveNav(0, true);
-      setTimeout(() => {
-        updateAboutMargin();
-        updateProgress();
-      }, 150);
+      if (isMobile()) {
+        mobileGoTo("section-about");
+      } else {
+        introStep = 1;
+        scrollToAbout();
+        updateActiveNav(0, true);
+        setTimeout(() => {
+          updateAboutMargin();
+          updateProgress();
+        }, 150);
+      }
     });
   }
 

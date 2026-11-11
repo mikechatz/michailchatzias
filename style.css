@@ -445,6 +445,7 @@ nav {
   gap: 20px;
   flex-wrap: wrap;
   margin-top: 24px;
+  margin-bottom: 5px;
   border-top: 1px solid var(--line);
   padding-top: 20px;
 }
