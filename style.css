@@ -863,33 +863,35 @@ nav {
   .bg-atmosphere {
     background-position: 28% center;
   }
+
+  .about-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    width: 100%;
+    align-items: start;
+  }
+
   .portrait-frame {
     max-width: 100%;
-    margin: 0 auto;
-    aspect-ratio: 7/6;
+    margin: 0;
+    aspect-ratio: 3/4;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  .about-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
+  .portrait-frame img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
-  .about-text {
+  .about-text p {
     width: 100%;
     max-width: 100%;
     padding-right: 0;
-  }
-
-  .portrait-frame img {
-    width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto;
   }
 }
 
