@@ -1367,6 +1367,7 @@ nav {
   .track-row {
     grid-template-columns: 1fr;
     gap: 12px;
+  }
     .track-row > div {
     min-width: 0; 
     width: 100%;
@@ -1385,7 +1386,6 @@ nav {
     align-items: flex-start;
     gap: 10px;
   }
-
 
   body.lang-en-active .panel-footer .slide-next-hint,
   body.lang-el-active .panel-footer .slide-next-hint,
@@ -1421,5 +1421,5 @@ nav {
   .craft-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  }
+  
 }
