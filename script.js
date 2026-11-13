@@ -805,7 +805,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* Map hash → { tab, sub } */
   const HASH_MAP = {
-    "#hero":    { tab: 0, sub: null },
     "#about":   { tab: 0, sub: "about" },
     "#craft":   { tab: 1, sub: null },
     "#works":   { tab: 2, sub: null },
@@ -815,13 +814,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* Write the current section into the URL bar (no history push) */
   function updateHash() {
-    let hash = "#hero";
+    let hash = "";
     if (currentTabIndex === 0 && introStep === 1) hash = "#about";
     else if (currentTabIndex === 1) hash = "#craft";
     else if (currentTabIndex === 2) hash = "#works";
     else if (currentTabIndex === 3) hash = "#gallery";
     else if (currentTabIndex === 4) hash = "#contact";
-    history.replaceState(null, "", hash);
+    // Use pathname alone for the cover/hero — clean URL, no fragment
+    history.replaceState(null, "", hash || window.location.pathname);
   }
 
   /* Listen for any click on nav/spine elements via delegation — no DOM cloning */
@@ -848,12 +848,12 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ── On load: navigate to the section matching the URL hash ── */
   function navigateToHash() {
     const hash = window.location.hash.toLowerCase();
+    if (!hash) return; // clean URL → stay at hero/cover
     const dest = HASH_MAP[hash];
-    if (!dest) return; // no hash or unknown → stay at hero
+    if (!dest) return; // unknown hash → stay at hero
 
     if (isMobile()) {
       const mobileIds = {
-        "#hero":    "section-hero",
         "#about":   "section-about",
         "#craft":   "panel-craft",
         "#works":   "panel-works",
