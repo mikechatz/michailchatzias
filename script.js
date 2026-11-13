@@ -16,18 +16,22 @@ document.addEventListener("DOMContentLoaded", () => {
     "alternateName": [
       "Michail Chatziasemidis",
       "Michael Chatzeasemides",
+      "Michael Chatziasemidis",
       "Μιχαήλ Χατζηασεμίδης",
       "米哈伊尔·Chatziasemidis",
       "米哈伊尔 Chatziasemidis",
       "ミハイル·ハジアセミディス",
-      "ミハイル ハジアセミディス"
+      "ミハイル ハジアセミディス",
+      "michailchatzias"
     ],
     "url": "https://michailchatzias.com",
+    "image": "https://michailchatzias.com/assets/portrait.webp",
     "jobTitle": [
       "Composer",
       "Orchestrator",
       "Violinist"
     ],
+    "description": "Contemporary music composer, orchestrator, and violinist. Influenced by Western art music and Byzantine chant, he creates sonic worlds spanning acoustic, orchestral, and electronic music.",
     "sameAs": [
       "https://instagram.com/michailchatzias",
       "https://youtube.com/@michailchatzias",
