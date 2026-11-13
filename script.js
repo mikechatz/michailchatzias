@@ -799,4 +799,77 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initial Progress Bar boot (0 at Hero)
   updateProgress();
 
+  // ------------------------------------------------------------------------
+  // 5. HASH-BASED DEEP LINKS  (#hero · #about · #craft · #works · #gallery · #contact)
+  // ------------------------------------------------------------------------
+
+  /* Map hash → { tab, sub } */
+  const HASH_MAP = {
+    "#hero":    { tab: 0, sub: null },
+    "#about":   { tab: 0, sub: "about" },
+    "#craft":   { tab: 1, sub: null },
+    "#works":   { tab: 2, sub: null },
+    "#gallery": { tab: 3, sub: null },
+    "#contact": { tab: 4, sub: null },
+  };
+
+  /* Write the current section into the URL bar (no history push) */
+  function updateHash() {
+    let hash = "#hero";
+    if (currentTabIndex === 0 && introStep === 1) hash = "#about";
+    else if (currentTabIndex === 1) hash = "#craft";
+    else if (currentTabIndex === 2) hash = "#works";
+    else if (currentTabIndex === 3) hash = "#gallery";
+    else if (currentTabIndex === 4) hash = "#contact";
+    history.replaceState(null, "", hash);
+  }
+
+  /* Listen for any click on nav/spine elements via delegation — no DOM cloning */
+  document.addEventListener("click", () => {
+    // Defer so goToTab has already updated currentTabIndex / introStep
+    setTimeout(updateHash, 0);
+  }, true);
+
+  /* Update hash on intro-panel scroll (hero ↔ about transition) */
+  if (panelIntroContent) {
+    panelIntroContent.addEventListener("scroll", () => {
+      if (currentTabIndex !== 0) return;
+      updateHash();
+    }, { passive: true });
+  }
+
+  /* Update hash on keyboard/wheel navigation via MutationObserver on nav tabs */
+  const navTabsEl = document.querySelector(".nav-tabs");
+  if (navTabsEl) {
+    const mo = new MutationObserver(() => updateHash());
+    mo.observe(navTabsEl, { subtree: true, attributeFilter: ["class"] });
+  }
+
+  /* ── On load: navigate to the section matching the URL hash ── */
+  function navigateToHash() {
+    const hash = window.location.hash.toLowerCase();
+    const dest = HASH_MAP[hash];
+    if (!dest) return; // no hash or unknown → stay at hero
+
+    if (isMobile()) {
+      const mobileIds = {
+        "#hero":    "section-hero",
+        "#about":   "section-about",
+        "#craft":   "panel-craft",
+        "#works":   "panel-works",
+        "#gallery": "panel-gallery",
+        "#contact": "panel-contact",
+      };
+      const targetId = mobileIds[hash];
+      if (targetId) setTimeout(() => mobileGoTo(targetId, false), 100);
+    } else {
+      goToTab(dest.tab, dest.sub);
+    }
+  }
+
+  navigateToHash();
+
+  /* Browser back/forward */
+  window.addEventListener("popstate", navigateToHash);
+
 }); // ← closes DOMContentLoaded
