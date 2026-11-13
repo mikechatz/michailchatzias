@@ -1,0 +1,105 @@
+{
+  "$schema": "https://schema.org/",
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Michaïl Chatziasemidis",
+  "alternateName": "Μιχαήλ Χατζηασεμίδης",
+  "url": "https://michailchatzias.com",
+  "email": "michailchatzias@gmail.com",
+  "image": "https://michailchatzias.com/assets/portrait.webp",
+  "jobTitle": ["Composer", "Orchestrator", "Violinist"],
+  "description": "Contemporary music composer, orchestrator, and violinist. Influenced by Western art music and Byzantine chant, he creates sonic worlds spanning acoustic, orchestral, and electronic music.",
+  
+  "sameAs": [
+    "https://soundcloud.com/michailchatzias",
+    "https://michailchatzias.bandcamp.com",
+    "https://instagram.com/michailchatzias/"
+  ],
+  "knowsLanguage": ["el", "en"],
+  "knowsAbout": [
+    "Music Composition",
+    "Orchestration",
+    "Violin",
+    "Sound Design",
+    "Byzantine Chant",
+    "Contemporary Music",
+    "Electronic Music",
+    "Modular Synthesis",
+    "Acoustic Ensemble"
+  ],
+  "alumniOf": [
+    {
+      "@type": "EducationalOrganization",
+      "name": "Aristotle University of Thessaloniki",
+      "department": "Department of Music Studies",
+      "description": "Integrated Master's Degree in Music Composition (Christos Samaras' class)"
+    },
+    {
+      "@type": "EducationalOrganization",
+      "name": "New Conservatory of Thessaloniki",
+      "description": "Advanced Music Theory (Nikos Solomonidis' class)"
+    },
+    {
+      "@type": "EducationalOrganization",
+      "name": "Thessaloniki State Conservatory",
+      "description": "Advanced Music Theory (Costas Tsougras' class)"
+    }
+  ],
+  "affiliation": [
+    {
+      "@type": "Organization",
+      "name": "Aristotle University of Thessaloniki Symphony Orchestra"
+    },
+    {
+      "@type": "Organization",
+      "name": "Yannis Mantakas Choir"
+    },
+    {
+      "@type": "Organization",
+      "name": "Pratsinaki5"
+    },
+    {
+      "@type": "Organization",
+      "name": "Post-Sonic Experiment"
+    }
+  ],
+  "hasCreativeWork": [
+    {
+      "@type": "MusicRecording",
+      "name": "emmonæ (abbr.)",
+      "url": "https://soundcloud.com/michailchatzias/emmonae-abbr-2024",
+      "dateCreated": "2024",
+      "description": "An original composition by Michaïl Chatziasemidis, available on SoundCloud."
+    },
+    {
+      "@type": "MusicRecording",
+      "name": "lo-fi{re} — a lo-fi soundscape",
+      "url": "https://mediart.bandcamp.com/album/electronic-music-concert-2024-2",
+      "dateCreated": "2024",
+      "description": "Featured on the Electronic Music Concert | 2024 album by smART | sonic & media Art. A lo-fi electronic soundscape.",
+      "inAlbum": {
+        "@type": "MusicAlbum",
+        "name": "Electronic Music Concert | 2024",
+        "byArtist": {
+          "@type": "Organization",
+          "name": "smART | sonic & media Art"
+        }
+      }
+    }
+  ],
+  "performerIn": [
+    {
+      "@type": "Event",
+      "name": "13th Contemporary Composition Workshop",
+      "location": {
+        "@type": "Place",
+        "name": "Thessaloniki Concert Hall"
+      }
+    }
+  ],
+  "website": {
+    "sections": ["About", "Craft", "Works", "Gallery", "Contact"],
+    "languages": ["en", "el"],
+    "llms_txt": "https://michailchatzias.com/llms.txt"
+  }
+}
