@@ -532,10 +532,12 @@ document.addEventListener("DOMContentLoaded", () => {
     "panel-gallery",
     "panel-contact"
   ];
+  const rhomboidHashes = ["#about", "#craft", "#works", "#gallery", "#contact"];
   mobileRhomboids.forEach((r, i) => {
     r.addEventListener("click", () => {
       if (!isMobile()) return;
       mobileGoTo(rhomboidSectionIds[i]);
+      history.replaceState(null, "", rhomboidHashes[i]);
     });
   });
 
@@ -607,6 +609,11 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         currentTabIndex = index - 1; // index 2 -> panel-craft (1), 3 -> works (2), 4 -> gallery (3), 5 -> contact (4)
       }
+
+      // Sync URL hash with the visible section
+      const mobileHashMap = ["", "#about", "#craft", "#works", "#gallery", "#contact"];
+      const newHash = mobileHashMap[index] || "";
+      history.replaceState(null, "", newHash || window.location.pathname);
     });
   }, observerOptions);
 
@@ -798,5 +805,78 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initial Progress Bar boot (0 at Hero)
   updateProgress();
+
+  // ------------------------------------------------------------------------
+  // 5. HASH-BASED DEEP LINKS  (#hero · #about · #craft · #works · #gallery · #contact)
+  // ------------------------------------------------------------------------
+
+  /* Map hash → { tab, sub } */
+  const HASH_MAP = {
+    "#about":   { tab: 0, sub: "about" },
+    "#craft":   { tab: 1, sub: null },
+    "#works":   { tab: 2, sub: null },
+    "#gallery": { tab: 3, sub: null },
+    "#contact": { tab: 4, sub: null },
+  };
+
+  /* Write the current section into the URL bar (no history push) */
+  function updateHash() {
+    let hash = "";
+    if (currentTabIndex === 0 && introStep === 1) hash = "#about";
+    else if (currentTabIndex === 1) hash = "#craft";
+    else if (currentTabIndex === 2) hash = "#works";
+    else if (currentTabIndex === 3) hash = "#gallery";
+    else if (currentTabIndex === 4) hash = "#contact";
+    // Use pathname alone for the cover/hero — clean URL, no fragment
+    history.replaceState(null, "", hash || window.location.pathname);
+  }
+
+  /* Listen for any click on nav/spine elements via delegation — no DOM cloning */
+  document.addEventListener("click", () => {
+    // Defer so goToTab has already updated currentTabIndex / introStep
+    setTimeout(updateHash, 0);
+  }, true);
+
+  /* Update hash on intro-panel scroll (hero ↔ about transition) */
+  if (panelIntroContent) {
+    panelIntroContent.addEventListener("scroll", () => {
+      if (currentTabIndex !== 0) return;
+      updateHash();
+    }, { passive: true });
+  }
+
+  /* Update hash on keyboard/wheel navigation via MutationObserver on nav tabs */
+  const navTabsEl = document.querySelector(".nav-tabs");
+  if (navTabsEl) {
+    const mo = new MutationObserver(() => updateHash());
+    mo.observe(navTabsEl, { subtree: true, attributeFilter: ["class"] });
+  }
+
+  /* ── On load: navigate to the section matching the URL hash ── */
+  function navigateToHash() {
+    const hash = window.location.hash.toLowerCase();
+    if (!hash) return; // clean URL → stay at hero/cover
+    const dest = HASH_MAP[hash];
+    if (!dest) return; // unknown hash → stay at hero
+
+    if (isMobile()) {
+      const mobileIds = {
+        "#about":   "section-about",
+        "#craft":   "panel-craft",
+        "#works":   "panel-works",
+        "#gallery": "panel-gallery",
+        "#contact": "panel-contact",
+      };
+      const targetId = mobileIds[hash];
+      if (targetId) setTimeout(() => mobileGoTo(targetId, false), 100);
+    } else {
+      goToTab(dest.tab, dest.sub);
+    }
+  }
+
+  navigateToHash();
+
+  /* Browser back/forward */
+  window.addEventListener("popstate", navigateToHash);
 
 }); // ← closes DOMContentLoaded
