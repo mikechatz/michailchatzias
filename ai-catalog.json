@@ -99,7 +99,13 @@
     }
   ],
   "website": {
-    "sections": ["About", "Craft", "Works", "Gallery", "Contact"],
+    "sections": [
+      { "name": "About", "url": "https://michailchatzias.com/#about" },
+      { "name": "Craft", "url": "https://michailchatzias.com/#craft" },
+      { "name": "Works", "url": "https://michailchatzias.com/#works" },
+      { "name": "Gallery", "url": "https://michailchatzias.com/#gallery" },
+      { "name": "Contact", "url": "https://michailchatzias.com/#contact" }
+    ],
     "languages": ["en", "el"],
     "llms_txt": "https://michailchatzias.com/llms.txt"
   }
