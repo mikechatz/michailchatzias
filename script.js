@@ -532,10 +532,12 @@ document.addEventListener("DOMContentLoaded", () => {
     "panel-gallery",
     "panel-contact"
   ];
+  const rhomboidHashes = ["#about", "#craft", "#works", "#gallery", "#contact"];
   mobileRhomboids.forEach((r, i) => {
     r.addEventListener("click", () => {
       if (!isMobile()) return;
       mobileGoTo(rhomboidSectionIds[i]);
+      history.replaceState(null, "", rhomboidHashes[i]);
     });
   });
 
@@ -607,6 +609,11 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         currentTabIndex = index - 1; // index 2 -> panel-craft (1), 3 -> works (2), 4 -> gallery (3), 5 -> contact (4)
       }
+
+      // Sync URL hash with the visible section
+      const mobileHashMap = ["", "#about", "#craft", "#works", "#gallery", "#contact"];
+      const newHash = mobileHashMap[index] || "";
+      history.replaceState(null, "", newHash || window.location.pathname);
     });
   }, observerOptions);
 
