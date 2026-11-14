@@ -692,7 +692,7 @@ nav {
 .video-container {
   position: relative;
   width: 100%;
-  padding-bottom: 45%; /* 16:9 Aspect Ratio */
+  padding-bottom: 50%; /* 16:9 Aspect Ratio */
   height: 0;
   overflow: hidden;
   background: var(--bg-card);
