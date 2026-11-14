@@ -49,7 +49,7 @@
         <span class="lang-cn">关于</span>
       </a>
       <a data-tab-index="1" id="tab-nav-craft">
-        <span class="lang-en">CRAFT</span>
+        <span class="lang-en">EXPERTISE</span>
         <span class="lang-el">ΕΙΔΙΚΟΤΗΤΕΣ</span>
         <span class="lang-cn">专业</span>
       </a>
@@ -103,7 +103,7 @@
       <span class="lang-cn">关于</span>
     </a>
     <a class="mobile-menu-link" data-mobile-section="1">
-      <span class="lang-en">Craft</span>
+      <span class="lang-en">Expertise</span>
       <span class="lang-el">Ειδικότητες</span>
       <span class="lang-cn">专业</span>
     </a>
@@ -152,7 +152,12 @@
   <span class="lang-cn">封面</span>
 </button>
 
-  <!-- Horizontal Book/Score Slider Wrapper (Stacked Leaves Architecture) -->
+<!-- MOBILE ONLY: stage return button (shown when viewing Selected Works) -->
+<button id="mobile-stage-back-btn" class="mobile-stage-back-btn" aria-label="Back to Expertise">
+  <span>→</span>
+</button>
+
+<!-- Horizontal Book/Score Slider Wrapper (Stacked Leaves Architecture) -->
   <div class="book-slider-wrapper">
 
     <!-- ============================================================
@@ -281,7 +286,7 @@
             <div class="panel-footer">
               <span class="label">01 / 05</span>
               <span class="label slide-next-hint" data-tab-index="1">
-                <span class="lang-en">Craft →</span>
+                <span class="lang-en">Expertise →</span>
                 <span class="lang-el">ΕΙΔΙΚΟΤΗΤΕΣ →</span>
                 <span class="lang-cn">专业 →</span>
               </span>
@@ -293,14 +298,14 @@
 
 
     <!-- ============================================================
-         LEAF 1: CRAFT (Disciplines)
+         LEAF 1: EXPERTISE (internal id stays "craft")
          ============================================================ -->
     <section class="slide-panel" id="panel-craft">
       <!-- Seamless Stacked Margin -->
       <div class="leaf-spine" data-tab-index="1">
         <!-- <span class="leaf-spine-num">02</span> -->
         <span class="leaf-spine-title">
-          <span class="lang-en">CRAFT</span>
+          <span class="lang-en">EXPERTISE</span>
           <span class="lang-el">ΕΙΔΙΚΟΤΗΤΕΣ</span>
           <span class="lang-cn">专业</span>
         </span>
@@ -311,7 +316,7 @@
         <div class="wrap">
           <div class="section-head">
             <h2>
-              <span class="lang-en">CRAFT</span>
+              <span class="lang-en">EXPERTISE</span>
               <span class="lang-el">ΕΙΔΙΚΟΤΗΤΕΣ</span>
               <span class="lang-cn">专业</span>
             </h2>
@@ -319,59 +324,417 @@
           </div>
 
           <div class="craft-grid">
-            <!-- English Cards -->
-            <div class="craft-card lang-en">
+            <!-- ───────── English cards ─────────
+                 To add or remove a card: copy a whole card (EN + EL) and make sure
+                 data-craft-target matches the id of its stage below
+                 (stage id = "craft-stage-" + target). -->
+            <div class="craft-card lang-en" data-craft-target="composition">
               <span class="label">01</span>
               <h3>Composition</h3>
               <p>Classical music and music in different idioms, from small and intimate ensembles to full and bombastic orchestras.</p>
             </div>
-            <div class="craft-card lang-en">
+            <div class="craft-card lang-en" data-craft-target="orchestration">
               <span class="label">02</span>
               <h3>Orchestration</h3>
               <p>Expanding an original musical sketch into a full-fledged instrumental and orchestral arrangement.</p>
             </div>
-            <div class="craft-card lang-en">
+            <div class="craft-card lang-en" data-craft-target="violin">
               <span class="label">03</span>
               <h3>Violin</h3>
               <p>Live performance, acoustic recording, and collaborations with ensembles and producers.</p>
             </div>
-            <div class="craft-card lang-en">
+            <div class="craft-card lang-en" data-craft-target="sound-design">
               <span class="label">04</span>
               <h3>Sound Design</h3>
               <p>Custom sound creation, utilising analogue and digital modular synthesizers, and full sample manipulation.</p>
             </div>
-          <!-- <div class="craft-card lang-en">
+          <!-- <div class="craft-card lang-en" data-craft-target="game-audio">
               <span class="label">05</span>
               <h3>Game Audio</h3>
               <p>Adaptive, interactive scoring and implementation in audio middleware.</p>
             </div> -->
 
-            <!-- Greek Cards (All-caps headings without accents) -->
-            <div class="craft-card lang-el">
+            <!-- ───────── Greek cards (all-caps headings without accents) ───────── -->
+            <div class="craft-card lang-el" data-craft-target="composition">
               <span class="label">01</span>
               <h3>ΣΥΝΘΕΣΗ</h3>
               <p>Κλασική μουσική και μουσική διαφόρων ιδιωμάτων, από μικρά και εσωστρεφή σύνολα δωματίου, έως και πλήρεις, δυναμικές ορχήστρες.</p>
             </div>
-            <div class="craft-card lang-el">
+            <div class="craft-card lang-el" data-craft-target="orchestration">
               <span class="label">02</span>
               <h3>ΕΝΟΡΧΗΣΤΡΩΣΗ</h3>
               <p>Ανάπτυξη ενός πρωτότυπου μουσικού προσχεδίου σε πλήρη οργανική ή ορχηστρική διασκευή.</p>
             </div>
-            <div class="craft-card lang-el">
+            <div class="craft-card lang-el" data-craft-target="violin">
               <span class="label">03</span>
               <h3>ΒΙΟΛΙ</h3>
               <p>Ζωντανή ερμηνεία, ηχογραφήσεις, και συνεργασίες με σύνολα και παραγωγούς.</p>
             </div>
-            <div class="craft-card lang-el">
+            <div class="craft-card lang-el" data-craft-target="sound-design">
               <span class="label">04</span>
               <h3>SOUND DESIGN</h3>
               <p>Πρωτότυπη δημιουργία ήχων, με χρήση αναλογικών και ψηφιακών αρθρωτών συνθετητών, και πλήρη επεξεργασία δειγμάτων.</p>
             </div>
-            <!-- <div class="craft-card lang-el">
+            <!-- <div class="craft-card lang-el" data-craft-target="game-audio">
               <span class="label">05</span>
               <h3>GAME AUDIO</h3>
               <p>Προσαρμοστική μουσική και υλοποίηση σε σύγχρονο audio middleware.</p>
             </div> -->
+          </div>
+
+          <!-- ============================================================
+               STAGE: COMPOSITION   (opened by the card with data-craft-target="composition")
+               ============================================================ -->
+          <div class="craft-detail-stage" id="craft-stage-composition">
+            <div class="craft-stage-header">
+              <div class="craft-stage-title-wrap">
+                <span class="label craft-stage-meta">
+                  <span class="lang-en">01 / COMPOSITION</span>
+                  <span class="lang-el">01 / ΣΥΝΘΕΣΗ</span>
+                </span>
+                <h3 class="craft-stage-title">
+                  <span class="lang-en">Selected Works</span>
+                  <span class="lang-el">Επιλεγμένα Έργα</span>
+                  <span class="lang-cn">精选作品</span>
+                </h3>
+              </div>
+              <button class="craft-stage-close-btn" aria-label="Close details">✕</button>
+            </div>
+
+            <!-- Intro: what you offer in this area (edit freely) -->
+            <div class="stage-intro">
+              <p class="lang-en">Original music written to your brief: chamber pieces, orchestral works and music in other idioms. A few selected scores and recordings below.</p>
+              <p class="lang-el">Πρωτότυπη μουσική σύμφωνα με τις ανάγκες σας: έργα δωματίου, ορχηστρικά έργα και μουσική άλλων ιδιωμάτων. Παρακάτω θα βρείτε μερικές επιλεγμένες παρτιτούρες και ηχογραφήσεις.</p>
+            </div>
+
+            <!-- Showcase rows: keep 2–3. Duplicate or delete whole "score-zigzag-row" blocks. -->
+
+
+          <!-- ------------------------------------------------------------------
+               HOW TO FILL A ROW (applies to all four stages)
+               1. SCORE   → replace <div class="score-placeholder">…</div> with
+                            <img src="assets/score-name.webp" alt="Score of …">
+                            (a click-to-open PDF viewer will be wired up later)
+               2. VIDEO   → replace it with
+                            <div class="video-container"><iframe loading="lazy" title="…" src="https://www.youtube-nocookie.com/embed/VIDEO_ID" allowfullscreen></iframe></div>
+               3. AUDIO   → replace it with a SoundCloud <iframe …> (height 166)
+               4. Edit the label (YEAR · FORMAT), the <h4> title and the two <p> texts.
+               5. row-left / row-right only decides which side the media sits on.
+               ------------------------------------------------------------------ -->
+
+          <!-- Zig-zag scores showcase: Item 1 (Image left, text right) -->
+          <div class="score-zigzag-row row-left">
+            <div class="score-preview-box">
+              <div class="score-placeholder">
+                <span class="score-icon">𝄞</span>
+                <p class="lang-en">Score Preview Coming Soon</p>
+                <p class="lang-el">Παρτιτούρα σύντομα</p>
+                <span class="score-num">SCORE 01</span>
+              </div>
+            </div>
+            <div class="score-text-box">
+              <span class="label">2024 · CHAMBER / ENSEMBLE</span>
+              <h4>emmonæ (abbr.)</h4>
+              <p class="lang-en">Original score excerpt exploring micro-polyphony, textural densities, and extended instrumental techniques.</p>
+              <p class="lang-el">Απόσπασμα πρωτότυπης παρτιτούρας με εστίαση στη μικροπολυφωνία, τις υφικές πυκνότητες και τις διευρυμένες τεχνικές οργάνων.</p>
+            </div>
+          </div>
+
+          <!-- Zig-zag scores showcase: Item 2 (Image right, text left) -->
+          <div class="score-zigzag-row row-right">
+            <div class="score-preview-box">
+              <div class="score-placeholder">
+                <span class="score-icon">𝄞</span>
+                <p class="lang-en">Score Preview Coming Soon</p>
+                <p class="lang-el">Παρτιτούρα σύντομα</p>
+                <span class="score-num">SCORE 02</span>
+              </div>
+            </div>
+            <div class="score-text-box">
+              <span class="label">2024 · SOLO CLARINET</span>
+              <h4>2 Miniatures for Solo Clarinet</h4>
+              <p class="lang-en">Contemporary solo clarinet works commissioned and premiered at the Thessaloniki Concert Hall.</p>
+              <p class="lang-el">Σύγχρονα έργα για σόλο κλαρινέτο, ανάθεση και πρώτη εκτέλεση στο Μέγαρο Μουσικής Θεσσαλονίκης.</p>
+            </div>
+          </div>
+
+<!-- OPTIONAL later: "Request a score" button. Uncomment and point it to contact/ with a subject.
+            <a href="contact/?subject=score" class="craft-stage-btn">
+              <span class="lang-en">Request a score</span>
+              <span class="lang-el">Αίτημα παρτιτούρας</span>
+            </a> -->
+
+            <!-- Buttons: first = deeper content, second = contact -->
+            <div class="craft-stage-cta-wrap">
+              <div class="stage-cta-buttons">
+                <a href="works/#compositions" class="craft-stage-btn">
+                  <span class="lang-en">See all compositions<span class="btn-arrow"> →</span></span>
+                  <span class="lang-el">Όλες οι συνθέσεις<span class="btn-arrow"> →</span></span>
+                </a>
+                <a href="contact/" class="craft-stage-btn is-solid">
+                  <span class="lang-en">Get in touch<span class="btn-arrow"> →</span></span>
+                  <span class="lang-el">Επικοινωνήστε μαζί μου<span class="btn-arrow"> →</span></span>
+                </a>
+              </div>
+              <button class="craft-stage-close-btn bottom-close-btn" aria-label="Close details">
+                <span>✕</span>
+                <span class="close-btn-text lang-en">Close</span>
+                <span class="close-btn-text lang-el">Κλείσιμο</span>
+                <span class="close-btn-text lang-cn">关闭</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ============================================================
+               STAGE: ORCHESTRATION   (opened by the card with data-craft-target="orchestration")
+               ============================================================ -->
+          <div class="craft-detail-stage" id="craft-stage-orchestration">
+            <div class="craft-stage-header">
+              <div class="craft-stage-title-wrap">
+                <span class="label craft-stage-meta">
+                  <span class="lang-en">02 / ORCHESTRATION</span>
+                  <span class="lang-el">02 / ΕΝΟΡΧΗΣΤΡΩΣΗ</span>
+                </span>
+                <h3 class="craft-stage-title">
+                  <span class="lang-en">Selected Orchestrations</span>
+                  <span class="lang-el">Επιλεγμένες Ενορχηστρώσεις</span>
+                  <span class="lang-cn"></span>
+                </h3>
+              </div>
+              <button class="craft-stage-close-btn" aria-label="Close details">✕</button>
+            </div>
+
+            <!-- Intro: what you offer in this area (edit freely) -->
+            <div class="stage-intro">
+              <p class="lang-en">From a sketch, a piano reduction or a demo to a complete score and parts for the ensemble you have.</p>
+              <p class="lang-el">Από ένα προσχέδιο, μια πιανιστική αναγωγή ή ένα demo, σε πλήρη παρτιτούρα και ξεχωριστά μέρη για κάθε όργανο του συνόλου σας.</p>
+            </div>
+
+            <!-- Showcase rows: keep 2–3. Duplicate or delete whole "score-zigzag-row" blocks. -->
+
+            <!-- ITEM 1: replace the placeholder box with your own media (see "HOW TO FILL A ROW" above) -->
+            <div class="score-zigzag-row row-left">
+              <div class="score-preview-box">
+                <div class="score-placeholder">
+                  <span class="score-icon">𝄞</span>
+                  <p class="lang-en">Score Preview Coming Soon</p>
+                  <p class="lang-el">Παρτιτούρα σύντομα</p>
+                  <span class="score-num">SCORE 01</span>
+                </div>
+              </div>
+              <div class="score-text-box">
+                <span class="label">YEAR · FORMAT</span>
+                <h4>Title goes here</h4>
+                <p class="lang-en">One or two sentences: what the piece is, who played it, where it was heard.</p>
+                <p class="lang-el">Μία ή δύο προτάσεις: τι είναι το έργο, ποιοι το ερμήνευσαν, πού παρουσιάστηκε.</p>
+              </div>
+            </div>
+
+            <!-- ITEM 2: replace the placeholder box with your own media (see "HOW TO FILL A ROW" above) -->
+            <div class="score-zigzag-row row-right">
+              <div class="score-preview-box">
+                <div class="score-placeholder">
+                  <span class="score-icon">𝄞</span>
+                  <p class="lang-en">Score Preview Coming Soon</p>
+                  <p class="lang-el">Παρτιτούρα σύντομα</p>
+                  <span class="score-num">SCORE 02</span>
+                </div>
+              </div>
+              <div class="score-text-box">
+                <span class="label">YEAR · FORMAT</span>
+                <h4>Title goes here</h4>
+                <p class="lang-en">One or two sentences: what the piece is, who played it, where it was heard.</p>
+                <p class="lang-el">Μία ή δύο προτάσεις: τι είναι το έργο, ποιοι το ερμήνευσαν, πού παρουσιάστηκε.</p>
+              </div>
+            </div>
+
+            <!-- Buttons: first = deeper content, second = contact -->
+            <div class="craft-stage-cta-wrap">
+              <div class="stage-cta-buttons">
+                <a href="works/#orchestration" class="craft-stage-btn">
+                  <span class="lang-en">See more orchestrations<span class="btn-arrow"> →</span></span>
+                  <span class="lang-el">Περισσότερες ενορχηστρώσεις<span class="btn-arrow"> →</span></span>
+                </a>
+                <a href="contact/" class="craft-stage-btn is-solid">
+                  <span class="lang-en">Get in touch<span class="btn-arrow"> →</span></span>
+                  <span class="lang-el">Επικοινωνήστε μαζί μου<span class="btn-arrow"> →</span></span>
+                </a>
+              </div>
+              <button class="craft-stage-close-btn bottom-close-btn" aria-label="Close details">
+                <span>✕</span>
+                <span class="close-btn-text lang-en">Close</span>
+                <span class="close-btn-text lang-el">Κλείσιμο</span>
+                <span class="close-btn-text lang-cn">关闭</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ============================================================
+               STAGE: VIOLIN   (opened by the card with data-craft-target="violin")
+               ============================================================ -->
+          <div class="craft-detail-stage" id="craft-stage-violin">
+            <div class="craft-stage-header">
+              <div class="craft-stage-title-wrap">
+                <span class="label craft-stage-meta">
+                  <span class="lang-en">03 / VIOLIN</span>
+                  <span class="lang-el">03 / ΒΙΟΛΙ</span>
+                </span>
+                <h3 class="craft-stage-title">
+                  <span class="lang-en">Performances</span>
+                  <span class="lang-el">Ερμηνείες</span>
+                  <span class="lang-cn"></span>
+                </h3>
+              </div>
+              <button class="craft-stage-close-btn" aria-label="Close details">✕</button>
+            </div>
+
+            <!-- Intro: what you offer in this area (edit freely) -->
+            <div class="stage-intro">
+              <p class="lang-en">Live performance, session recording and ensemble work, as a soloist or as part of a group.</p>
+              <p class="lang-el">Ζωντανή ερμηνεία, ηχογράφηση και συνεργασίες με σύνολα, ως σολίστ ή ως μέλος σχήματος.</p>
+            </div>
+
+            <!-- Showcase rows: keep 2–3. Duplicate or delete whole "score-zigzag-row" blocks. -->
+
+            <!-- ITEM 1: replace the placeholder box with your own media (see "HOW TO FILL A ROW" above) -->
+            <div class="score-zigzag-row row-left is-video">
+              <div class="score-preview-box">
+                <div class="score-placeholder">
+                  <span class="score-icon">▶</span>
+                  <p class="lang-en">Video Coming Soon</p>
+                  <p class="lang-el">Βίντεο σύντομα</p>
+                  <span class="score-num">VIDEO 01</span>
+                </div>
+              </div>
+              <div class="score-text-box">
+                <span class="label">YEAR · FORMAT</span>
+                <h4>Title goes here</h4>
+                <p class="lang-en">One or two sentences: what the piece is, who played it, where it was heard.</p>
+                <p class="lang-el">Μία ή δύο προτάσεις: τι είναι το έργο, ποιοι το ερμήνευσαν, πού παρουσιάστηκε.</p>
+              </div>
+            </div>
+
+            <!-- ITEM 2: replace the placeholder box with your own media (see "HOW TO FILL A ROW" above) -->
+            <div class="score-zigzag-row row-right is-video">
+              <div class="score-preview-box">
+                <div class="score-placeholder">
+                  <span class="score-icon">▶</span>
+                  <p class="lang-en">Video Coming Soon</p>
+                  <p class="lang-el">Βίντεο σύντομα</p>
+                  <span class="score-num">VIDEO 02</span>
+                </div>
+              </div>
+              <div class="score-text-box">
+                <span class="label">YEAR · FORMAT</span>
+                <h4>Title goes here</h4>
+                <p class="lang-en">One or two sentences: what the piece is, who played it, where it was heard.</p>
+                <p class="lang-el">Μία ή δύο προτάσεις: τι είναι το έργο, ποιοι το ερμήνευσαν, πού παρουσιάστηκε.</p>
+              </div>
+            </div>
+
+            <!-- Buttons: first = deeper content, second = contact -->
+            <div class="craft-stage-cta-wrap">
+              <div class="stage-cta-buttons">
+                <a href="gallery/#violin" class="craft-stage-btn">
+                  <span class="lang-en">More videos<span class="btn-arrow"> →</span></span>
+                  <span class="lang-el">Περισσότερα βίντεο<span class="btn-arrow"> →</span></span>
+                </a>
+                <a href="contact/" class="craft-stage-btn is-solid">
+                  <span class="lang-en">Get in touch<span class="btn-arrow"> →</span></span>
+                  <span class="lang-el">Επικοινωνήστε μαζί μου<span class="btn-arrow"> →</span></span>
+                </a>
+              </div>
+              <button class="craft-stage-close-btn bottom-close-btn" aria-label="Close details">
+                <span>✕</span>
+                <span class="close-btn-text lang-en">Close</span>
+                <span class="close-btn-text lang-el">Κλείσιμο</span>
+                <span class="close-btn-text lang-cn">关闭</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ============================================================
+               STAGE: SOUND-DESIGN   (opened by the card with data-craft-target="sound-design")
+               ============================================================ -->
+          <div class="craft-detail-stage" id="craft-stage-sound-design">
+            <div class="craft-stage-header">
+              <div class="craft-stage-title-wrap">
+                <span class="label craft-stage-meta">
+                  <span class="lang-en">04 / SOUND DESIGN</span>
+                  <span class="lang-el">04 / SOUND DESIGN</span>
+                </span>
+                <h3 class="craft-stage-title">
+                  <span class="lang-en">Selected Sound Work</span>
+                  <span class="lang-el">Επιλεγμένα Έργα Sound Design</span>
+                  <span class="lang-cn"></span>
+                </h3>
+              </div>
+              <button class="craft-stage-close-btn" aria-label="Close details">✕</button>
+            </div>
+
+            <!-- Intro: what you offer in this area (edit freely) -->
+            <div class="stage-intro">
+              <p class="lang-en">Custom sounds built from synthesis and sampling, for music and media projects.</p>
+              <p class="lang-el">Πρωτότυποι ήχοι από σύνθεση και επεξεργασία δειγμάτων, για μουσικά και οπτικοακουστικά έργα.</p>
+            </div>
+
+            <!-- Showcase rows: keep 2–3. Duplicate or delete whole "score-zigzag-row" blocks. -->
+
+            <!-- ITEM 1: replace the placeholder box with your own media (see "HOW TO FILL A ROW" above) -->
+            <div class="score-zigzag-row row-left is-video">
+              <div class="score-preview-box">
+                <div class="score-placeholder">
+                  <span class="score-icon">✦</span>
+                  <p class="lang-en">Sound Example Coming Soon</p>
+                  <p class="lang-el">Δείγμα ήχου σύντομα</p>
+                  <span class="score-num">AUDIO 01</span>
+                </div>
+              </div>
+              <div class="score-text-box">
+                <span class="label">YEAR · FORMAT</span>
+                <h4>Title goes here</h4>
+                <p class="lang-en">One or two sentences: what the piece is, who played it, where it was heard.</p>
+                <p class="lang-el">Μία ή δύο προτάσεις: τι είναι το έργο, ποιοι το ερμήνευσαν, πού παρουσιάστηκε.</p>
+              </div>
+            </div>
+
+            <!-- ITEM 2: replace the placeholder box with your own media (see "HOW TO FILL A ROW" above) -->
+            <div class="score-zigzag-row row-right is-video">
+              <div class="score-preview-box">
+                <div class="score-placeholder">
+                  <span class="score-icon">✦</span>
+                  <p class="lang-en">Sound Example Coming Soon</p>
+                  <p class="lang-el">Δείγμα ήχου σύντομα</p>
+                  <span class="score-num">AUDIO 02</span>
+                </div>
+              </div>
+              <div class="score-text-box">
+                <span class="label">YEAR · FORMAT</span>
+                <h4>Title goes here</h4>
+                <p class="lang-en">One or two sentences: what the piece is, who played it, where it was heard.</p>
+                <p class="lang-el">Μία ή δύο προτάσεις: τι είναι το έργο, ποιοι το ερμήνευσαν, πού παρουσιάστηκε.</p>
+              </div>
+            </div>
+
+            <!-- Buttons: first = deeper content, second = contact -->
+            <div class="craft-stage-cta-wrap">
+              <div class="stage-cta-buttons">
+                <a href="works/#sound-design" class="craft-stage-btn">
+                  <span class="lang-en">See more sound work<span class="btn-arrow"> →</span></span>
+                  <span class="lang-el">Περισσότερα έργα ήχου<span class="btn-arrow"> →</span></span>
+                </a>
+                <a href="contact/" class="craft-stage-btn is-solid">
+                  <span class="lang-en">Get in touch<span class="btn-arrow"> →</span></span>
+                  <span class="lang-el">Επικοινωνήστε μαζί μου<span class="btn-arrow"> →</span></span>
+                </a>
+              </div>
+              <button class="craft-stage-close-btn bottom-close-btn" aria-label="Close details">
+                <span>✕</span>
+                <span class="close-btn-text lang-en">Close</span>
+                <span class="close-btn-text lang-el">Κλείσιμο</span>
+                <span class="close-btn-text lang-cn">关闭</span>
+              </button>
+            </div>
           </div>
 
           <div class="panel-footer">
@@ -412,7 +775,15 @@
           </div>
 
           <div class="works-list">
-            <!-- Track 1 -->
+
+            <!-- ───────── RECORDINGS: 2 embeds, then a button to /works/ ───────── -->
+            <div class="works-group">
+              <h3 class="works-subhead">
+                <span class="lang-en">Recordings</span>
+                <span class="lang-el">Ηχογραφήσεις</span>
+              </h3>
+
+              <!-- Track 1 -->
             <div class="track-row">
               <span class="label">01</span>
               <div>
@@ -439,8 +810,61 @@
                 </div>
               </div>
             </div>
+            </div>
 
-            <!-- Track 3 -->
+            <div class="panel-cta">
+              <a href="works/#recordings" class="craft-stage-btn">
+                <span class="lang-en">More recordings<span class="btn-arrow"> →</span></span>
+                <span class="lang-el">Περισσότερες ηχογραφήσεις<span class="btn-arrow"> →</span></span>
+              </a>
+            </div>
+
+            <!-- ───────── SCORES: 2 previews, then a button to the full catalogue ─────────
+                 data-pdf-url is reserved for the future score viewer (leave empty for now). -->
+            <div class="works-group">
+              <h3 class="works-subhead">
+                <span class="lang-en">Scores</span>
+                <span class="lang-el">Παρτιτούρες</span>
+              </h3>
+
+              <div class="works-scores">
+                <div class="score-card" data-pdf-url="">
+                  <div class="score-placeholder">
+                    <span class="score-icon">𝄞</span>
+                    <p class="lang-en">Score Preview Coming Soon</p>
+                    <p class="lang-el">Παρτιτούρα σύντομα</p>
+                    <span class="score-num">SCORE 01</span>
+                  </div>
+                  <span class="score-card-title">emmonæ (abbr.)</span>
+                  <span class="label">2024</span>
+                </div>
+
+                <div class="score-card" data-pdf-url="">
+                  <div class="score-placeholder">
+                    <span class="score-icon">𝄞</span>
+                    <p class="lang-en">Score Preview Coming Soon</p>
+                    <p class="lang-el">Παρτιτούρα σύντομα</p>
+                    <span class="score-num">SCORE 02</span>
+                  </div>
+                  <span class="score-card-title">
+                    <span class="lang-en">2 Miniatures for Solo Clarinet</span>
+                    <span class="lang-el">2 Μινιατούρες για σόλο κλαρινέτο</span>
+                  </span>
+                  <span class="label">2024</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-cta">
+              <a href="works/#catalogue" class="craft-stage-btn">
+                <span class="lang-en">Full catalogue<span class="btn-arrow"> →</span></span>
+                <span class="lang-el">Πλήρης κατάλογος έργων<span class="btn-arrow"> →</span></span>
+              </a>
+            </div>
+
+            <!-- Bandcamp embed, moved out of the main page (2 recordings only here).
+                 Paste it into the /works/ subpage when we build it:
+
             <div class="track-row">
               <span class="label">03</span>
               <div>
@@ -455,19 +879,9 @@
               </div>
             </div>
 
-            <!-- Track 4 -->
-            <div class="track-row">
-              <span class="label">04</span>
-              <div>
-                <h3>
-                  <span></span>
-                </h3>
-                <div class="track-placeholder">
-                  <p class="lang-en">MORE TRACKS COMING SOON</p>
-                  <p class="lang-el">ΕΡΧΕΤΑΙ ΣΥΝΤΟΜΑ</p>
-                </div>
-              </div>
-            </div>
+            
+
+            -->
           </div>
 
           <div class="panel-footer">
@@ -609,6 +1023,13 @@
             </div>
           </div> -->
 
+          <div class="panel-cta">
+            <a href="gallery/" class="craft-stage-btn">
+              <span class="lang-en">See the full gallery<span class="btn-arrow"> →</span></span>
+              <span class="lang-el">Δείτε ολόκληρη τη γκαλερί<span class="btn-arrow"> →</span></span>
+            </a>
+          </div>
+
           <div class="panel-footer">
             <span class="label">04 / 05</span>
             <span class="label lang-en slide-next-hint" data-tab-index="4">Contact →</span>
@@ -646,91 +1067,71 @@
             <span class="label">05</span>
           </div>
 
-          <div class="contact-layout">
-            <!-- Direct Links -->
-            <div class="contact-links">
-              <a href="mailto:michailchatzias@gmail.com">
-                <b class="lang-en">Email</b>
-                <b class="lang-el">Email</b>
-                <b class="lang-cn">电子邮件</b>
-                <span>michailchatzias@gmail.com</span>
+          <!-- Closing statement. The full form now lives on the /contact/ subpage. -->
+          <div class="closing-grid">
+            <div class="closing-col closing-brand">
+              <h3 class="closing-name">
+                <span class="lang-en">Michaïl Chatziasemidis</span>
+                <span class="lang-el">Μιχαήλ Χατζηασεμίδης</span>
+                <span class="lang-cn">米哈伊尔·Chatziasemidis</span>
+              </h3>
+              <p class="label closing-tagline">
+                <span class="lang-en">Composer · Orchestrator · Violinist</span>
+                <span class="lang-el">Συνθέτης · Ενορχηστρωτής · Βιολονίστας</span>
+                <span class="lang-cn">作曲家 · 管弦乐编曲家 · 小提琴家</span>
+              </p>
+            </div>
+
+            <div class="closing-col">
+              <span class="label closing-head">
+                <span class="lang-en">Explore</span>
+                <span class="lang-el">Εξερεύνηση</span>
+              </span>
+              <a href="works/">
+                <span class="lang-en">Works</span>
+                <span class="lang-el">Έργα</span>
+                <span class="lang-cn">作品</span>
               </a>
-              <a href="https://instagram.com/michailchatzias/" target="_blank" rel="noopener">
-                <b>Instagram</b>
-                <span>instagram.com/michailchatzias</span>
+              <a href="gallery/">
+                <span class="lang-en">Gallery</span>
+                <span class="lang-el">Γκαλερί</span>
+                <span class="lang-cn">画廊</span>
               </a>
-              <a href="https://michailchatzias.bandcamp.com" target="_blank" rel="noopener">
-                <b>Bandcamp</b>
-                <span>michailchatzias.bandcamp.com</span>
-              </a>
-              <a href="https://soundcloud.com/michailchatzias" target="_blank" rel="noopener">
-                <b>SoundCloud</b>
-                <span>soundcloud.com/michailchatzias</span>
-              </a>
-              <a href="https://youtube.com/@michailchatzias" target="_blank" rel="noopener">
-                <b>YouTube</b>
-                <span>youtube.com/@michailchatzias</span>
+              <a href="contact/">
+                <span class="lang-en">Contact</span>
+                <span class="lang-el">Επικοινωνία</span>
+                <span class="lang-cn">联系</span>
               </a>
             </div>
 
-          <!-- Emailing Form -->
-          <div class="contact-form-wrapper">
-            <h3>
-              <span class="lang-en">Send a Message</span>
-              <span class="lang-el">ΑΠΟΣΤΟΛΗ ΜΗΝΥΜΑΤΟΣ</span>
-              <span class="lang-cn">发送消息</span>
-            </h3>
-            <p class="form-desc">
-              <span class="lang-en">For collaborations, commissions, game audio inquiries, or score requests.</span>
-              <span class="lang-el">Για συνεργασίες, αναθέσεις συνθέσεων, game audio ή παρτιτούρες.</span>
-              <span class="lang-cn">如需合作、委约、游戏音频咨询或乐谱请求，请与我联系。</span>
-            </p>
-            
-            <form id="contact-form" action="https://formspree.io/f/myeeaegl" method="POST">
-              <div class="form-group">
-                <label for="form-name">
-                  <span class="lang-en">Your Name</span>
-                  <span class="lang-el">ΟΝΟΜΑΤΕΠΩΝΥΜΟ</span>
-                  <span class="lang-cn">您的姓名</span>
-                </label>
-                <input type="text" id="form-name" name="name" required placeholder="Name / Ensemble">
+            <div class="closing-col">
+              <span class="label closing-head">
+                <span class="lang-en">Direct</span>
+                <span class="lang-el">Απευθείας</span>
+              </span>
+              <a href="mailto:michailchatzias@gmail.com">michailchatzias@gmail.com</a>
+              <div class="closing-socials">
+                <a href="https://instagram.com/michailchatzias/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+                  <svg viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg>
+                </a>
+                <a href="https://michailchatzias.bandcamp.com" target="_blank" rel="noopener" aria-label="Bandcamp" title="Bandcamp">
+                  <svg viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5H0z"/></svg>
+                </a>
+                <a href="https://soundcloud.com/michailchatzias" target="_blank" rel="noopener" aria-label="SoundCloud" title="SoundCloud">
+                  <svg viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false"><path d="M23.999 14.165c-.052 1.796-1.612 3.169-3.4 3.169h-8.18a.68.68 0 0 1-.675-.683V7.862a.747.747 0 0 1 .452-.724s.75-.513 2.333-.513a5.364 5.364 0 0 1 2.763.755 5.433 5.433 0 0 1 2.57 3.54c.282-.08.574-.121.868-.12.884 0 1.73.358 2.347.992s.948 1.49.922 2.373ZM10.721 8.421c.247 2.98.427 5.697 0 8.672a.264.264 0 0 1-.53 0c-.395-2.946-.22-5.718 0-8.672a.264.264 0 0 1 .53 0ZM9.072 9.448c.285 2.659.37 4.986-.006 7.655a.277.277 0 0 1-.55 0c-.331-2.63-.256-5.02 0-7.655a.277.277 0 0 1 .556 0Zm-1.663-.257c.27 2.726.39 5.171 0 7.904a.266.266 0 0 1-.532 0c-.38-2.69-.257-5.21 0-7.904a.266.266 0 0 1 .532 0Zm-1.647.77a26.108 26.108 0 0 1-.008 7.147.272.272 0 0 1-.542 0 27.955 27.955 0 0 1 0-7.147.275.275 0 0 1 .55 0Zm-1.67 1.769c.421 1.865.228 3.5-.029 5.388a.257.257 0 0 1-.514 0c-.21-1.858-.398-3.549 0-5.389a.272.272 0 0 1 .543 0Zm-1.655-.273c.388 1.897.26 3.508-.01 5.412-.026.28-.514.283-.54 0-.244-1.878-.347-3.54-.01-5.412a.283.283 0 0 1 .56 0Zm-1.668.911c.4 1.268.257 2.292-.026 3.572a.257.257 0 0 1-.514 0c-.241-1.262-.354-2.312-.023-3.572a.283.283 0 0 1 .563 0Z"/></svg>
+                </a>
+                <a href="https://youtube.com/@michailchatzias" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube">
+                  <svg viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                </a>
               </div>
-
-              <div class="form-group">
-                <label for="form-email">
-                  <span class="lang-en">Your Email</span>
-                  <span class="lang-el">EMAIL ΕΠΙΚΟΙΝΩΝΙΑΣ</span>
-                  <span class="lang-cn">您的电子邮件</span>
-                </label>
-                <input type="email" id="form-email" name="email" required placeholder="you@domain.com">
-              </div>
-
-              <div class="form-group">
-                <label for="form-subject">
-                  <span class="lang-en">Subject</span>
-                  <span class="lang-el">ΘΕΜΑ</span>
-                  <span class="lang-cn">主题</span>
-                </label>
-                <input type="text" id="form-subject" name="subject" required placeholder="Game Audio / Composition Commission">
-              </div>
-
-              <div class="form-group">
-                <label for="form-message">
-                  <span class="lang-en">Message</span>
-                  <span class="lang-el">ΜΗΝΥΜΑ</span>
-                  <span class="lang-cn">留言</span>
-                </label>
-                <textarea id="form-message" name="message" required placeholder="Tell me about your project or inquiry..."></textarea>
-              </div>
-
-              <button type="submit" class="form-submit-btn" id="form-submit-btn">
-                <span class="lang-en">Send Message</span>
-                <span class="lang-el">ΑΠΟΣΤΟΛΗ ΜΗΝΥΜΑΤΟΣ</span>
-                <span class="lang-cn">发送消息</span>
-              </button>
-              <div id="form-status" class="form-status"></div>
-            </form>
+            </div>
           </div>
+
+          <div class="panel-cta closing-cta">
+            <a href="contact/" class="craft-stage-btn is-solid">
+              <span class="lang-en">Get in touch<span class="btn-arrow"> →</span></span>
+              <span class="lang-el">Επικοινωνήστε μαζί μου<span class="btn-arrow"> →</span></span>
+            </a>
           </div>
 
           <div class="panel-footer">
