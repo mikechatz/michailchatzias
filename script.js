@@ -58,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const introSpine = document.getElementById("panel-intro-spine");
   const panelIntroContent = document.getElementById("panel-intro-content");
   const sectionAbout = document.getElementById("section-about");
+  const portraitBox = document.getElementById("portrait-box");
   const progress = document.getElementById("slide-progress");
   const totalPanels = panels.length; // 5 panels
 
@@ -129,6 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
           scrollToAbout();
           updateAboutMargin();
           updateProgress();
+          setPortraitUncovered(true);
         }, 120);
       } else {
         introStep = 0;
@@ -137,6 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
           updateAboutMargin();
           updateProgress();
+          setPortraitUncovered(false);
         }, 120);
       }
     } else {
@@ -145,6 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (content) content.scrollTop = 0;
       updateAboutMargin();
       updateProgress();
+      setPortraitUncovered(true);
     }
   }
 
@@ -189,6 +193,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!panelIntroContent) return;
     panelIntroContent.scrollTo({ top: 0, behavior: animate ? "smooth" : "instant" });
   }
+
+  // Helper: trigger portrait curtain uncover
+  function setPortraitUncovered(uncovered) {
+    if (!portraitBox) return;
+    portraitBox.classList.toggle("uncovered", uncovered);
+  }
+
   if (panelIntroContent) {
     panelIntroContent.addEventListener("scroll", () => {
       if (currentTabIndex === 0) {
@@ -197,6 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
         updateActiveNav(0, isAboutScrolled);
         updateAboutMargin();
         updateProgress();
+        setPortraitUncovered(panelIntroContent.scrollTop > 120);
       }
     }, { passive: true });
   }
@@ -590,7 +602,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ── IntersectionObserver: track which section is visible ── */
   const observerOptions = {
     root: null, /* use viewport as root, works for both snap and non-snap */
-    threshold: 0.4
+    threshold: 0.25
   };
 
   const sectionObserver = new IntersectionObserver((entries) => {
@@ -607,11 +619,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (index === 0) {
         currentTabIndex = 0;
         introStep = 0;
+        setPortraitUncovered(false);
       } else if (index === 1) {
         currentTabIndex = 0;
         introStep = 1;
+        setPortraitUncovered(true);
       } else {
         currentTabIndex = index - 1; // index 2 -> panel-craft (1), 3 -> works (2), 4 -> gallery (3), 5 -> contact (4)
+        setPortraitUncovered(true);
       }
 
       // Sync URL hash with the visible section
