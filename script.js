@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const panelIntroContent = document.getElementById("panel-intro-content");
   const sectionAbout = document.getElementById("section-about");
   const portraitBox = document.getElementById("portrait-box");
+  const craftGrid = document.querySelector(".craft-grid");
   const progress = document.getElementById("slide-progress");
   const totalPanels = panels.length; // 5 panels
 
@@ -123,6 +124,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (index === 0) {
+      setCraftCardsVisible(false);
+      closeAllCraftStages();
       if (subTarget === "about") {
         introStep = 1;
         updateActiveNav(0, true);
@@ -149,6 +152,14 @@ document.addEventListener("DOMContentLoaded", () => {
       updateAboutMargin();
       updateProgress();
       setPortraitUncovered(true);
+
+      if (index === 1) {
+        // Trigger staggered materialisation as Craft panel opens
+        setTimeout(() => setCraftCardsVisible(true), 150);
+      } else {
+        setCraftCardsVisible(false);
+        closeAllCraftStages();
+      }
     }
   }
 
@@ -199,6 +210,123 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!portraitBox) return;
     portraitBox.classList.toggle("uncovered", uncovered);
   }
+
+  // Helper: trigger craft cards staggered entrance
+  function setCraftCardsVisible(visible) {
+    if (!craftGrid) return;
+    if (visible) {
+      // Find all currently displayed craft-cards (for the active language)
+      const visibleCards = Array.from(craftGrid.querySelectorAll(".craft-card")).filter(
+        card => window.getComputedStyle(card).display !== "none"
+      );
+      // Assign dynamic sequential delays: 0.08s, 0.18s, 0.28s, 0.38s, ...
+      visibleCards.forEach((card, idx) => {
+        const delay = (0.08 + idx * 0.10).toFixed(2);
+        card.style.setProperty("--craft-delay", `${delay}s`);
+      });
+      craftGrid.classList.add("visible");
+    } else {
+      craftGrid.classList.remove("visible");
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // CRAFT DETAIL STAGE CONTROLLER (Expandable Selected Works Stage)
+  // ------------------------------------------------------------------------
+  const craftCards = document.querySelectorAll(".craft-card");
+  const craftStages = document.querySelectorAll(".craft-detail-stage");
+  const mobileStageBackBtn = document.getElementById("mobile-stage-back-btn");
+
+  function closeAllCraftStages() {
+    craftStages.forEach(stage => stage.classList.remove("open"));
+    craftCards.forEach(card => card.classList.remove("active-card"));
+    document.body.classList.remove("craft-stage-active");
+    // Ensure craft cards are visible on mobile after closing the stage
+    if (isMobile()) {
+      setCraftCardsVisible(true);
+    }
+  }
+
+  function openCraftStage(targetId) {
+    const stage = document.getElementById(`craft-stage-${targetId}`);
+    if (!stage) return;
+    const isAlreadyOpen = stage.classList.contains("open");
+
+    closeAllCraftStages();
+
+    if (!isAlreadyOpen) {
+      stage.classList.add("open");
+      document.body.classList.add("craft-stage-active");
+      // Mark active cards matching this target
+      document.querySelectorAll(`.craft-card[data-craft-target="${targetId}"]`).forEach(c => {
+        c.classList.add("active-card");
+      });
+
+      if (isMobile()) {
+        // Mobile view: scroll stage to top and keep craft cards visible underneath
+        stage.scrollTop = 0;
+        setCraftCardsVisible(true);
+      } else {
+        // Desktop view: smoothly scroll down towards the stage inside leaf-content
+        setTimeout(() => {
+          const craftLeaf = document.querySelector("#panel-craft .leaf-content");
+          if (craftLeaf) {
+            const stageTop = stage.offsetTop - 40;
+            craftLeaf.scrollTo({ top: stageTop, behavior: "smooth" });
+          }
+        }, 100);
+      }
+    }
+  }
+
+  craftCards.forEach(card => {
+    card.addEventListener("click", () => {
+      const target = card.dataset.craftTarget;
+      if (!target) return;
+      openCraftStage(target);
+    });
+  });
+
+  // Close buttons inside stages
+  document.querySelectorAll(".craft-stage-close-btn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeAllCraftStages();
+    });
+  });
+
+  // Mobile dedicated return button
+  if (mobileStageBackBtn) {
+    mobileStageBackBtn.addEventListener("click", () => {
+      closeAllCraftStages();
+    });
+  }
+
+  // Mobile Touch Swipe from right to left (swipe left) inside stage to dismiss
+  let stageTouchStartX = 0;
+  let stageTouchStartY = 0;
+
+  craftStages.forEach(stage => {
+    stage.addEventListener("touchstart", (e) => {
+      if (!isMobile()) return;
+      if (e.touches && e.touches.length > 0) {
+        stageTouchStartX = e.touches[0].clientX;
+        stageTouchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    stage.addEventListener("touchend", (e) => {
+      if (!isMobile()) return;
+      if (!e.changedTouches || e.changedTouches.length === 0) return;
+      const deltaX = stageTouchStartX - e.changedTouches[0].clientX; // positive = swiped left
+      const deltaY = stageTouchStartY - e.changedTouches[0].clientY;
+
+      // Predominantly horizontal swipe to the left of at least 45px
+      if (deltaX > 45 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
+        closeAllCraftStages();
+      }
+    }, { passive: true });
+  });
 
   if (panelIntroContent) {
     panelIntroContent.addEventListener("scroll", () => {
@@ -304,6 +432,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Track consecutive scroll pushes at the edge before advancing slide
+  let edgeScrollAccumulator = 0;
+  let edgeScrollResetTimer = null;
+
   // Mouse Wheel Navigation
   // When inside panel-intro: natural scrolling drives introStep via scroll listener.
   // handleGoNext/Prev are called only when at the edges (top/bottom of intro content).
@@ -318,33 +450,53 @@ document.addEventListener("DOMContentLoaded", () => {
           // At hero — trigger transition to About
           handleGoNext();
         } else {
-          // At About — if at bottom of scroll container, slide to Craft
+          // At About — if at bottom of scroll container, require intentional second push before advancing
           const atBottom = panelIntroContent.scrollTop + panelIntroContent.clientHeight >= panelIntroContent.scrollHeight - 20;
-          if (atBottom) handleGoNext();
-          // else: let native scroll happen
+          if (atBottom) {
+            edgeScrollAccumulator += Math.abs(e.deltaY);
+            clearTimeout(edgeScrollResetTimer);
+            edgeScrollResetTimer = setTimeout(() => { edgeScrollAccumulator = 0; }, 400);
+            if (edgeScrollAccumulator > 120) {
+              edgeScrollAccumulator = 0;
+              handleGoNext();
+            }
+          }
         }
       } else {
         // Scrolling up
         if (introStep === 1) {
           const atTop = panelIntroContent.scrollTop <= 80;
           if (atTop) handleGoPrev();
-          // else: let native scroll happen
         }
       }
     } else {
       const activeContent = panels[currentTabIndex] ? panels[currentTabIndex].querySelector(".leaf-content") : null;
       if (activeContent) {
         if (e.deltaY > 0) {
-          // Scrolling down: check if reached bottom of leaf-content
-          const atBottom = activeContent.scrollTop + activeContent.clientHeight >= activeContent.scrollHeight - 10;
+          // Scrolling down: if stage is open in Craft, provide generous resistance so user doesn't slip away
+          const isCraftStageOpen = currentTabIndex === 1 && document.querySelector(".craft-detail-stage.open");
+          const threshold = isCraftStageOpen ? 220 : 100;
+          const atBottom = activeContent.scrollTop + activeContent.clientHeight >= activeContent.scrollHeight - 15;
           if (atBottom) {
-            handleGoNext();
+            edgeScrollAccumulator += Math.abs(e.deltaY);
+            clearTimeout(edgeScrollResetTimer);
+            edgeScrollResetTimer = setTimeout(() => { edgeScrollAccumulator = 0; }, 500);
+            if (edgeScrollAccumulator >= threshold) {
+              edgeScrollAccumulator = 0;
+              handleGoNext();
+            }
           }
         } else {
           // Scrolling up: check if reached top of leaf-content
           const atTop = activeContent.scrollTop <= 10;
           if (atTop) {
-            handleGoPrev();
+            edgeScrollAccumulator += Math.abs(e.deltaY);
+            clearTimeout(edgeScrollResetTimer);
+            edgeScrollResetTimer = setTimeout(() => { edgeScrollAccumulator = 0; }, 400);
+            if (edgeScrollAccumulator >= 100) {
+              edgeScrollAccumulator = 0;
+              handleGoPrev();
+            }
           }
         }
       } else {
@@ -587,6 +739,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (wrapper) {
     wrapper.addEventListener("scroll", () => {
       if (!isMobile() || !mobileBackToTop) return;
+      if (document.body.classList.contains("craft-stage-active")) return;
       if (wrapper.scrollTop > 80) {
         mobileBackToTop.classList.add("visible");
       } else {
@@ -607,6 +760,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const sectionObserver = new IntersectionObserver((entries) => {
     if (!isMobile()) return; /* ignore on desktop */
+    // If mobile stage is open, ignore scroll observations so background state never changes
+    if (document.body.classList.contains("craft-stage-active")) return;
+
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
       const id = entry.target.id;
@@ -620,13 +776,22 @@ document.addEventListener("DOMContentLoaded", () => {
         currentTabIndex = 0;
         introStep = 0;
         setPortraitUncovered(false);
+        setCraftCardsVisible(false);
       } else if (index === 1) {
         currentTabIndex = 0;
         introStep = 1;
         setPortraitUncovered(true);
+        setCraftCardsVisible(false);
       } else {
         currentTabIndex = index - 1; // index 2 -> panel-craft (1), 3 -> works (2), 4 -> gallery (3), 5 -> contact (4)
         setPortraitUncovered(true);
+        if (index === 2) {
+          // mobile section 2 is panel-craft
+          setCraftCardsVisible(true);
+        } else {
+          setCraftCardsVisible(false);
+          closeAllCraftStages();
+        }
       }
 
       // Sync URL hash with the visible section
@@ -744,6 +909,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const el = document.getElementById(id);
       if (el) el.placeholder = text;
     });
+
+    // If Craft panel is currently active and visible, re-calculate delays for the newly displayed language cards
+    if (craftGrid && craftGrid.classList.contains("visible")) {
+      setCraftCardsVisible(true);
+    }
   }
 
   Object.entries(LANG_BUTTONS).forEach(([lang, btn]) => {

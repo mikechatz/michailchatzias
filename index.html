@@ -152,6 +152,11 @@
   <span class="lang-cn">封面</span>
 </button>
 
+<!-- MOBILE ONLY: stage return button (shown when viewing Selected Works) -->
+<button id="mobile-stage-back-btn" class="mobile-stage-back-btn" aria-label="Back to Craft">
+  <span>→</span>
+</button>
+
 <div class="book-slider-wrapper">
 
 
@@ -324,58 +329,144 @@
 
           <div class="craft-grid">
             <!-- English Cards -->
-            <div class="craft-card lang-en">
+            <div class="craft-card lang-en" data-craft-target="composition" style="cursor: pointer;">
               <span class="label">01</span>
               <h3>Composition</h3>
               <p>Classical music and music in different idioms, from small and intimate ensembles to full and bombastic orchestras.</p>
             </div>
-            <div class="craft-card lang-en">
+            <div class="craft-card lang-en" data-craft-target="orchestration">
               <span class="label">02</span>
               <h3>Orchestration</h3>
               <p>Expanding an original musical sketch into a full-fledged instrumental and orchestral arrangement.</p>
             </div>
-            <div class="craft-card lang-en">
+            <div class="craft-card lang-en" data-craft-target="violin">
               <span class="label">03</span>
               <h3>Violin</h3>
               <p>Live performance, acoustic recording, and collaborations with ensembles and producers.</p>
             </div>
-            <div class="craft-card lang-en">
+            <div class="craft-card lang-en" data-craft-target="sound-design">
               <span class="label">04</span>
               <h3>Sound Design</h3>
               <p>Custom sound creation, utilising analogue and digital modular synthesizers, and full sample manipulation.</p>
             </div>
-          <!-- <div class="craft-card lang-en">
+          <!-- <div class="craft-card lang-en" data-craft-target="game-audio">
               <span class="label">05</span>
               <h3>Game Audio</h3>
               <p>Adaptive, interactive scoring and implementation in audio middleware.</p>
             </div> -->
 
             <!-- Greek Cards (All-caps headings without accents) -->
-            <div class="craft-card lang-el">
+            <div class="craft-card lang-el" data-craft-target="composition" style="cursor: pointer;">
               <span class="label">01</span>
               <h3>ΣΥΝΘΕΣΗ</h3>
               <p>Κλασική μουσική και μουσική διαφόρων ιδιωμάτων, από μικρά και εσωστρεφή σύνολα δωματίου, έως και πλήρεις, δυναμικές ορχήστρες.</p>
             </div>
-            <div class="craft-card lang-el">
+            <div class="craft-card lang-el" data-craft-target="orchestration">
               <span class="label">02</span>
               <h3>ΕΝΟΡΧΗΣΤΡΩΣΗ</h3>
               <p>Ανάπτυξη ενός πρωτότυπου μουσικού προσχεδίου σε πλήρη οργανική ή ορχηστρική διασκευή.</p>
             </div>
-            <div class="craft-card lang-el">
+            <div class="craft-card lang-el" data-craft-target="violin">
               <span class="label">03</span>
               <h3>ΒΙΟΛΙ</h3>
               <p>Ζωντανή ερμηνεία, ηχογραφήσεις, και συνεργασίες με σύνολα και παραγωγούς.</p>
             </div>
-            <div class="craft-card lang-el">
+            <div class="craft-card lang-el" data-craft-target="sound-design">
               <span class="label">04</span>
               <h3>SOUND DESIGN</h3>
               <p>Πρωτότυπη δημιουργία ήχων, με χρήση αναλογικών και ψηφιακών αρθρωτών συνθετητών, και πλήρη επεξεργασία δειγμάτων.</p>
             </div>
-            <!-- <div class="craft-card lang-el">
+            <!-- <div class="craft-card lang-el" data-craft-target="game-audio">
               <span class="label">05</span>
               <h3>GAME AUDIO</h3>
               <p>Προσαρμοστική μουσική και υλοποίηση σε σύγχρονο audio middleware.</p>
             </div> -->
+          </div>
+
+          <!-- ============================================================
+               CRAFT EXPANDABLE STAGES (Future-proof for any craft-card)
+               ============================================================ -->
+          <div class="craft-detail-stage" id="craft-stage-composition">
+            <div class="craft-stage-header">
+              <div class="craft-stage-title-wrap">
+                <span class="label craft-stage-meta">01 / SELECTED WORKS</span>
+                <h3 class="craft-stage-title">
+                  <span class="lang-en">Selected Works</span>
+                  <span class="lang-el">Επιλεγμένα Έργα</span>
+                  <span class="lang-cn">精选作品</span>
+                </h3>
+              </div>
+              <button class="craft-stage-close-btn" aria-label="Close details">✕</button>
+            </div>
+
+            <!-- Zig-zag scores showcase: Item 1 (Image left, text right) -->
+            <div class="score-zigzag-row row-left">
+              <div class="score-preview-box">
+                <div class="score-placeholder">
+                  <span class="score-icon">𝄞</span>
+                  <p class="lang-en">Score Preview Coming Soon</p>
+                  <p class="lang-el">Παρτιτούρα σύντομα</p>
+                  <span class="score-num">SCORE 01</span>
+                </div>
+              </div>
+              <div class="score-text-box">
+                <span class="label">2024 · CHAMBER / ENSEMBLE</span>
+                <h4>emmonæ (abbr.)</h4>
+                <p class="lang-en">Original score excerpt exploring micro-polyphony, textural densities, and extended instrumental techniques.</p>
+                <p class="lang-el">Απόσπασμα πρωτότυπης παρτιτούρας με εστίαση στη μικροπολυφωνία, τις υφικές πυκνότητες και τις διευρυμένες τεχνικές οργάνων.</p>
+              </div>
+            </div>
+
+            <!-- Zig-zag scores showcase: Item 2 (Image right, text left) -->
+            <div class="score-zigzag-row row-right">
+              <div class="score-preview-box">
+                <div class="score-placeholder">
+                  <span class="score-icon">𝄞</span>
+                  <p class="lang-en">Score Preview Coming Soon</p>
+                  <p class="lang-el">Παρτιτούρα σύντομα</p>
+                  <span class="score-num">SCORE 02</span>
+                </div>
+              </div>
+              <div class="score-text-box">
+                <span class="label">2024 · SOLO CLARINET</span>
+                <h4>2 Miniatures for Solo Clarinet</h4>
+                <p class="lang-en">Contemporary solo clarinet works commissioned and premiered at the Thessaloniki Concert Hall.</p>
+                <p class="lang-el">Σύγχρονα έργα για σόλο κλαρινέτο, ανάθεση και πρώτη εκτέλεση στο Μέγαρο Μουσικής Θεσσαλονίκης.</p>
+              </div>
+            </div>
+
+            <!-- Zig-zag scores showcase: Item 3 (Image left, text right) -->
+            <div class="score-zigzag-row row-left">
+              <div class="score-preview-box">
+                <div class="score-placeholder">
+                  <span class="score-icon">𝄞</span>
+                  <p class="lang-en">Score Preview Coming Soon</p>
+                  <p class="lang-el">Παρτιτούρα σύντομα</p>
+                  <span class="score-num">SCORE 03</span>
+                </div>
+              </div>
+              <div class="score-text-box">
+                <span class="label">2023 · ORCHESTRA</span>
+                <h4>Orchestral Sketch I</h4>
+                <p class="lang-en">Full orchestral work developing melodic motifs influenced by Byzantine modes into contemporary orchestral counterpoint.</p>
+                <p class="lang-el">Έργο για πλήρη συμφωνική ορχήστρα που αναπτύσσει μελωδικά μοτίβα εμπνευσμένα από βυζαντινούς ήχους σε σύγχρονη αντίστιξη.</p>
+              </div>
+            </div>
+
+            <!-- Bottom CTA Button to subpage & close control -->
+            <div class="craft-stage-cta-wrap">
+              <a href="composition/" class="craft-stage-btn">
+                <span class="lang-en">See More<span class="btn-arrow"> →</span></span>
+                <span class="lang-el">Περισσότερα<span class="btn-arrow"> →</span></span>
+                <span class="lang-cn">了解更多<span class="btn-arrow"> →</span></span>
+              </a>
+              <button class="craft-stage-close-btn bottom-close-btn" aria-label="Close details">
+                <span>✕</span>
+                <span class="close-btn-text lang-en">Close</span>
+                <span class="close-btn-text lang-el">Κλείσιμο</span>
+                <span class="close-btn-text lang-cn">关闭</span>
+              </button>
+            </div>
           </div>
 
           <div class="panel-footer">

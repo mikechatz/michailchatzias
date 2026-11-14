@@ -611,9 +611,25 @@ nav {
 .craft-card {
   padding: 32px 20px 40px 0;
   border-bottom: 1px solid var(--line);
-  transition: background 0.3s, padding-left 0.3s;
   overflow: hidden;
   min-width: 0; /* prevents grid blowout */
+  
+  /* Staggered entrance animation: slide from right & slightly bottom + gradual materialise */
+  opacity: 0;
+  transform: translate(45px, 5px);
+  /* The delay for transform & opacity is set via CSS variable --craft-delay per visible card */
+  transition: 
+    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1) var(--craft-delay, 0s),
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) var(--craft-delay, 0s),
+    background 0.3s 0s,
+    padding-left 0.3s 0s;
+  will-change: transform, opacity;
+}
+
+/* Materialised / revealed state */
+.craft-grid.visible .craft-card {
+  opacity: 1;
+  transform: translate(0, 0);
 }
 
 .craft-card:hover {
@@ -628,12 +644,260 @@ nav {
   word-break: break-word;
 }
 
+.craft-card[data-craft-target="composition"] {
+  position: relative;
+}
+
+.craft-card[data-craft-target="composition"]::after {
+  content: "↓ EXPLORE";
+  display: block;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  margin-top: 14px;
+  opacity: 0.85;
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.craft-card[data-craft-target="composition"]:hover::after {
+  opacity: 1;
+  transform: translateY(2px);
+}
+
+.craft-card.active-card {
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom-color: var(--accent);
+}
+
+.craft-card.active-card[data-craft-target="composition"]::after {
+  content: "↑ CLOSE";
+  color: var(--fg);
+}
+
 .craft-card p {
   margin: 0;
   text-align: justify;
   color: var(--mute);
   font-size: 14px;
   line-height: 1.6;
+}
+
+/* ==========================================================================
+   CRAFT EXPANDABLE STAGES (Selected works preview drawer)
+   ========================================================================== */
+.craft-detail-stage {
+  display: none;
+  margin-top: 48px;
+  padding: 56px 44px 50px;
+  background: #141310; /* Distinct lighter tone from #0b0b0a */
+  border: 1px solid var(--line-light);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  animation: craftStageFadeIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.craft-detail-stage.open {
+  display: block;
+}
+
+@keyframes craftStageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.craft-stage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 48px;
+}
+
+.craft-stage-meta {
+  color: var(--accent);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.craft-stage-title {
+  font-size: clamp(28px, 3.8vw, 48px);
+  margin: 0;
+  text-transform: uppercase;
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+}
+
+.craft-stage-close-btn {
+  background: transparent;
+  border: 1px solid var(--line-light);
+  color: var(--mute);
+  font-family: var(--font-body);
+  font-size: 14px;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.craft-stage-close-btn:hover {
+  color: var(--fg);
+  border-color: var(--fg);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Zig-Zag Showcase Rows */
+.score-zigzag-row {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 40px;
+  align-items: center;
+  margin-bottom: 52px;
+  padding-bottom: 48px;
+  border-bottom: 1px dashed var(--line);
+}
+
+.score-zigzag-row:last-of-type {
+  border-bottom: none;
+  margin-bottom: 36px;
+  padding-bottom: 0;
+}
+
+/* Invert column order for zig-zag (row-right) */
+.score-zigzag-row.row-right {
+  grid-template-columns: 1fr 260px;
+}
+
+.score-zigzag-row.row-right .score-preview-box {
+  order: 2;
+}
+
+.score-zigzag-row.row-right .score-text-box {
+  order: 1;
+  text-align: right;
+}
+
+/* Portrait aspect-ratio score placeholder */
+.score-preview-box {
+  width: 100%;
+  max-width: 260px;
+}
+
+.score-placeholder {
+  aspect-ratio: 1 / 1.414; /* A4 Portrait ratio for musical scores */
+  background: #0b0b0a;
+  border: 1px dashed var(--line-light);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.score-placeholder:hover {
+  border-color: var(--accent);
+  background: #0e0d0b;
+}
+
+.score-placeholder .score-icon {
+  font-size: 32px;
+  color: var(--accent);
+  opacity: 0.75;
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+.score-placeholder p {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg);
+  margin: 4px 0 10px;
+}
+
+.score-placeholder .score-num {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--mute);
+}
+
+/* Score text */
+.score-text-box h4 {
+  font-size: clamp(20px, 2.2vw, 30px);
+  margin: 10px 0 12px;
+  text-transform: uppercase;
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+}
+
+.score-text-box p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #c7c2b5;
+  margin: 0;
+  max-width: 58ch;
+}
+
+.score-zigzag-row.row-right .score-text-box p {
+  margin-left: auto;
+}
+
+/* Bottom CTA Button */
+.craft-stage-cta-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 36px;
+  border-top: 1px solid var(--line);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.craft-stage-btn {
+  display: inline-block;
+  padding: 14px 38px;
+  border: 1px solid var(--fg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+
+.craft-stage-btn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* Bottom corner close button */
+.craft-stage-close-btn.bottom-close-btn {
+  width: auto;
+  height: auto;
+  padding: 13px 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-left: auto;
 }
 
 /* Works */
@@ -1475,5 +1739,112 @@ nav {
   .craft-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
+  /* Mobile Full-Screen Slide-in Overlay: slides in from the LEFT (translateX(-100%) -> 0) */
+  .craft-detail-stage {
+    display: block;
+    position: fixed;
+    top: 52px; /* below top bar */
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 52px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #141310;
+    border: none;
+    box-shadow: none;
+    margin-top: 0;
+    padding: 36px 20px 100px;
+    z-index: 150;
+    transform: translateX(-100%);
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: none;
+    pointer-events: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  .craft-detail-stage.open {
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  /* When the stage is open on mobile: lock wrapper scroll completely so nothing behind scrolls */
+  body.craft-stage-active .book-slider-wrapper {
+    overflow-y: hidden !important;
+  }
+
+  body.craft-stage-active #mobile-back-to-top {
+    display: none !important;
+  }
+
+  /* Hide the desktop close buttons on mobile — only the dedicated pill in place of rhomboids is used */
+  .craft-detail-stage .craft-stage-close-btn {
+    display: none !important;
+  }
+
+  /* Hide rhomboid panel when stage is open */
+  body.craft-stage-active .mobile-progress {
+    display: none !important;
+  }
+
+  /* Mobile Return Arrow: pure clean arrow in place of rhomboids on the right edge */
+  .mobile-stage-back-btn {
+    display: none;
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 200;
+    background: none;
+    border: none;
+    padding: 14px 16px;
+    cursor: pointer;
+    font-size: 26px;
+    font-weight: 200;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.45), 0 2px 10px rgba(0, 0, 0, 0.85);
+    transition: color 0.2s, transform 0.2s;
+  }
+
+  body.craft-stage-active .mobile-stage-back-btn {
+    display: block;
+  }
+
+  .mobile-stage-back-btn:hover,
+  .mobile-stage-back-btn:active {
+    color: var(--accent);
+    transform: translateY(-50%) translateX(-3px);
+  }
+
+  /* On mobile: card hint is "← EXPLORE" pointing left towards the window */
+  .craft-card[data-craft-target="composition"]::after {
+    content: "← EXPLORE";
+  }
+
+  .score-zigzag-row,
+  .score-zigzag-row.row-right {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .score-zigzag-row.row-right .score-preview-box,
+  .score-zigzag-row.row-right .score-text-box {
+    order: unset;
+    text-align: left;
+  }
+
+  .score-zigzag-row.row-right .score-text-box p {
+    margin-left: 0;
+  }
+
+  .score-preview-box {
+    max-width: 200px;
+  }
+
+  /* Hide the arrow on mobile for the "See More" button */
+  .craft-stage-btn .btn-arrow {
+    display: none !important;
+  }
 }
