@@ -642,6 +642,7 @@ nav {
   margin: 14px 0 12px;
   text-transform: uppercase;
   word-break: break-word;
+  padding-left: 6px;
 }
 
 .craft-card[data-craft-target="composition"] {
@@ -681,6 +682,11 @@ nav {
   color: var(--mute);
   font-size: 14px;
   line-height: 1.6;
+  padding-left: 6px;
+}
+
+.craft-card .label {
+  padding-left: 6px;
 }
 
 /* ==========================================================================
