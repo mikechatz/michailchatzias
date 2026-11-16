@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en" class="subpage gallery-page">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Gallery — Michaïl Chatziasemidis</title>
+  <link rel="canonical" href="https://michailchatzias.com/gallery/">
+  <meta name="description" content="Performances and photographs of Michaïl Chatziasemidis: concerts and performances as composer and violinist.">
+
+  <meta property="og:title" content="Gallery — Michaïl Chatziasemidis">
+  <meta property="og:description" content="Concerts and performances, by year.">
+  <meta property="og:image" content="https://michailchatzias.com/assets/background.webp">
+  <meta property="og:url" content="https://michailchatzias.com/gallery/">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Gallery — Michaïl Chatziasemidis">
+  <meta name="twitter:description" content="Concerts and performances, by year.">
+  <meta name="twitter:image" content="https://michailchatzias.com/assets/background.webp">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>𝄞</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+
+  <!-- Title-screen intro: switched on here so the page never flashes before the black screen (off for "reduce motion") -->
+  <script>
+    try { if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("gal-intro-on"); } catch (e) {}
+  </script>
+
+  <!-- Shared styles first, then everything specific to this page -->
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="gallery.css">
+
+  <!-- Without JavaScript, show every year at once instead of an empty page -->
+  <noscript><style>.year-panel[hidden] { display: block; } .gal-pane { opacity: 1; visibility: visible; position: static; } .gal-years, .gal-hint, .gal-clear { display: none; } .gal-intro { display: none !important; } .gal-title { visibility: visible !important; } .gal-scroller { position: static; overflow: visible; }</style></noscript>
+</head>
+<body class="subpage lang-en-active"
+      data-title-en="Gallery — Michaïl Chatziasemidis"
+      data-title-el="Γκαλερί — Μιχαήλ Χατζηασεμίδης"
+      data-title-cn="画廊 — 米哈伊尔·Chatziasemidis">
+
+  <!-- Title-screen intro (see gallery.js, "intro"). Black screen with GALLERY; the word then settles into the banner's title. -->
+  <div class="gal-intro" id="gal-intro" aria-hidden="true"><div class="gal-intro-bg"></div></div>
+
+
+  <script>
+    try {
+      var l = localStorage.getItem("preferred_lang");
+      if (l === "el" || l === "cn") {
+        document.documentElement.lang = l;
+        document.body.className = "subpage lang-" + l + "-active";
+      }
+    } catch (e) {}
+  </script>
+
+  <header class="sub-nav">
+    <a class="nav-brand" href="../" aria-label="Back to the main page">M.</a>
+
+    <div class="sub-nav-links" role="navigation" aria-label="Main">
+      <a href="../#about">
+        <span class="lang-en">About</span>
+        <span class="lang-el">Σχετικά</span>
+        <span class="lang-cn">关于</span>
+      </a>
+      <a href="../#expertise">
+        <span class="lang-en">Expertise</span>
+        <span class="lang-el">Ειδικότητες</span>
+        <span class="lang-cn">专业</span>
+      </a>
+      <a href="../#works">
+        <span class="lang-en">Works</span>
+        <span class="lang-el">Έργα</span>
+        <span class="lang-cn">作品</span>
+      </a>
+      <a href="./" class="active" aria-current="page">
+        <span class="lang-en">Gallery</span>
+        <span class="lang-el">Γκαλερί</span>
+        <span class="lang-cn">画廊</span>
+      </a>
+      <a href="../contact/">
+        <span class="lang-en">Contact</span>
+        <span class="lang-el">Επικοινωνία</span>
+        <span class="lang-cn">联系</span>
+      </a>
+    </div>
+
+    <div class="sub-lang">
+      <button class="lang-btn active" id="btn-lang-en" data-lang="en">EN</button>
+      <span class="lang-sep">/</span>
+      <button class="lang-btn" id="btn-lang-el" data-lang="el">ΕΛ</button>
+      <!-- <span class="lang-sep">/</span>
+      <button class="lang-btn" id="btn-lang-cn">中文</button> -->
+    </div>
+    <button type="button" id="mobile-hamburger" class="mobile-hamburger" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- MOBILE ONLY: hamburger menu (styles are the same as the main page's, from style.css; behaviour is in subpage.js) -->
+  <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+    <button type="button" id="mobile-menu-close" class="mobile-menu-close" aria-label="Close menu">✕</button>
+    <div class="mobile-menu-nav" role="navigation" aria-label="Main">
+    <a class="mobile-menu-link" href="../#about">
+      <span class="lang-en">About</span>
+      <span class="lang-el">Σχετικά</span>
+      <span class="lang-cn">关于</span>
+    </a>
+    <a class="mobile-menu-link" href="../#expertise">
+      <span class="lang-en">Expertise</span>
+      <span class="lang-el">Ειδικότητες</span>
+      <span class="lang-cn">专业</span>
+    </a>
+    <a class="mobile-menu-link" href="../#works">
+      <span class="lang-en">Works</span>
+      <span class="lang-el">Έργα</span>
+      <span class="lang-cn">作品</span>
+    </a>
+    <a class="mobile-menu-link active" href="../gallery/" aria-current="page">
+      <span class="lang-en">Gallery</span>
+      <span class="lang-el">Γκαλερί</span>
+      <span class="lang-cn">画廊</span>
+    </a>
+    <a class="mobile-menu-link" href="../contact/">
+      <span class="lang-en">Contact</span>
+      <span class="lang-el">Επικοινωνία</span>
+      <span class="lang-cn">联系</span>
+    </a>
+    </div>
+    <div class="mobile-menu-lang">
+      <button type="button" class="lang-btn active" data-lang="en">EN</button>
+      <span class="lang-sep">|</span>
+      <button type="button" class="lang-btn" data-lang="el">ΕΛ</button>
+    </div>
+  </div>
+  <div id="mobile-menu-backdrop" class="mobile-menu-backdrop"></div>
+
+  <main class="gal-main">
+  <div class="gal-scroller" id="gal-scroller">
+
+    <!-- ======================================================================
+         BANNER: title, the branching arrows and the two options
+         ====================================================================== -->
+    <section class="gal-banner" id="gal-banner" aria-label="Gallery">
+      <div class="gal-banner-bg" aria-hidden="true"></div>
+      <div class="gal-banner-inner">
+        <h1 class="gal-title">
+          <span class="lang-en">Gallery</span>
+          <span class="lang-el">Γκαλερί</span>
+          <span class="lang-cn">画廊</span>
+        </h1>
+
+        <svg class="gal-branch" viewBox="0 0 480 110" aria-hidden="true" focusable="false">
+          <path d="M240 0 V34 L120 100 M240 34 L360 100" />
+          <path class="head" d="M133 100.4 L120 100 L126.9 89" />
+          <path class="head" d="M347 100.4 L360 100 L353.1 89" />
+        </svg>
+
+        <div class="gal-options">
+          <button type="button" class="gal-option" data-go="performances">
+            <span class="lang-en">Performances</span>
+            <span class="lang-el">Συναυλίες</span>
+          </button>
+          <button type="button" class="gal-option" data-go="photos">
+            <span class="lang-en">Photos</span>
+            <span class="lang-el">Φωτογραφίες</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         PERFORMANCES
+         The years on the left are built automatically from the year panels
+         below. To add a year, add a new <section class="year-panel">.
+         ====================================================================== -->
+    <section class="gal-perf" id="gal-perf" aria-label="Performances">
+
+      <canvas class="gal-line" id="gal-line" aria-hidden="true"></canvas>
+
+      <div class="gal-years" id="gal-years" role="group" aria-label="Years"></div>
+
+      <button type="button" class="gal-clear" id="gal-clear" aria-label="Close the open year">✕</button>
+
+      <p class="gal-hint" id="gal-hint">
+        <span class="lang-en">Select a year</span>
+        <span class="lang-el">Επιλέξτε έτος</span>
+      </p>
+
+      <div class="gal-pane" id="gal-pane" tabindex="-1">
+
+        <!-- ==================================================================
+             HOW TO EDIT THIS PAGE
+
+             1. A YEAR is one <section class="year-panel" data-year="2025" hidden>.
+                The years sort themselves (newest first on desktop).
+
+             2. A CONCERT is one <article class="concert"> inside a year.
+                Put the newest concert first.
+
+             3. A VIDEO is one line:
+                <div class="vid v-wide" data-yt="VIDEO_ID" data-poster="../assets/gallery/name.webp" data-title="Title"></div>
+
+                data-yt      the YouTube id: the part after v= in the address
+                             (youtube.com/watch?v=THIS_PART, or youtu.be/THIS_PART,
+                             or youtube.com/shorts/THIS_PART). Leave it empty for a
+                             "coming soon" tile.
+                data-poster  a still image for the tile (a small .webp, about 40 KB).
+                             Optional. Without it the tile is a plain dark frame.
+                data-title   shown to screen readers and used as the player's title.
+
+             4. VIDEO SIZES: change the second word of class="vid ..."
+                v-wide    large, 16:9
+                v-std     medium, 16:9
+                v-short   tall 9:16, for short clips and Shorts
+                v-offset  optional extra word that pushes the tile down a little,
+                          for a more irregular rhythm: class="vid v-std v-offset"
+
+                The grid packs the tiles by itself. If two tiles do not sit
+                the way you want, swap their order or change one size word.
+                ================================================================== -->
+
+        <!-- ──────────────────────────── 2026 ──────────────────────────── -->
+        <section class="year-panel" data-year="2026" hidden>
+          <article class="concert">
+            <header class="concert-head">
+              <span class="concert-date">DD.MM</span>
+              <h2 class="concert-title">
+                <span class="lang-en">Concert title goes here</span>
+                <span class="lang-el">Ο τίτλος της συναυλίας εδώ</span>
+              </h2>
+              <p class="concert-meta">
+                <span class="lang-en">Venue · ensemble</span>
+                <span class="lang-el">Χώρος · σύνολο</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide" data-yt="" data-poster="" data-title="Video title"></div>
+              <div class="vid v-short" data-yt="" data-poster="" data-title="Video title"></div>
+            </div>
+          </article>
+        </section>
+
+        <!-- ──────────────────────────── 2025 ──────────────────────────── -->
+        <section class="year-panel" data-year="2025" hidden>
+          <article class="concert">
+            <header class="concert-head">
+              <span class="concert-date">DD.MM</span>
+              <h2 class="concert-title">
+                <span class="lang-en">Concert title goes here</span>
+                <span class="lang-el">Ο τίτλος της συναυλίας εδώ</span>
+              </h2>
+              <p class="concert-meta">
+                <span class="lang-en">Venue · ensemble</span>
+                <span class="lang-el">Χώρος · σύνολο</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide" data-yt="" data-poster="" data-title="Video title"></div>
+              <div class="vid v-short" data-yt="" data-poster="" data-title="Video title"></div>
+              <div class="vid v-std v-offset" data-yt="" data-poster="" data-title="Video title"></div>
+              <div class="vid v-short" data-yt="" data-poster="" data-title="Video title"></div>
+            </div>
+          </article>
+
+          <article class="concert">
+            <header class="concert-head">
+              <span class="concert-date">DD.MM</span>
+              <h2 class="concert-title">
+                <span class="lang-en">Another concert title</span>
+                <span class="lang-el">Ένας άλλος τίτλος συναυλίας</span>
+              </h2>
+              <p class="concert-meta">
+                <span class="lang-en">Venue · ensemble</span>
+                <span class="lang-el">Χώρος · σύνολο</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-std" data-yt="" data-poster="" data-title="Video title"></div>
+              <div class="vid v-std v-offset" data-yt="" data-poster="" data-title="Video title"></div>
+            </div>
+          </article>
+        </section>
+
+        <!-- ──────────────────────────── 2024 ──────────────────────────── -->
+        <section class="year-panel" data-year="2024" hidden>
+          <article class="concert">
+            <header class="concert-head">
+              <span class="concert-date">DD.MM</span>
+              <h2 class="concert-title">
+                <span class="lang-en">Concert title goes here</span>
+                <span class="lang-el">Ο τίτλος της συναυλίας εδώ</span>
+              </h2>
+              <p class="concert-meta">
+                <span class="lang-en">Venue · ensemble</span>
+                <span class="lang-el">Χώρος · σύνολο</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide" data-yt="" data-poster="" data-title="Video title"></div>
+              <div class="vid v-short" data-yt="" data-poster="" data-title="Video title"></div>
+            </div>
+          </article>
+        </section>
+
+        <!-- ──────────────────────────── 2023 ──────────────────────────── -->
+        <section class="year-panel" data-year="2023" hidden>
+          <article class="concert">
+            <header class="concert-head">
+              <span class="concert-date">DD.MM</span>
+              <h2 class="concert-title">
+                <span class="lang-en">Concert title goes here</span>
+                <span class="lang-el">Ο τίτλος της συναυλίας εδώ</span>
+              </h2>
+              <p class="concert-meta">
+                <span class="lang-en">Venue · ensemble</span>
+                <span class="lang-el">Χώρος · σύνολο</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide" data-yt="" data-poster="" data-title="Video title"></div>
+              <div class="vid v-short" data-yt="" data-poster="" data-title="Video title"></div>
+            </div>
+          </article>
+        </section>
+
+        <!-- ──────────────────────────── 2022 ──────────────────────────── -->
+        <section class="year-panel" data-year="2022" hidden>
+          <article class="concert">
+            <header class="concert-head">
+              <span class="concert-date">DD.MM</span>
+              <h2 class="concert-title">
+                <span class="lang-en">Concert title goes here</span>
+                <span class="lang-el">Ο τίτλος της συναυλίας εδώ</span>
+              </h2>
+              <p class="concert-meta">
+                <span class="lang-en">Venue · ensemble</span>
+                <span class="lang-el">Χώρος · σύνολο</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide" data-yt="" data-poster="" data-title="Video title"></div>
+              <div class="vid v-short" data-yt="" data-poster="" data-title="Video title"></div>
+            </div>
+          </article>
+        </section>
+
+        <!-- ──────────────────────────── 2021 ──────────────────────────── -->
+        <section class="year-panel" data-year="2021" hidden>
+          <article class="concert">
+            <header class="concert-head">
+              <span class="concert-date">DD.MM</span>
+              <h2 class="concert-title">
+                <span class="lang-en">Concert title goes here</span>
+                <span class="lang-el">Ο τίτλος της συναυλίας εδώ</span>
+              </h2>
+              <p class="concert-meta">
+                <span class="lang-en">Venue · ensemble</span>
+                <span class="lang-el">Χώρος · σύνολο</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide" data-yt="" data-poster="" data-title="Video title"></div>
+              <div class="vid v-short" data-yt="" data-poster="" data-title="Video title"></div>
+            </div>
+          </article>
+        </section>
+
+        <!-- ──────────────────────────── 2020 ──────────────────────────── -->
+        <section class="year-panel" data-year="2020" hidden>
+          <article class="concert">
+            <header class="concert-head">
+              <span class="concert-date">DD.MM</span>
+              <h2 class="concert-title">
+                <span class="lang-en">Concert title goes here</span>
+                <span class="lang-el">Ο τίτλος της συναυλίας εδώ</span>
+              </h2>
+              <p class="concert-meta">
+                <span class="lang-en">Venue · ensemble</span>
+                <span class="lang-el">Χώρος · σύνολο</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide" data-yt="" data-poster="" data-title="Video title"></div>
+              <div class="vid v-short" data-yt="" data-poster="" data-title="Video title"></div>
+            </div>
+          </article>
+        </section>
+
+        <!-- ──────────────────────────── 2019 ──────────────────────────── -->
+        <section class="year-panel" data-year="2019" hidden>
+          <article class="concert">
+            <header class="concert-head">
+              <span class="concert-date">DD.MM</span>
+              <h2 class="concert-title">
+                <span class="lang-en">Concert title goes here</span>
+                <span class="lang-el">Ο τίτλος της συναυλίας εδώ</span>
+              </h2>
+              <p class="concert-meta">
+                <span class="lang-en">Venue · ensemble</span>
+                <span class="lang-el">Χώρος · σύνολο</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide" data-yt="" data-poster="" data-title="Video title"></div>
+              <div class="vid v-short" data-yt="" data-poster="" data-title="Video title"></div>
+            </div>
+          </article>
+        </section>
+
+        <div class="panel-footer gal-foot">
+          <span class="label lang-en">© 2026 Michaïl Chatziasemidis. All rights reserved.</span>
+          <span class="label lang-el">© 2026 ΜΙΧΑΗΛ ΧΑΤΖΗΑΣΕΜΙΔΗΣ. ΜΕ ΤΗΝ ΕΠΙΦΥΛΑΞΗ ΠΑΝΤΟΣ ΔΙΚΑΙΩΜΑΤΟΣ.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         PHOTOS (placeholder until we design it)
+         ====================================================================== -->
+    <section class="gal-photos" id="gal-photos" aria-label="Photos">
+      <p class="gal-stub">
+        <span class="lang-en">Photos · coming soon</span>
+        <span class="lang-el">Φωτογραφίες · σύντομα</span>
+      </p>
+    </section>
+
+  </div>
+</main>
+
+  <script src="../subpage.js"></script>
+  <script src="gallery.js"></script>
+</body>
+</html>

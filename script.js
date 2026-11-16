@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ------------------------------------------------------------------------
   const panels = [
     document.getElementById("panel-intro"),
-    document.getElementById("panel-craft"),
+    document.getElementById("panel-expertise"),
     document.getElementById("panel-works"),
     document.getElementById("panel-gallery"),
     document.getElementById("panel-contact")
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const panelIntroContent = document.getElementById("panel-intro-content");
   const sectionAbout = document.getElementById("section-about");
   const portraitBox = document.getElementById("portrait-box");
-  const craftGrid = document.querySelector(".craft-grid");
+  const expertiseGrid = document.querySelector(".expertise-grid");
   const progress = document.getElementById("slide-progress");
   const totalPanels = panels.length; // 5 panels
 
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (aboutTab) aboutTab.classList.add("active");
       }
     } else {
-      const tabIds = ["", "tab-nav-craft", "tab-nav-works", "tab-nav-gallery", "tab-nav-contact"];
+      const tabIds = ["", "tab-nav-expertise", "tab-nav-works", "tab-nav-gallery", "tab-nav-contact"];
       const activeEl = document.getElementById(tabIds[index]);
       if (activeEl) activeEl.classList.add("active");
     }
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateAboutMargin() {
     if (!introSpine) return;
     if (currentTabIndex > 0) {
-      // Always visible docked on the left for Craft, Works, Gallery, Contact
+      // Always visible docked on the left for Expertise, Works, Gallery, Contact
       introSpine.classList.add("visible");
     } else {
       // In Panel 0: visible when scrolled to About (introStep === 1), hidden in Hero shot
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const introRatio = fraction * 0.20;
       progress.style.transform = `scaleX(${introRatio})`;
     } else {
-      // Craft: 0.40, Works: 0.60, Gallery: 0.80, Contact: 1.00
+      // Expertise: 0.40, Works: 0.60, Gallery: 0.80, Contact: 1.00
       const panelRatio = (currentTabIndex + 1) / totalPanels;
       progress.style.transform = `scaleX(${panelRatio})`;
     }
@@ -124,8 +124,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (index === 0) {
-      setCraftCardsVisible(false);
-      closeAllCraftStages();
+      setExpertiseCardsVisible(false);
+      closeAllExpertiseStages();
       if (subTarget === "about") {
         introStep = 1;
         updateActiveNav(0, true);
@@ -154,11 +154,11 @@ document.addEventListener("DOMContentLoaded", () => {
       setPortraitUncovered(true);
 
       if (index === 1) {
-        // Trigger staggered materialisation as Craft panel opens
-        setTimeout(() => setCraftCardsVisible(true), 150);
+        // Trigger staggered materialisation as Expertise panel opens
+        setTimeout(() => setExpertiseCardsVisible(true), 150);
       } else {
-        setCraftCardsVisible(false);
-        closeAllCraftStages();
+        setExpertiseCardsVisible(false);
+        closeAllExpertiseStages();
       }
     }
   }
@@ -211,94 +211,94 @@ document.addEventListener("DOMContentLoaded", () => {
     portraitBox.classList.toggle("uncovered", uncovered);
   }
 
-  // Helper: trigger craft cards staggered entrance
-  function setCraftCardsVisible(visible) {
-    if (!craftGrid) return;
+  // Helper: trigger expertise cards staggered entrance
+  function setExpertiseCardsVisible(visible) {
+    if (!expertiseGrid) return;
     if (visible) {
-      // Find all currently displayed craft-cards (for the active language)
-      const visibleCards = Array.from(craftGrid.querySelectorAll(".craft-card")).filter(
+      // Find all currently displayed expertise-cards (for the active language)
+      const visibleCards = Array.from(expertiseGrid.querySelectorAll(".expertise-card")).filter(
         card => window.getComputedStyle(card).display !== "none"
       );
       // Assign dynamic sequential delays: 0.08s, 0.18s, 0.28s, 0.38s, ...
       visibleCards.forEach((card, idx) => {
         const delay = (0.08 + idx * 0.10).toFixed(2);
-        card.style.setProperty("--craft-delay", `${delay}s`);
+        card.style.setProperty("--expertise-delay", `${delay}s`);
       });
-      craftGrid.classList.add("visible");
+      expertiseGrid.classList.add("visible");
     } else {
-      craftGrid.classList.remove("visible");
+      expertiseGrid.classList.remove("visible");
     }
   }
 
   // ------------------------------------------------------------------------
-  // CRAFT DETAIL STAGE CONTROLLER (Expandable Selected Works Stage)
+  // EXPERTISE DETAIL STAGE CONTROLLER (Expandable Selected Works Stage)
   // ------------------------------------------------------------------------
-  const craftCards = document.querySelectorAll(".craft-card");
-  const craftStages = document.querySelectorAll(".craft-detail-stage");
+  const expertiseCards = document.querySelectorAll(".expertise-card");
+  const expertiseStages = document.querySelectorAll(".expertise-detail-stage");
   const mobileStageBackBtn = document.getElementById("mobile-stage-back-btn");
 
-  function closeAllCraftStages() {
-    craftStages.forEach(stage => stage.classList.remove("open"));
-    craftCards.forEach(card => card.classList.remove("active-card"));
-    document.body.classList.remove("craft-stage-active");
-    // Ensure craft cards are visible on mobile after closing the stage
+  function closeAllExpertiseStages() {
+    expertiseStages.forEach(stage => stage.classList.remove("open"));
+    expertiseCards.forEach(card => card.classList.remove("active-card"));
+    document.body.classList.remove("expertise-stage-active");
+    // Ensure expertise cards are visible on mobile after closing the stage
     if (isMobile()) {
-      setCraftCardsVisible(true);
+      setExpertiseCardsVisible(true);
     }
   }
 
-  function openCraftStage(targetId) {
-    const stage = document.getElementById(`craft-stage-${targetId}`);
+  function openExpertiseStage(targetId) {
+    const stage = document.getElementById(`expertise-stage-${targetId}`);
     if (!stage) return;
     const isAlreadyOpen = stage.classList.contains("open");
 
-    closeAllCraftStages();
+    closeAllExpertiseStages();
 
     if (!isAlreadyOpen) {
       stage.classList.add("open");
-      document.body.classList.add("craft-stage-active");
+      document.body.classList.add("expertise-stage-active");
       // Mark active cards matching this target
-      document.querySelectorAll(`.craft-card[data-craft-target="${targetId}"]`).forEach(c => {
+      document.querySelectorAll(`.expertise-card[data-expertise-target="${targetId}"]`).forEach(c => {
         c.classList.add("active-card");
       });
 
       if (isMobile()) {
-        // Mobile view: scroll stage to top and keep craft cards visible underneath
+        // Mobile view: scroll stage to top and keep expertise cards visible underneath
         stage.scrollTop = 0;
-        setCraftCardsVisible(true);
+        setExpertiseCardsVisible(true);
       } else {
         // Desktop view: smoothly scroll down towards the stage inside leaf-content
         setTimeout(() => {
-          const craftLeaf = document.querySelector("#panel-craft .leaf-content");
-          if (craftLeaf) {
+          const expertiseLeaf = document.querySelector("#panel-expertise .leaf-content");
+          if (expertiseLeaf) {
             const stageTop = stage.offsetTop - 40;
-            craftLeaf.scrollTo({ top: stageTop, behavior: "smooth" });
+            expertiseLeaf.scrollTo({ top: stageTop, behavior: "smooth" });
           }
         }, 100);
       }
     }
   }
 
-  craftCards.forEach(card => {
+  expertiseCards.forEach(card => {
     card.addEventListener("click", () => {
-      const target = card.dataset.craftTarget;
+      const target = card.dataset.expertiseTarget;
       if (!target) return;
-      openCraftStage(target);
+      openExpertiseStage(target);
     });
   });
 
   // Close buttons inside stages
-  document.querySelectorAll(".craft-stage-close-btn").forEach(btn => {
+  document.querySelectorAll(".expertise-stage-close-btn").forEach(btn => {
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
-      closeAllCraftStages();
+      closeAllExpertiseStages();
     });
   });
 
   // Mobile dedicated return button
   if (mobileStageBackBtn) {
     mobileStageBackBtn.addEventListener("click", () => {
-      closeAllCraftStages();
+      closeAllExpertiseStages();
     });
   }
 
@@ -306,7 +306,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let stageTouchStartX = 0;
   let stageTouchStartY = 0;
 
-  craftStages.forEach(stage => {
+  expertiseStages.forEach(stage => {
     stage.addEventListener("touchstart", (e) => {
       if (!isMobile()) return;
       if (e.touches && e.touches.length > 0) {
@@ -323,7 +323,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Predominantly horizontal swipe to the left of at least 45px
       if (deltaX > 45 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
-        closeAllCraftStages();
+        closeAllExpertiseStages();
       }
     }, { passive: true });
   });
@@ -367,13 +367,13 @@ document.addEventListener("DOMContentLoaded", () => {
           isNavigating = false;
         }, 450);
       } else {
-        // Step 2: At About -> Slide to Craft (Leaf 1)
+        // Step 2: At About -> Slide to Expertise (Leaf 1)
         isNavigating = true;
         goToTab(1);
         setTimeout(() => { isNavigating = false; }, 650);
       }
     } else {
-      // In Craft, Works, Gallery, Contact -> keep sliding forward
+      // In Expertise, Works, Gallery, Contact -> keep sliding forward
       if (currentTabIndex < totalPanels - 1) {
         isNavigating = true;
         goToTab(currentTabIndex + 1);
@@ -440,6 +440,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // When inside panel-intro: natural scrolling drives introStep via scroll listener.
   // handleGoNext/Prev are called only when at the edges (top/bottom of intro content).
   window.addEventListener("wheel", (e) => {
+    // Mobile layout: let the browser scroll natively (same as a finger swipe).
+    // Without this, a mouse wheel used the desktop slide navigation and jumped sections.
+    if (isMobile()) return;
     if (Math.abs(e.deltaY) < 20) return;
 
     if (currentTabIndex === 0) {
@@ -473,9 +476,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const activeContent = panels[currentTabIndex] ? panels[currentTabIndex].querySelector(".leaf-content") : null;
       if (activeContent) {
         if (e.deltaY > 0) {
-          // Scrolling down: if stage is open in Craft, provide generous resistance so user doesn't slip away
-          const isCraftStageOpen = currentTabIndex === 1 && document.querySelector(".craft-detail-stage.open");
-          const threshold = isCraftStageOpen ? 220 : 100;
+          // Scrolling down: if stage is open in Expertise, provide generous resistance so user doesn't slip away
+          const isExpertiseStageOpen = currentTabIndex === 1 && document.querySelector(".expertise-detail-stage.open");
+          const threshold = isExpertiseStageOpen ? 220 : 100;
           const atBottom = activeContent.scrollTop + activeContent.clientHeight >= activeContent.scrollHeight - 15;
           if (atBottom) {
             edgeScrollAccumulator += Math.abs(e.deltaY);
@@ -592,7 +595,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const mobileSnapSections = [
     "section-hero",    /* rhomboid hidden */
     "section-about",   /* rhomboid 0 */
-    "panel-craft",     /* rhomboid 1 */
+    "panel-expertise",     /* rhomboid 1 */
     "panel-works",     /* rhomboid 2 */
     "panel-gallery",   /* rhomboid 3 */
     "panel-contact"    /* rhomboid 4 */
@@ -624,7 +627,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       } else {
         targetSectionId = panels[currentTabIndex] ? panels[currentTabIndex].id : "section-hero";
-        snapIndex = currentTabIndex + 1; // craft (tab 1) -> snap index 2, works (2) -> 3, gallery (3) -> 4, contact (4) -> 5
+        snapIndex = currentTabIndex + 1; // expertise (tab 1) -> snap index 2, works (2) -> 3, gallery (3) -> 4, contact (4) -> 5
       }
 
       mobileGoTo(targetSectionId, false);
@@ -644,9 +647,9 @@ document.addEventListener("DOMContentLoaded", () => {
     el.scrollIntoView({ behavior: smooth ? "smooth" : "instant" });
   }
 
-  /* ── Update rhomboids (section index 0=hero,1=about,2=craft...) ── */
+  /* ── Update rhomboids (section index 0=hero,1=about,2=expertise...) ── */
   function updateMobileRhomboids(sectionIndex) {
-    /* rhomboid 0 = about (index 1), rhomboid 1 = craft (index 2) etc.
+    /* rhomboid 0 = about (index 1), rhomboid 1 = expertise (index 2) etc.
        hero (index 0) = no active rhomboid */
     const rhomboidIndex = sectionIndex - 1;
     mobileRhomboids.forEach((r, i) => {
@@ -676,10 +679,10 @@ document.addEventListener("DOMContentLoaded", () => {
   if (mobileMenuClose)    mobileMenuClose.addEventListener("click", closeMobileMenu);
   if (mobileMenuBackdrop) mobileMenuBackdrop.addEventListener("click", closeMobileMenu);
 
-  /* Menu links: about, craft, works, gallery, contact */
+  /* Menu links: about, expertise, works, gallery, contact */
   const menuSectionIds = [
     "section-about",
-    "panel-craft",
+    "panel-expertise",
     "panel-works",
     "panel-gallery",
     "panel-contact"
@@ -692,15 +695,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* Rhomboid clicks: about, craft, works, gallery, contact */
+  /* Rhomboid clicks: about, expertise, works, gallery, contact */
   const rhomboidSectionIds = [
     "section-about",
-    "panel-craft",
+    "panel-expertise",
     "panel-works",
     "panel-gallery",
     "panel-contact"
   ];
-  const rhomboidHashes = ["#about", "#craft", "#works", "#gallery", "#contact"];
+  const rhomboidHashes = ["#about", "#expertise", "#works", "#gallery", "#contact"];
   mobileRhomboids.forEach((r, i) => {
     r.addEventListener("click", () => {
       if (!isMobile()) return;
@@ -739,7 +742,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (wrapper) {
     wrapper.addEventListener("scroll", () => {
       if (!isMobile() || !mobileBackToTop) return;
-      if (document.body.classList.contains("craft-stage-active")) return;
+      if (document.body.classList.contains("expertise-stage-active")) return;
       if (wrapper.scrollTop > 80) {
         mobileBackToTop.classList.add("visible");
       } else {
@@ -761,7 +764,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const sectionObserver = new IntersectionObserver((entries) => {
     if (!isMobile()) return; /* ignore on desktop */
     // If mobile stage is open, ignore scroll observations so background state never changes
-    if (document.body.classList.contains("craft-stage-active")) return;
+    if (document.body.classList.contains("expertise-stage-active")) return;
 
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
@@ -776,26 +779,26 @@ document.addEventListener("DOMContentLoaded", () => {
         currentTabIndex = 0;
         introStep = 0;
         setPortraitUncovered(false);
-        setCraftCardsVisible(false);
+        setExpertiseCardsVisible(false);
       } else if (index === 1) {
         currentTabIndex = 0;
         introStep = 1;
         setPortraitUncovered(true);
-        setCraftCardsVisible(false);
+        setExpertiseCardsVisible(false);
       } else {
-        currentTabIndex = index - 1; // index 2 -> panel-craft (1), 3 -> works (2), 4 -> gallery (3), 5 -> contact (4)
+        currentTabIndex = index - 1; // index 2 -> panel-expertise (1), 3 -> works (2), 4 -> gallery (3), 5 -> contact (4)
         setPortraitUncovered(true);
         if (index === 2) {
-          // mobile section 2 is panel-craft
-          setCraftCardsVisible(true);
+          // mobile section 2 is panel-expertise
+          setExpertiseCardsVisible(true);
         } else {
-          setCraftCardsVisible(false);
-          closeAllCraftStages();
+          setExpertiseCardsVisible(false);
+          closeAllExpertiseStages();
         }
       }
 
       // Sync URL hash with the visible section
-      const mobileHashMap = ["", "#about", "#craft", "#works", "#gallery", "#contact"];
+      const mobileHashMap = ["", "#about", "#expertise", "#works", "#gallery", "#contact"];
       const newHash = mobileHashMap[index] || "";
       history.replaceState(null, "", newHash || window.location.pathname);
     });
@@ -910,9 +913,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (el) el.placeholder = text;
     });
 
-    // If Craft panel is currently active and visible, re-calculate delays for the newly displayed language cards
-    if (craftGrid && craftGrid.classList.contains("visible")) {
-      setCraftCardsVisible(true);
+    // If Expertise panel is currently active and visible, re-calculate delays for the newly displayed language cards
+    if (expertiseGrid && expertiseGrid.classList.contains("visible")) {
+      setExpertiseCardsVisible(true);
     }
   }
 
@@ -996,13 +999,14 @@ document.addEventListener("DOMContentLoaded", () => {
   updateProgress();
 
   // ------------------------------------------------------------------------
-  // 5. HASH-BASED DEEP LINKS  (#hero · #about · #craft · #works · #gallery · #contact)
+  // 5. HASH-BASED DEEP LINKS  (#hero · #about · #expertise · #works · #gallery · #contact)
   // ------------------------------------------------------------------------
 
   /* Map hash → { tab, sub } */
   const HASH_MAP = {
     "#about":   { tab: 0, sub: "about" },
-    "#craft":   { tab: 1, sub: null },
+    "#expertise":   { tab: 1, sub: null },
+    "#craft":    { tab: 1, sub: null },   // legacy name, so old shared links still work
     "#works":   { tab: 2, sub: null },
     "#gallery": { tab: 3, sub: null },
     "#contact": { tab: 4, sub: null },
@@ -1012,7 +1016,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateHash() {
     let hash = "";
     if (currentTabIndex === 0 && introStep === 1) hash = "#about";
-    else if (currentTabIndex === 1) hash = "#craft";
+    else if (currentTabIndex === 1) hash = "#expertise";
     else if (currentTabIndex === 2) hash = "#works";
     else if (currentTabIndex === 3) hash = "#gallery";
     else if (currentTabIndex === 4) hash = "#contact";
@@ -1051,7 +1055,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isMobile()) {
       const mobileIds = {
         "#about":   "section-about",
-        "#craft":   "panel-craft",
+        "#expertise":   "panel-expertise",
+        "#craft":    "panel-expertise",   // legacy name
         "#works":   "panel-works",
         "#gallery": "panel-gallery",
         "#contact": "panel-contact",
@@ -1062,6 +1067,15 @@ document.addEventListener("DOMContentLoaded", () => {
       goToTab(dest.tab, dest.sub);
     }
   }
+
+  /* In-page links that must use the site's own navigation, e.g. <a href="#expertise" data-hash-link> */
+  document.querySelectorAll("a[data-hash-link]").forEach(link => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      history.replaceState(null, "", link.getAttribute("href"));
+      navigateToHash();
+    });
+  });
 
   navigateToHash();
 

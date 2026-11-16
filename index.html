@@ -26,10 +26,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
 
+  <!-- Title-screen intro: switched on here so the page never flashes before the black screen (off for "reduce motion") -->
+  <script>
+    try { if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("intro-on"); } catch (e) {}
+  </script>
+
+  <noscript><style>.main-intro { display: none !important; } html .hero-block h1 { visibility: visible !important; }</style></noscript>
+
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- Title-screen intro (see main-intro.js): black screen with the name, which then settles into the hero -->
+  <div class="main-intro" id="main-intro" aria-hidden="true"><div class="main-intro-bg"></div></div>
+
 
   <!-- Background Atmosphere: photo behind semi-transparent dark vignette -->
   <div class="bg-atmosphere"></div>
@@ -48,7 +59,7 @@
         <span class="lang-el">ΣΧΕΤΙΚΑ</span>
         <span class="lang-cn">关于</span>
       </a>
-      <a data-tab-index="1" id="tab-nav-craft">
+      <a data-tab-index="1" id="tab-nav-expertise">
         <span class="lang-en">EXPERTISE</span>
         <span class="lang-el">ΕΙΔΙΚΟΤΗΤΕΣ</span>
         <span class="lang-cn">专业</span>
@@ -95,8 +106,8 @@
 
 <!-- MOBILE ONLY: hamburger menu overlay -->
 <div id="mobile-menu" class="mobile-menu">
-  <button id="mobile-menu-close" class="mobile-menu-close">✕</button>
-  <nav class="mobile-menu-nav">
+  <button type="button" id="mobile-menu-close" class="mobile-menu-close" aria-label="Close menu">✕</button>
+  <div class="mobile-menu-nav" role="navigation" aria-label="Main">
     <a class="mobile-menu-link" data-mobile-section="0">
       <span class="lang-en">About</span>
       <span class="lang-el">Σχετικά</span>
@@ -122,7 +133,7 @@
       <span class="lang-el">Επικοινωνία</span>
       <span class="lang-cn">联系</span>
     </a>
-  </nav>
+  </div>
   <div class="mobile-menu-lang">
     <button class="lang-btn" id="mobile-btn-lang-en">EN</button>
     <span class="lang-sep">|</span>
@@ -165,7 +176,7 @@
          ============================================================ -->
     <section class="slide-panel" id="panel-intro">
       
-      <!-- Seamless Stacked Margin for Leaf 0 (Visible only when Craft/Works/etc are open) -->
+      <!-- Seamless Stacked Margin for Leaf 0 (Visible only when Expertise/Works/etc are open) -->
       <div class="leaf-spine" data-tab-index="0" data-sub-target="about" id="panel-intro-spine">
         <!-- <span class="leaf-spine-num">01</span> -->
         <span class="leaf-spine-title">
@@ -298,9 +309,9 @@
 
 
     <!-- ============================================================
-         LEAF 1: EXPERTISE (internal id stays "craft")
+         LEAF 1: EXPERTISE (Disciplines)
          ============================================================ -->
-    <section class="slide-panel" id="panel-craft">
+    <section class="slide-panel" id="panel-expertise">
       <!-- Seamless Stacked Margin -->
       <div class="leaf-spine" data-tab-index="1">
         <!-- <span class="leaf-spine-num">02</span> -->
@@ -323,59 +334,59 @@
             <span class="label">02</span>
           </div>
 
-          <div class="craft-grid">
+          <div class="expertise-grid">
             <!-- ───────── English cards ─────────
                  To add or remove a card: copy a whole card (EN + EL) and make sure
-                 data-craft-target matches the id of its stage below
-                 (stage id = "craft-stage-" + target). -->
-            <div class="craft-card lang-en" data-craft-target="composition">
+                 data-expertise-target matches the id of its stage below
+                 (stage id = "expertise-stage-" + target). -->
+            <div class="expertise-card lang-en" data-expertise-target="composition">
               <span class="label">01</span>
               <h3>Composition</h3>
               <p>Classical music and music in different idioms, from small and intimate ensembles to full and bombastic orchestras.</p>
             </div>
-            <div class="craft-card lang-en" data-craft-target="orchestration">
+            <div class="expertise-card lang-en" data-expertise-target="orchestration">
               <span class="label">02</span>
               <h3>Orchestration</h3>
               <p>Expanding an original musical sketch into a full-fledged instrumental and orchestral arrangement.</p>
             </div>
-            <div class="craft-card lang-en" data-craft-target="violin">
+            <div class="expertise-card lang-en" data-expertise-target="violin">
               <span class="label">03</span>
               <h3>Violin</h3>
               <p>Live performance, acoustic recording, and collaborations with ensembles and producers.</p>
             </div>
-            <div class="craft-card lang-en" data-craft-target="sound-design">
+            <div class="expertise-card lang-en" data-expertise-target="sound-design">
               <span class="label">04</span>
               <h3>Sound Design</h3>
               <p>Custom sound creation, utilising analogue and digital modular synthesizers, and full sample manipulation.</p>
             </div>
-          <!-- <div class="craft-card lang-en" data-craft-target="game-audio">
+          <!-- <div class="expertise-card lang-en" data-expertise-target="game-audio">
               <span class="label">05</span>
               <h3>Game Audio</h3>
               <p>Adaptive, interactive scoring and implementation in audio middleware.</p>
             </div> -->
 
             <!-- ───────── Greek cards (all-caps headings without accents) ───────── -->
-            <div class="craft-card lang-el" data-craft-target="composition">
+            <div class="expertise-card lang-el" data-expertise-target="composition">
               <span class="label">01</span>
               <h3>ΣΥΝΘΕΣΗ</h3>
               <p>Κλασική μουσική και μουσική διαφόρων ιδιωμάτων, από μικρά και εσωστρεφή σύνολα δωματίου, έως και πλήρεις, δυναμικές ορχήστρες.</p>
             </div>
-            <div class="craft-card lang-el" data-craft-target="orchestration">
+            <div class="expertise-card lang-el" data-expertise-target="orchestration">
               <span class="label">02</span>
               <h3>ΕΝΟΡΧΗΣΤΡΩΣΗ</h3>
               <p>Ανάπτυξη ενός πρωτότυπου μουσικού προσχεδίου σε πλήρη οργανική ή ορχηστρική διασκευή.</p>
             </div>
-            <div class="craft-card lang-el" data-craft-target="violin">
+            <div class="expertise-card lang-el" data-expertise-target="violin">
               <span class="label">03</span>
               <h3>ΒΙΟΛΙ</h3>
               <p>Ζωντανή ερμηνεία, ηχογραφήσεις, και συνεργασίες με σύνολα και παραγωγούς.</p>
             </div>
-            <div class="craft-card lang-el" data-craft-target="sound-design">
+            <div class="expertise-card lang-el" data-expertise-target="sound-design">
               <span class="label">04</span>
               <h3>SOUND DESIGN</h3>
               <p>Πρωτότυπη δημιουργία ήχων, με χρήση αναλογικών και ψηφιακών αρθρωτών συνθετητών, και πλήρη επεξεργασία δειγμάτων.</p>
             </div>
-            <!-- <div class="craft-card lang-el" data-craft-target="game-audio">
+            <!-- <div class="expertise-card lang-el" data-expertise-target="game-audio">
               <span class="label">05</span>
               <h3>GAME AUDIO</h3>
               <p>Προσαρμοστική μουσική και υλοποίηση σε σύγχρονο audio middleware.</p>
@@ -383,22 +394,22 @@
           </div>
 
           <!-- ============================================================
-               STAGE: COMPOSITION   (opened by the card with data-craft-target="composition")
+               STAGE: COMPOSITION   (opened by the card with data-expertise-target="composition")
                ============================================================ -->
-          <div class="craft-detail-stage" id="craft-stage-composition">
-            <div class="craft-stage-header">
-              <div class="craft-stage-title-wrap">
-                <span class="label craft-stage-meta">
+          <div class="expertise-detail-stage" id="expertise-stage-composition">
+            <div class="expertise-stage-header">
+              <div class="expertise-stage-title-wrap">
+                <span class="label expertise-stage-meta">
                   <span class="lang-en">01 / COMPOSITION</span>
                   <span class="lang-el">01 / ΣΥΝΘΕΣΗ</span>
                 </span>
-                <h3 class="craft-stage-title">
+                <h3 class="expertise-stage-title">
                   <span class="lang-en">Selected Works</span>
                   <span class="lang-el">Επιλεγμένα Έργα</span>
                   <span class="lang-cn">精选作品</span>
                 </h3>
               </div>
-              <button class="craft-stage-close-btn" aria-label="Close details">✕</button>
+              <button class="expertise-stage-close-btn" aria-label="Close details">✕</button>
             </div>
 
             <!-- Intro: what you offer in this area (edit freely) -->
@@ -459,24 +470,24 @@
           </div>
 
 <!-- OPTIONAL later: "Request a score" button. Uncomment and point it to contact/ with a subject.
-            <a href="contact/?subject=score" class="craft-stage-btn">
+            <a href="contact/?subject=score" class="expertise-stage-btn">
               <span class="lang-en">Request a score</span>
               <span class="lang-el">Αίτημα παρτιτούρας</span>
             </a> -->
 
             <!-- Buttons: first = deeper content, second = contact -->
-            <div class="craft-stage-cta-wrap">
+            <div class="expertise-stage-cta-wrap">
               <div class="stage-cta-buttons">
-                <a href="works/#compositions" class="craft-stage-btn">
+                <a href="works/#compositions" class="expertise-stage-btn">
                   <span class="lang-en">See all compositions<span class="btn-arrow"> →</span></span>
                   <span class="lang-el">Όλες οι συνθέσεις<span class="btn-arrow"> →</span></span>
                 </a>
-                <a href="contact/" class="craft-stage-btn is-solid">
+                <a href="contact/" class="expertise-stage-btn is-solid">
                   <span class="lang-en">Get in touch<span class="btn-arrow"> →</span></span>
                   <span class="lang-el">Επικοινωνήστε μαζί μου<span class="btn-arrow"> →</span></span>
                 </a>
               </div>
-              <button class="craft-stage-close-btn bottom-close-btn" aria-label="Close details">
+              <button class="expertise-stage-close-btn bottom-close-btn" aria-label="Close details">
                 <span>✕</span>
                 <span class="close-btn-text lang-en">Close</span>
                 <span class="close-btn-text lang-el">Κλείσιμο</span>
@@ -486,22 +497,22 @@
           </div>
 
           <!-- ============================================================
-               STAGE: ORCHESTRATION   (opened by the card with data-craft-target="orchestration")
+               STAGE: ORCHESTRATION   (opened by the card with data-expertise-target="orchestration")
                ============================================================ -->
-          <div class="craft-detail-stage" id="craft-stage-orchestration">
-            <div class="craft-stage-header">
-              <div class="craft-stage-title-wrap">
-                <span class="label craft-stage-meta">
+          <div class="expertise-detail-stage" id="expertise-stage-orchestration">
+            <div class="expertise-stage-header">
+              <div class="expertise-stage-title-wrap">
+                <span class="label expertise-stage-meta">
                   <span class="lang-en">02 / ORCHESTRATION</span>
                   <span class="lang-el">02 / ΕΝΟΡΧΗΣΤΡΩΣΗ</span>
                 </span>
-                <h3 class="craft-stage-title">
+                <h3 class="expertise-stage-title">
                   <span class="lang-en">Selected Orchestrations</span>
                   <span class="lang-el">Επιλεγμένες Ενορχηστρώσεις</span>
                   <span class="lang-cn"></span>
                 </h3>
               </div>
-              <button class="craft-stage-close-btn" aria-label="Close details">✕</button>
+              <button class="expertise-stage-close-btn" aria-label="Close details">✕</button>
             </div>
 
             <!-- Intro: what you offer in this area (edit freely) -->
@@ -549,18 +560,18 @@
             </div>
 
             <!-- Buttons: first = deeper content, second = contact -->
-            <div class="craft-stage-cta-wrap">
+            <div class="expertise-stage-cta-wrap">
               <div class="stage-cta-buttons">
-                <a href="works/#orchestration" class="craft-stage-btn">
+                <a href="works/#orchestration" class="expertise-stage-btn">
                   <span class="lang-en">See more orchestrations<span class="btn-arrow"> →</span></span>
                   <span class="lang-el">Περισσότερες ενορχηστρώσεις<span class="btn-arrow"> →</span></span>
                 </a>
-                <a href="contact/" class="craft-stage-btn is-solid">
+                <a href="contact/" class="expertise-stage-btn is-solid">
                   <span class="lang-en">Get in touch<span class="btn-arrow"> →</span></span>
                   <span class="lang-el">Επικοινωνήστε μαζί μου<span class="btn-arrow"> →</span></span>
                 </a>
               </div>
-              <button class="craft-stage-close-btn bottom-close-btn" aria-label="Close details">
+              <button class="expertise-stage-close-btn bottom-close-btn" aria-label="Close details">
                 <span>✕</span>
                 <span class="close-btn-text lang-en">Close</span>
                 <span class="close-btn-text lang-el">Κλείσιμο</span>
@@ -570,22 +581,22 @@
           </div>
 
           <!-- ============================================================
-               STAGE: VIOLIN   (opened by the card with data-craft-target="violin")
+               STAGE: VIOLIN   (opened by the card with data-expertise-target="violin")
                ============================================================ -->
-          <div class="craft-detail-stage" id="craft-stage-violin">
-            <div class="craft-stage-header">
-              <div class="craft-stage-title-wrap">
-                <span class="label craft-stage-meta">
+          <div class="expertise-detail-stage" id="expertise-stage-violin">
+            <div class="expertise-stage-header">
+              <div class="expertise-stage-title-wrap">
+                <span class="label expertise-stage-meta">
                   <span class="lang-en">03 / VIOLIN</span>
                   <span class="lang-el">03 / ΒΙΟΛΙ</span>
                 </span>
-                <h3 class="craft-stage-title">
+                <h3 class="expertise-stage-title">
                   <span class="lang-en">Performances</span>
                   <span class="lang-el">Ερμηνείες</span>
                   <span class="lang-cn"></span>
                 </h3>
               </div>
-              <button class="craft-stage-close-btn" aria-label="Close details">✕</button>
+              <button class="expertise-stage-close-btn" aria-label="Close details">✕</button>
             </div>
 
             <!-- Intro: what you offer in this area (edit freely) -->
@@ -633,18 +644,18 @@
             </div>
 
             <!-- Buttons: first = deeper content, second = contact -->
-            <div class="craft-stage-cta-wrap">
+            <div class="expertise-stage-cta-wrap">
               <div class="stage-cta-buttons">
-                <a href="gallery/#violin" class="craft-stage-btn">
+                <a href="gallery/#performances" class="expertise-stage-btn">
                   <span class="lang-en">More videos<span class="btn-arrow"> →</span></span>
                   <span class="lang-el">Περισσότερα βίντεο<span class="btn-arrow"> →</span></span>
                 </a>
-                <a href="contact/" class="craft-stage-btn is-solid">
+                <a href="contact/" class="expertise-stage-btn is-solid">
                   <span class="lang-en">Get in touch<span class="btn-arrow"> →</span></span>
                   <span class="lang-el">Επικοινωνήστε μαζί μου<span class="btn-arrow"> →</span></span>
                 </a>
               </div>
-              <button class="craft-stage-close-btn bottom-close-btn" aria-label="Close details">
+              <button class="expertise-stage-close-btn bottom-close-btn" aria-label="Close details">
                 <span>✕</span>
                 <span class="close-btn-text lang-en">Close</span>
                 <span class="close-btn-text lang-el">Κλείσιμο</span>
@@ -654,22 +665,22 @@
           </div>
 
           <!-- ============================================================
-               STAGE: SOUND-DESIGN   (opened by the card with data-craft-target="sound-design")
+               STAGE: SOUND-DESIGN   (opened by the card with data-expertise-target="sound-design")
                ============================================================ -->
-          <div class="craft-detail-stage" id="craft-stage-sound-design">
-            <div class="craft-stage-header">
-              <div class="craft-stage-title-wrap">
-                <span class="label craft-stage-meta">
+          <div class="expertise-detail-stage" id="expertise-stage-sound-design">
+            <div class="expertise-stage-header">
+              <div class="expertise-stage-title-wrap">
+                <span class="label expertise-stage-meta">
                   <span class="lang-en">04 / SOUND DESIGN</span>
                   <span class="lang-el">04 / SOUND DESIGN</span>
                 </span>
-                <h3 class="craft-stage-title">
+                <h3 class="expertise-stage-title">
                   <span class="lang-en">Selected Sound Work</span>
                   <span class="lang-el">Επιλεγμένα Έργα Sound Design</span>
                   <span class="lang-cn"></span>
                 </h3>
               </div>
-              <button class="craft-stage-close-btn" aria-label="Close details">✕</button>
+              <button class="expertise-stage-close-btn" aria-label="Close details">✕</button>
             </div>
 
             <!-- Intro: what you offer in this area (edit freely) -->
@@ -717,18 +728,18 @@
             </div>
 
             <!-- Buttons: first = deeper content, second = contact -->
-            <div class="craft-stage-cta-wrap">
+            <div class="expertise-stage-cta-wrap">
               <div class="stage-cta-buttons">
-                <a href="works/#sound-design" class="craft-stage-btn">
+                <a href="works/#sound-design" class="expertise-stage-btn">
                   <span class="lang-en">See more sound work<span class="btn-arrow"> →</span></span>
                   <span class="lang-el">Περισσότερα έργα ήχου<span class="btn-arrow"> →</span></span>
                 </a>
-                <a href="contact/" class="craft-stage-btn is-solid">
+                <a href="contact/" class="expertise-stage-btn is-solid">
                   <span class="lang-en">Get in touch<span class="btn-arrow"> →</span></span>
                   <span class="lang-el">Επικοινωνήστε μαζί μου<span class="btn-arrow"> →</span></span>
                 </a>
               </div>
-              <button class="craft-stage-close-btn bottom-close-btn" aria-label="Close details">
+              <button class="expertise-stage-close-btn bottom-close-btn" aria-label="Close details">
                 <span>✕</span>
                 <span class="close-btn-text lang-en">Close</span>
                 <span class="close-btn-text lang-el">Κλείσιμο</span>
@@ -813,7 +824,7 @@
             </div>
 
             <div class="panel-cta">
-              <a href="works/#recordings" class="craft-stage-btn">
+              <a href="works/#recordings" class="expertise-stage-btn">
                 <span class="lang-en">More recordings<span class="btn-arrow"> →</span></span>
                 <span class="lang-el">Περισσότερες ηχογραφήσεις<span class="btn-arrow"> →</span></span>
               </a>
@@ -856,7 +867,7 @@
             </div>
 
             <div class="panel-cta">
-              <a href="works/#catalogue" class="craft-stage-btn">
+              <a href="works/#catalogue" class="expertise-stage-btn">
                 <span class="lang-en">Full catalogue<span class="btn-arrow"> →</span></span>
                 <span class="lang-el">Πλήρης κατάλογος έργων<span class="btn-arrow"> →</span></span>
               </a>
@@ -1024,7 +1035,7 @@
           </div> -->
 
           <div class="panel-cta">
-            <a href="gallery/" class="craft-stage-btn">
+            <a href="gallery/" class="expertise-stage-btn">
               <span class="lang-en">See the full gallery<span class="btn-arrow"> →</span></span>
               <span class="lang-el">Δείτε ολόκληρη τη γκαλερί<span class="btn-arrow"> →</span></span>
             </a>
@@ -1071,15 +1082,19 @@
           <div class="closing-grid">
             <div class="closing-col closing-brand">
               <h3 class="closing-name">
-                <span class="lang-en">Michaïl Chatziasemidis</span>
-                <span class="lang-el">Μιχαήλ Χατζηασεμίδης</span>
-                <span class="lang-cn">米哈伊尔·Chatziasemidis</span>
+                <span class="lang-en">Michaïl<br>Chatziasemidis</span>
+                <span class="lang-el">Μιχαήλ<br>Χατζηασεμίδης</span>
+                <span class="lang-cn">米哈伊尔<br>Chatziasemidis</span>
               </h3>
               <p class="label closing-tagline">
                 <span class="lang-en">Composer · Orchestrator · Violinist</span>
                 <span class="lang-el">Συνθέτης · Ενορχηστρωτής · Βιολονίστας</span>
                 <span class="lang-cn">作曲家 · 管弦乐编曲家 · 小提琴家</span>
               </p>
+              <a href="contact/" class="expertise-stage-btn is-solid is-large">
+                <span class="lang-en">Get in touch<span class="btn-arrow"> →</span></span>
+                <span class="lang-el">Επικοινωνήστε μαζί μου<span class="btn-arrow"> →</span></span>
+              </a>
             </div>
 
             <div class="closing-col">
@@ -1087,6 +1102,11 @@
                 <span class="lang-en">Explore</span>
                 <span class="lang-el">Εξερεύνηση</span>
               </span>
+              <a href="#expertise" data-hash-link>
+                <span class="lang-en">Expertise</span>
+                <span class="lang-el">Ειδικότητες</span>
+                <span class="lang-cn">专业</span>
+              </a>
               <a href="works/">
                 <span class="lang-en">Works</span>
                 <span class="lang-el">Έργα</span>
@@ -1127,13 +1147,6 @@
             </div>
           </div>
 
-          <div class="panel-cta closing-cta">
-            <a href="contact/" class="craft-stage-btn is-solid">
-              <span class="lang-en">Get in touch<span class="btn-arrow"> →</span></span>
-              <span class="lang-el">Επικοινωνήστε μαζί μου<span class="btn-arrow"> →</span></span>
-            </a>
-          </div>
-
           <div class="panel-footer">
             <span class="label">05 / 05</span>
             <span class="label lang-en">© 2026 Michaïl Chatziasemidis. All rights reserved.</span>
@@ -1151,5 +1164,6 @@
 
   <!-- Main JavaScript -->
   <script src="script.js"></script>
+  <script src="main-intro.js"></script>
 </body>
 </html>

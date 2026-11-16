@@ -268,7 +268,7 @@ nav {
 
 /* Fixed Dock positions for the stacked sheets */
 #panel-intro   { left: 0; width: 100vw; z-index: 10; }
-#panel-craft   { left: var(--spine-w); width: calc(100vw - var(--spine-w)); z-index: 11; transform: translateX(100vw); }
+#panel-expertise   { left: var(--spine-w); width: calc(100vw - var(--spine-w)); z-index: 11; transform: translateX(100vw); }
 #panel-works   { left: calc(var(--spine-w) * 2); width: calc(100vw - var(--spine-w) * 2); z-index: 12; transform: translateX(100vw); }
 #panel-gallery { left: calc(var(--spine-w) * 3); width: calc(100vw - var(--spine-w) * 3); z-index: 13; transform: translateX(100vw); }
 #panel-contact { left: calc(var(--spine-w) * 4); width: calc(100vw - var(--spine-w) * 4); z-index: 14; transform: translateX(100vw); }
@@ -602,13 +602,13 @@ nav {
 /* ==========================================================================
    PANELS 1..4 CONTENT STYLING
    ========================================================================== */
-.craft-grid {
+.expertise-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   border-top: 1px solid var(--line);
 }
 
-.craft-card {
+.expertise-card {
   padding: 32px 20px 40px 0;
   border-bottom: 1px solid var(--line);
   overflow: hidden;
@@ -617,27 +617,27 @@ nav {
   /* Staggered entrance animation: slide from right & slightly bottom + gradual materialise */
   opacity: 0;
   transform: translate(45px, 5px);
-  /* The delay for transform & opacity is set via CSS variable --craft-delay per visible card */
+  /* The delay for transform & opacity is set via CSS variable --expertise-delay per visible card */
   transition: 
-    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1) var(--craft-delay, 0s),
-    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) var(--craft-delay, 0s),
+    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1) var(--expertise-delay, 0s),
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) var(--expertise-delay, 0s),
     background 0.3s 0s,
     padding-left 0.3s 0s;
   will-change: transform, opacity;
 }
 
 /* Materialised / revealed state */
-.craft-grid.visible .craft-card {
+.expertise-grid.visible .expertise-card {
   opacity: 1;
   transform: translate(0, 0);
 }
 
-.craft-card:hover {
+.expertise-card:hover {
   background: rgba(255, 255, 255, 0.02);
   padding-left: 18px;
 }
 
-.craft-card h3 {
+.expertise-card h3 {
   font-size: clamp(20px, 2.2vw, 32px);
   margin: 14px 0 12px;
   text-transform: uppercase;
@@ -645,12 +645,12 @@ nav {
   padding-left: 6px;
 }
 
-.craft-card[data-craft-target] {
+.expertise-card[data-expertise-target] {
   position: relative;
   cursor: pointer;
 }
 
-.craft-card[data-craft-target]::after {
+.expertise-card[data-expertise-target]::after {
   content: "↓ EXPLORE";
   display: block;
   font-family: var(--font-body);
@@ -662,22 +662,22 @@ nav {
   transition: opacity 0.25s, transform 0.25s;
 }
 
-.craft-card[data-craft-target]:hover::after {
+.expertise-card[data-expertise-target]:hover::after {
   opacity: 1;
   transform: translateY(2px);
 }
 
-.craft-card.active-card {
+.expertise-card.active-card {
   background: rgba(255, 255, 255, 0.04);
   border-bottom-color: var(--accent);
 }
 
-.craft-card.active-card[data-craft-target]::after {
+.expertise-card.active-card[data-expertise-target]::after {
   content: "↑ CLOSE";
   color: var(--fg);
 }
 
-.craft-card p {
+.expertise-card p {
   margin: 0;
   text-align: justify;
   color: var(--mute);
@@ -686,14 +686,14 @@ nav {
   padding-left: 6px;
 }
 
-.craft-card .label {
+.expertise-card .label {
   padding-left: 6px;
 }
 
 /* ==========================================================================
-   CRAFT EXPANDABLE STAGES (Selected works preview drawer)
+   EXPERTISE EXPANDABLE STAGES (Selected works preview drawer)
    ========================================================================== */
-.craft-detail-stage {
+.expertise-detail-stage {
   display: none;
   margin-top: 48px;
   padding: 56px 44px 50px;
@@ -701,14 +701,14 @@ nav {
   border: 1px solid var(--line-light);
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   position: relative;
-  animation: craftStageFadeIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: expertiseStageFadeIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.craft-detail-stage.open {
+.expertise-detail-stage.open {
   display: block;
 }
 
-@keyframes craftStageFadeIn {
+@keyframes expertiseStageFadeIn {
   from {
     opacity: 0;
     transform: translateY(24px);
@@ -719,7 +719,7 @@ nav {
   }
 }
 
-.craft-stage-header {
+.expertise-stage-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -728,13 +728,13 @@ nav {
   margin-bottom: 48px;
 }
 
-.craft-stage-meta {
+.expertise-stage-meta {
   color: var(--accent);
   display: block;
   margin-bottom: 8px;
 }
 
-.craft-stage-title {
+.expertise-stage-title {
   font-size: clamp(28px, 3.8vw, 48px);
   margin: 0;
   text-transform: uppercase;
@@ -742,7 +742,7 @@ nav {
   letter-spacing: 0.04em;
 }
 
-.craft-stage-close-btn {
+.expertise-stage-close-btn {
   background: transparent;
   border: 1px solid var(--line-light);
   color: var(--mute);
@@ -757,7 +757,7 @@ nav {
   transition: color 0.2s, border-color 0.2s, background 0.2s;
 }
 
-.craft-stage-close-btn:hover {
+.expertise-stage-close-btn:hover {
   color: var(--fg);
   border-color: var(--fg);
   background: rgba(255, 255, 255, 0.05);
@@ -862,7 +862,7 @@ nav {
 }
 
 /* Bottom CTA Button */
-.craft-stage-cta-wrap {
+.expertise-stage-cta-wrap {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -872,7 +872,7 @@ nav {
   flex-wrap: wrap;
 }
 
-.craft-stage-btn {
+.expertise-stage-btn {
   display: inline-block;
   padding: 14px 38px;
   border: 1px solid var(--fg);
@@ -887,14 +887,14 @@ nav {
   transition: background 0.25s, color 0.25s, border-color 0.25s;
 }
 
-.craft-stage-btn:hover {
+.expertise-stage-btn:hover {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
 }
 
 /* Bottom corner close button */
-.craft-stage-close-btn.bottom-close-btn {
+.expertise-stage-close-btn.bottom-close-btn {
   width: auto;
   height: auto;
   padding: 13px 22px;
@@ -1287,12 +1287,17 @@ nav {
   margin-top: 40px;
 }
 
-.craft-stage-btn.is-solid {
+.expertise-stage-btn.is-solid {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
 }
-.craft-stage-btn.is-solid:hover {
+.expertise-stage-btn.is-large {
+  padding: 20px 52px;
+  font-size: 14px;
+  letter-spacing: 0.24em;
+}
+.expertise-stage-btn.is-solid:hover {
   background: transparent;
   border-color: var(--fg);
   color: var(--fg);
@@ -1352,6 +1357,16 @@ nav {
 
 .closing-tagline { margin: 0; }
 
+/* Brand column: first name, surname and tagline share one centre axis */
+.closing-col.closing-brand {
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+}
+.closing-brand .closing-name { margin: 0; text-align: center; }
+.closing-brand .closing-tagline { text-align: center; }
+.closing-brand .expertise-stage-btn { margin-top: 14px; }
+
 .closing-col { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
 
 .closing-head { color: var(--accent); margin-bottom: 6px; }
@@ -1370,7 +1385,6 @@ nav {
 /* keep the e-mail address in its natural case */
 .closing-col a[href^="mailto:"] { text-transform: none; letter-spacing: 0.04em; }
 
-.closing-cta { margin-top: 56px; }
 
 /* Social icons: white glyphs on a transparent background */
 .closing-col .closing-socials {
@@ -1889,12 +1903,12 @@ nav {
     display: none;
   } */
 
-  .craft-grid {
+  .expertise-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
   /* Mobile Full-Screen Slide-in Overlay: slides in from the LEFT (translateX(-100%) -> 0) */
-  .craft-detail-stage {
+  .expertise-detail-stage {
     display: block;
     position: fixed;
     top: 52px; /* below top bar */
@@ -1917,27 +1931,27 @@ nav {
     overscroll-behavior: contain;
   }
 
-  .craft-detail-stage.open {
+  .expertise-detail-stage.open {
     transform: translateX(0);
     pointer-events: auto;
   }
 
   /* When the stage is open on mobile: lock wrapper scroll completely so nothing behind scrolls */
-  body.craft-stage-active .book-slider-wrapper {
+  body.expertise-stage-active .book-slider-wrapper {
     overflow-y: hidden !important;
   }
 
-  body.craft-stage-active #mobile-back-to-top {
+  body.expertise-stage-active #mobile-back-to-top {
     display: none !important;
   }
 
   /* Hide the desktop close buttons on mobile — only the dedicated pill in place of rhomboids is used */
-  .craft-detail-stage .craft-stage-close-btn {
+  .expertise-detail-stage .expertise-stage-close-btn {
     display: none !important;
   }
 
   /* Hide rhomboid panel when stage is open */
-  body.craft-stage-active .mobile-progress {
+  body.expertise-stage-active .mobile-progress {
     display: none !important;
   }
 
@@ -1961,7 +1975,7 @@ nav {
     transition: color 0.2s, transform 0.2s;
   }
 
-  body.craft-stage-active .mobile-stage-back-btn {
+  body.expertise-stage-active .mobile-stage-back-btn {
     display: block;
   }
 
@@ -1972,7 +1986,7 @@ nav {
   }
 
   /* On mobile: card hint is "← EXPLORE" pointing left towards the window */
-  .craft-card[data-craft-target]::after {
+  .expertise-card[data-expertise-target]::after {
     content: "← EXPLORE";
   }
 
@@ -1997,7 +2011,7 @@ nav {
   }
 
   /* Hide the arrow on mobile for the "See More" button */
-  .craft-stage-btn .btn-arrow {
+  .expertise-stage-btn .btn-arrow {
     display: none !important;
   }
 }
@@ -2012,7 +2026,7 @@ nav {
   .is-video .score-preview-box { max-width: 100%; }
 
   .stage-cta-buttons { width: 100%; }
-  .stage-cta-buttons .craft-stage-btn { flex: 1 1 100%; text-align: center; }
+  .stage-cta-buttons .expertise-stage-btn { flex: 1 1 100%; text-align: center; }
 
   .works-subhead { font-size: 16px; }
   .works-scores { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
@@ -2022,8 +2036,132 @@ nav {
   .score-card .score-placeholder .score-num { font-size: 9px; }
   .score-card-title { font-size: 14px; }
 
-  .panel-cta .craft-stage-btn { width: 100%; text-align: center; }
+  .panel-cta .expertise-stage-btn { width: 100%; text-align: center; }
 
   .closing-grid { grid-template-columns: 1fr; gap: 32px; padding-top: 32px; }
-  .closing-cta { margin-top: 36px; }
 }
+
+
+/* ==========================================================================
+   MOBILE FIX: the Expertise overlay is position:fixed. `will-change: transform`
+   on .slide-panel turned every panel into its containing block, so the overlay
+   was drawn relative to the panel (half off-screen when scrolled down).
+   ========================================================================== */
+@media (max-width: 768px) {
+  .slide-panel { will-change: auto; }
+
+  .closing-brand .expertise-stage-btn.is-large { width: 100%; max-width: 340px; padding: 18px 24px; text-align: center; }
+}
+
+
+/* ==========================================================================
+   SUBPAGES (/contact/, later /works/ and /gallery/)
+   Shared header, normal page scroll, plain dark background.
+   ========================================================================== */
+html.subpage,
+html.subpage body {
+  height: auto;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: var(--bg);
+}
+
+.sub-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 90;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 20px clamp(20px, 4vw, 48px);
+  background: rgba(11, 11, 10, 0.94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sub-nav .nav-brand { text-decoration: none; }
+
+.sub-nav-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2.5vw, 32px);
+}
+
+.sub-nav-links a {
+  position: relative;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mute);
+  padding: 4px 0;
+  transition: color 0.25s ease;
+}
+.sub-nav-links a:hover { color: var(--fg); text-decoration: line-through; }
+.sub-nav-links a.active { color: var(--fg); }
+.sub-nav-links a.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--accent);
+}
+
+.sub-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  background: rgba(18, 18, 16, 0.7);
+}
+
+.sub-main {
+  min-height: 100vh;
+  padding: 150px 0 60px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  /* On a phone the links and language switch live in the hamburger menu */
+  .sub-nav { padding: 10px 20px; }
+  .sub-nav-links,
+  .sub-lang { display: none; }
+  .sub-nav .mobile-hamburger { margin-left: auto; }
+  .sub-main { padding-top: 96px; }
+}
+
+.sub-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(34px, 6vw, 84px);
+  line-height: 1.05;
+  margin: 0;
+}
+
+
+/* ==========================================================================
+   MAIN PAGE: TITLE-SCREEN INTRO  (behaviour: main-intro.js)
+   A black screen with the name; the name settles into the hero while the black fades away.
+   ========================================================================== */
+.main-intro { position: fixed; inset: 0; z-index: 9999; display: none; animation: mainIntroFail 0.5s ease 6s forwards; }
+html.intro-on .main-intro { display: block; }
+.main-intro-bg { position: absolute; inset: 0; background: #000; }
+.main-intro-word { pointer-events: none; will-change: transform, opacity; color: var(--fg); }
+
+/* the real name waits for the word to land; the rest of the hero fades in after it */
+html.intro-on:not(.intro-landed) .hero-block h1 { visibility: hidden; }
+html.intro-on:not(.intro-landed) .hero-block .hero-meta,
+html.intro-on:not(.intro-landed) .hero-block .hero-footer { opacity: 0; }
+html.intro-landed .hero-block .hero-meta,
+html.intro-landed .hero-block .hero-footer { animation: mainIntroFade 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.35s both; }
+@keyframes mainIntroFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes mainIntroFail { to { opacity: 0; visibility: hidden; } }   /* safety net: if the script never runs, the black screen clears itself */
