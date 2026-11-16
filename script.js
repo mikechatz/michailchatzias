@@ -601,6 +601,15 @@ document.addEventListener("DOMContentLoaded", () => {
     "panel-contact"    /* rhomboid 4 */
   ];
 
+  /* The desktop book must never sit scrolled sideways (older browsers ignore overflow: clip in style.css): if anything
+     (focus, Tab, find-in-page, a link jump) moves it, put it straight back. Phones scroll up and down here, that is left alone. */
+  if (wrapper) {
+    wrapper.addEventListener("scroll", () => {
+      if (wrapper.scrollLeft) wrapper.scrollLeft = 0;
+      if (!isMobile() && wrapper.scrollTop) wrapper.scrollTop = 0;
+    }, { passive: true });
+  }
+
   /* ── Reset desktop transforms on mobile ── */
   function initMobile(syncCurrentSection = false) {
     if (!isMobile()) return;

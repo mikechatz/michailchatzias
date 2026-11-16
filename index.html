@@ -35,6 +35,7 @@
 
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="assets/score-viewer.css">
 </head>
 <body>
 
@@ -423,9 +424,13 @@
 
           <!-- ------------------------------------------------------------------
                HOW TO FILL A ROW (applies to all four stages)
-               1. SCORE   → replace <div class="score-placeholder">…</div> with
-                            <img src="assets/score-name.webp" alt="Score of …">
-                            (a click-to-open PDF viewer will be wired up later)
+               1. SCORE   → the preview box already opens the page viewer (assets/score-viewer.js). On the box:
+                              data-pages="assets/scores/a-1.webp,assets/scores/a-2.webp,…"   the page pictures, in order
+                              data-count="8"   (only while there are no pictures yet: how many blank pages to show)
+                              data-soon        (no value) the viewer says "Coming soon" and the preview shows it; delete it when the pages are ready
+                              data-title="…"   (optional; the <h4> of the row is used when it is missing)
+                            Later you can put <img src="assets/score-name.webp" alt="First page of …"> inside the box,
+                            in place of the grey placeholder, to show the first page as the preview.
                2. VIDEO   → replace it with
                             <div class="video-container"><iframe loading="lazy" title="…" src="https://www.youtube-nocookie.com/embed/VIDEO_ID" allowfullscreen></iframe></div>
                3. AUDIO   → replace it with a SoundCloud <iframe …> (height 166)
@@ -435,11 +440,11 @@
 
           <!-- Zig-zag scores showcase: Item 1 (Image left, text right) -->
           <div class="score-zigzag-row row-left">
-            <div class="score-preview-box">
+            <div class="score-preview-box is-viewable" data-score-open data-count="8" data-soon role="button" tabindex="0" aria-label="Open the score">
               <div class="score-placeholder">
                 <span class="score-icon">𝄞</span>
-                <p class="lang-en">Score Preview Coming Soon</p>
-                <p class="lang-el">Παρτιτούρα σύντομα</p>
+                <p class="lang-en">View the score</p>
+                <p class="lang-el">Δείτε το έργο</p>
                 <span class="score-num">SCORE 01</span>
               </div>
             </div>
@@ -453,11 +458,11 @@
 
           <!-- Zig-zag scores showcase: Item 2 (Image right, text left) -->
           <div class="score-zigzag-row row-right">
-            <div class="score-preview-box">
+            <div class="score-preview-box is-viewable" data-score-open data-count="6" data-soon role="button" tabindex="0" aria-label="Open the score">
               <div class="score-placeholder">
                 <span class="score-icon">𝄞</span>
-                <p class="lang-en">Score Preview Coming Soon</p>
-                <p class="lang-el">Παρτιτούρα σύντομα</p>
+                <p class="lang-en">View the score</p>
+                <p class="lang-el">Δείτε το έργο</p>
                 <span class="score-num">SCORE 02</span>
               </div>
             </div>
@@ -475,14 +480,14 @@
               <span class="lang-el">Αίτημα παρτιτούρας</span>
             </a> -->
 
-            <!-- Buttons: first = deeper content, second = contact -->
+            <!-- Buttons: first = deeper content, second = contact (?subject=… fills the Subject box on the contact page; keys are listed in contact/index.html) -->
             <div class="expertise-stage-cta-wrap">
               <div class="stage-cta-buttons">
                 <a href="works/#compositions" class="expertise-stage-btn">
                   <span class="lang-en">See all compositions<span class="btn-arrow"> →</span></span>
                   <span class="lang-el">Όλες οι συνθέσεις<span class="btn-arrow"> →</span></span>
                 </a>
-                <a href="contact/" class="expertise-stage-btn is-solid">
+                <a href="contact/?subject=composition" class="expertise-stage-btn is-solid">
                   <span class="lang-en">Get in touch<span class="btn-arrow"> →</span></span>
                   <span class="lang-el">Επικοινωνήστε μαζί μου<span class="btn-arrow"> →</span></span>
                 </a>
@@ -523,50 +528,73 @@
 
             <!-- Showcase rows: keep 2–3. Duplicate or delete whole "score-zigzag-row" blocks. -->
 
-            <!-- ITEM 1: replace the placeholder box with your own media (see "HOW TO FILL A ROW" above) -->
+            <!-- Showcase rows: keep 2–3, newest first. Each opens the MuseScore player (data-embed). The picture is the title page, works/orchestrations/NAME.webp -->
+
             <div class="score-zigzag-row row-left">
-              <div class="score-preview-box">
-                <div class="score-placeholder">
+              <div class="score-preview-box is-viewable" data-score-open data-title="Allegro giusto"
+                   data-embed="https://musescore.com/user/3428276/scores/40534572/embed" role="button" tabindex="0" aria-label="Open the score">
+                <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40534572/s/2XgeAp/embed -->
+                <div class="score-placeholder has-img">
+                  <img src="works/orchestrations/schubert-sonata-143.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()">
                   <span class="score-icon">𝄞</span>
-                  <p class="lang-en">Score Preview Coming Soon</p>
-                  <p class="lang-el">Παρτιτούρα σύντομα</p>
-                  <span class="score-num">SCORE 01</span>
+                  <p class="lang-en">View the score</p>
+                  <p class="lang-el">Δείτε το έργο</p>
                 </div>
               </div>
               <div class="score-text-box">
-                <span class="label">YEAR · FORMAT</span>
-                <h4>Title goes here</h4>
-                <p class="lang-en">One or two sentences: what the piece is, who played it, where it was heard.</p>
-                <p class="lang-el">Μία ή δύο προτάσεις: τι είναι το έργο, ποιοι το ερμήνευσαν, πού παρουσιάστηκε.</p>
+                <span class="label">2025 · ORCHESTRA</span>
+                <h4>Allegro giusto</h4>
+                <p class="lang-en">An excerpt from the Allegro giusto of the Piano Sonata in A minor, D. 784, Op. 143, by Franz Schubert, orchestrated for orchestra.</p>
+                <p class="lang-el">Απόσπασμα από το Allegro giusto της Πιανιστικής σονάτας σε λα ελάσσονα, D. 784, έργο 143, του Φραντς Σούμπερτ, ενορχηστρωμένο για ορχήστρα.</p>
               </div>
             </div>
 
-            <!-- ITEM 2: replace the placeholder box with your own media (see "HOW TO FILL A ROW" above) -->
             <div class="score-zigzag-row row-right">
-              <div class="score-preview-box">
-                <div class="score-placeholder">
+              <div class="score-preview-box is-viewable" data-score-open data-title="Allegro"
+                   data-embed="https://musescore.com/user/3428276/scores/40530426/embed" role="button" tabindex="0" aria-label="Open the score">
+                <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40530426/s/wN1WIv/embed -->
+                <div class="score-placeholder has-img">
+                  <img src="works/orchestrations/mozart-k332-allegro.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()">
                   <span class="score-icon">𝄞</span>
-                  <p class="lang-en">Score Preview Coming Soon</p>
-                  <p class="lang-el">Παρτιτούρα σύντομα</p>
-                  <span class="score-num">SCORE 02</span>
+                  <p class="lang-en">View the score</p>
+                  <p class="lang-el">Δείτε το έργο</p>
                 </div>
               </div>
               <div class="score-text-box">
-                <span class="label">YEAR · FORMAT</span>
-                <h4>Title goes here</h4>
-                <p class="lang-en">One or two sentences: what the piece is, who played it, where it was heard.</p>
-                <p class="lang-el">Μία ή δύο προτάσεις: τι είναι το έργο, ποιοι το ερμήνευσαν, πού παρουσιάστηκε.</p>
+                <span class="label">2024 · ORCHESTRA</span>
+                <h4>Allegro</h4>
+                <p class="lang-en">The exposition of the first movement of the Piano Sonata No. 12 in F major, K. 332, by Wolfgang Amadeus Mozart, orchestrated for orchestra.</p>
+                <p class="lang-el">Η έκθεση του πρώτου μέρους της Πιανιστικής σονάτας αρ. 12 σε φα μείζονα, K. 332, του Βόλφγκανγκ Αμαντέους Μότσαρτ, ενορχηστρωμένη για ορχήστρα.</p>
               </div>
             </div>
 
-            <!-- Buttons: first = deeper content, second = contact -->
+            <div class="score-zigzag-row row-left">
+              <div class="score-preview-box is-viewable" data-score-open data-title="Sarabande"
+                   data-embed="https://musescore.com/user/3428276/scores/40525023/embed" role="button" tabindex="0" aria-label="Open the score">
+                <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40525023/s/alZP0M/embed -->
+                <div class="score-placeholder has-img">
+                  <img src="works/orchestrations/bach-sarabande.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()">
+                  <span class="score-icon">𝄞</span>
+                  <p class="lang-en">View the score</p>
+                  <p class="lang-el">Δείτε το έργο</p>
+                </div>
+              </div>
+              <div class="score-text-box">
+                <span class="label">2023 · STRING ORCHESTRA</span>
+                <h4><span class="lang-en">Sarabande</span><span class="lang-el">Σαραμπάντ</span></h4>
+                <p class="lang-en">From the French Suite No. 1 in D minor, BWV 812, by Johann Sebastian Bach, orchestrated for string orchestra.</p>
+                <p class="lang-el">Από τη Γαλλική σουίτα αρ. 1 σε ρε ελάσσονα, BWV 812, του Γιόχαν Σεμπάστιαν Μπαχ, ενορχηστρωμένη για ορχήστρα εγχόρδων.</p>
+              </div>
+            </div>
+
+            <!-- Buttons: first = deeper content, second = contact (?subject=… fills the Subject box on the contact page; keys are listed in contact/index.html) -->
             <div class="expertise-stage-cta-wrap">
               <div class="stage-cta-buttons">
                 <a href="works/#orchestration" class="expertise-stage-btn">
                   <span class="lang-en">See more orchestrations<span class="btn-arrow"> →</span></span>
                   <span class="lang-el">Περισσότερες ενορχηστρώσεις<span class="btn-arrow"> →</span></span>
                 </a>
-                <a href="contact/" class="expertise-stage-btn is-solid">
+                <a href="contact/?subject=orchestration" class="expertise-stage-btn is-solid">
                   <span class="lang-en">Get in touch<span class="btn-arrow"> →</span></span>
                   <span class="lang-el">Επικοινωνήστε μαζί μου<span class="btn-arrow"> →</span></span>
                 </a>
@@ -643,14 +671,14 @@
               </div>
             </div>
 
-            <!-- Buttons: first = deeper content, second = contact -->
+            <!-- Buttons: first = deeper content, second = contact (?subject=… fills the Subject box on the contact page; keys are listed in contact/index.html) -->
             <div class="expertise-stage-cta-wrap">
               <div class="stage-cta-buttons">
                 <a href="gallery/#performances" class="expertise-stage-btn">
                   <span class="lang-en">More videos<span class="btn-arrow"> →</span></span>
                   <span class="lang-el">Περισσότερα βίντεο<span class="btn-arrow"> →</span></span>
                 </a>
-                <a href="contact/" class="expertise-stage-btn is-solid">
+                <a href="contact/?subject=violin" class="expertise-stage-btn is-solid">
                   <span class="lang-en">Get in touch<span class="btn-arrow"> →</span></span>
                   <span class="lang-el">Επικοινωνήστε μαζί μου<span class="btn-arrow"> →</span></span>
                 </a>
@@ -727,14 +755,14 @@
               </div>
             </div>
 
-            <!-- Buttons: first = deeper content, second = contact -->
+            <!-- Buttons: first = deeper content, second = contact (?subject=… fills the Subject box on the contact page; keys are listed in contact/index.html) -->
             <div class="expertise-stage-cta-wrap">
               <div class="stage-cta-buttons">
                 <a href="works/#sound-design" class="expertise-stage-btn">
                   <span class="lang-en">See more sound work<span class="btn-arrow"> →</span></span>
                   <span class="lang-el">Περισσότερα έργα ήχου<span class="btn-arrow"> →</span></span>
                 </a>
-                <a href="contact/" class="expertise-stage-btn is-solid">
+                <a href="contact/?subject=sound-design" class="expertise-stage-btn is-solid">
                   <span class="lang-en">Get in touch<span class="btn-arrow"> →</span></span>
                   <span class="lang-el">Επικοινωνήστε μαζί μου<span class="btn-arrow"> →</span></span>
                 </a>
@@ -831,7 +859,11 @@
             </div>
 
             <!-- ───────── SCORES: 2 previews, then a button to the full catalogue ─────────
-                 data-pdf-url is reserved for the future score viewer (leave empty for now). -->
+                 Each card opens the page viewer (assets/score-viewer.js). On the card:
+                   data-pages="assets/scores/a-1.webp,assets/scores/a-2.webp,…"   the page pictures, in order
+                   data-count="8"   (only while there are no pictures yet: how many blank pages to show)
+                              data-soon        (no value) the viewer says "Coming soon" and the preview shows it; delete it when the pages are ready
+                 The title above the pages is the card's own title line. -->
             <div class="works-group">
               <h3 class="works-subhead">
                 <span class="lang-en">Scores</span>
@@ -839,22 +871,22 @@
               </h3>
 
               <div class="works-scores">
-                <div class="score-card" data-pdf-url="">
+                <div class="score-card is-viewable" data-score-open data-count="8" data-soon role="button" tabindex="0" aria-label="Open the score">
                   <div class="score-placeholder">
                     <span class="score-icon">𝄞</span>
-                    <p class="lang-en">Score Preview Coming Soon</p>
-                    <p class="lang-el">Παρτιτούρα σύντομα</p>
+                    <p class="lang-en">View the score</p>
+                    <p class="lang-el">Δείτε το έργο</p>
                     <span class="score-num">SCORE 01</span>
                   </div>
                   <span class="score-card-title">emmonæ (abbr.)</span>
                   <span class="label">2024</span>
                 </div>
 
-                <div class="score-card" data-pdf-url="">
+                <div class="score-card is-viewable" data-score-open data-count="6" data-soon role="button" tabindex="0" aria-label="Open the score">
                   <div class="score-placeholder">
                     <span class="score-icon">𝄞</span>
-                    <p class="lang-en">Score Preview Coming Soon</p>
-                    <p class="lang-el">Παρτιτούρα σύντομα</p>
+                    <p class="lang-en">View the score</p>
+                    <p class="lang-el">Δείτε το έργο</p>
                     <span class="score-num">SCORE 02</span>
                   </div>
                   <span class="score-card-title">
@@ -1163,6 +1195,7 @@
   </div>
 
   <!-- Main JavaScript -->
+  <script src="assets/score-viewer.js"></script>
   <script src="script.js"></script>
   <script src="main-intro.js"></script>
 </body>

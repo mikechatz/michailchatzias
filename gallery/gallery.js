@@ -328,8 +328,9 @@
   yearsEl.addEventListener("click", (e) => {
     const btn = e.target.closest(".gal-year");
     if (!btn) return;
-    if (btn.dataset.year === current) clearYear();     // tapping the open year closes it
-    else selectYear(btn.dataset.year);
+    if (btn.dataset.year === current) { clearYear(); return; }     // tapping the open year closes it
+    selectYear(btn.dataset.year);
+    goTo(perf, true);        // the timeline only peeks in below the banner: snap it up to fill the screen (the banner leaves the shot)
   });
 
   /* ---------- 3. Open a year ---------- */

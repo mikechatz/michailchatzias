@@ -132,6 +132,7 @@ html.gal-landed .gal-options { animation: galFadeUp 0.8s var(--ease) 0.45s both;
 .gal-options {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  align-items: start;
   width: min(480px, 86vw);
 }
 .gal-option {
@@ -164,6 +165,63 @@ html.gal-landed .gal-options { animation: galFadeUp 0.8s var(--ease) 0.45s both;
 .gal-option:focus-visible { color: var(--accent); outline: none; }
 .gal-option:hover::after,
 .gal-option:focus-visible::after { transform: scaleX(1); }
+
+/* Photos, not ready yet: a box with no outline. Everything behind it (the banner picture and its glow) and the
+   word itself turn grey; the word sits between two very light parentheses, 2.25 times its size, and the red
+   "coming soon" stands near the bottom edge (it is kept out of the grey on purpose). */
+.gal-soon {
+  --soon-fs: 12px;                                    /* same size as the Performances button; the parentheses follow it */
+  --soon-h: clamp(104px, 15vh, 124px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.28em;
+  width: min(200px, 100%);
+  height: var(--soon-h);
+  margin-top: 6px;
+  padding: 0 0 18px;
+  background: rgba(236, 231, 220, 0.035);          /* a hair of light, so the box can be told from what is around it */
+  -webkit-backdrop-filter: grayscale(1);
+  backdrop-filter: grayscale(1);
+  font-size: var(--soon-fs);
+  letter-spacing: 0.26em;                           /* same as the Performances button */
+  color: rgba(236, 231, 220, 0.8);
+}
+.gal-soon::after { display: none; }
+/* Desktop: the word PHOTOS stands on the same line as PERFORMANCES. The box is pulled up to make that so,
+   so it may well lie over the tip of the arrow. 15px is the height of the centre of the Performances text
+   (its 8px padding plus half a line); 18px is the room kept free under the word for "coming soon". */
+@media (min-width: 769px) {
+  .gal-soon { margin-top: calc(var(--soon-pull, 15px) - (var(--soon-h) - 18px) / 2); }
+}                  /* no red underline */
+.gal-soon:hover,
+.gal-soon:focus-visible { color: #fff; }
+.soon-word,
+.soon-paren { filter: grayscale(1); }
+.soon-word { position: relative; z-index: 1; font-size: 1em; font-weight: 500; }
+.soon-paren {
+  flex: none;
+  font-family: "Cormorant Garamond", var(--font-display);
+  font-weight: 300;                                 /* very light */
+  font-size: 2.25em;                                /* 2.25 times the word */
+  line-height: 1;
+  letter-spacing: 0;
+  color: rgba(236, 231, 220, 0.55);
+  transform: translateY(-0.02em);
+  transition: color 0.3s ease;
+}
+.gal-soon:hover .soon-paren,
+.gal-soon:focus-visible .soon-paren { color: rgba(236, 231, 220, 0.85); }
+.soon-note {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 14px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--accent);
+}
 
 /* ---------- 3. Years, the dotted line, the pane ---------- */
 /* The dotted line is drawn by gallery.js on this canvas: dense along the years, sparser and fainter
@@ -436,14 +494,23 @@ html.gal-landed .gal-options { animation: galFadeUp 0.8s var(--ease) 0.45s both;
 }
 
 /* ---------- 6. Photos placeholder ---------- */
-.gal-stub {
-  margin: 0;
+.gal-stub { margin: 0; display: grid; justify-items: center; gap: 16px; text-align: center; }
+.gal-stub-label {
   font-family: var(--font-body);
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--mute);
+}
+.gal-stub-soon {
+  font-family: "Courier New", Courier, monospace;    /* the "coming soon" lines are set in Courier */
+  font-weight: 700;
+  font-size: clamp(30px, 6.4vw, 88px);
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 
 /* ---------- 7. Mobile: sections side by side, the timeline turned 90° ----------
@@ -470,6 +537,7 @@ html.gal-landed .gal-options { animation: galFadeUp 0.8s var(--ease) 0.45s both;
   .gal-branch { display: none; }
   .gal-options { grid-template-columns: 1fr; width: auto; margin-top: 28px; gap: 10px; }
   .gal-option { font-size: 14px; padding: 10px 6px; }
+  .gal-soon { --soon-fs: 14px; --soon-h: 108px; width: min(240px, 80vw); justify-self: center; }   /* = .gal-option on a phone */
 
   .gal-line {
     top: calc(var(--axis) - 44px);

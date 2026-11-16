@@ -245,6 +245,11 @@ nav {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  /* "clip" instead of "hidden": the leaves waiting at translateX(100vw) make this box wider inside, and a "hidden" box can
+     still be scrolled sideways by the browser (focus, Tab, find-in-page, a link jump). Then the Contact leaf slides into view,
+     the spines slide out, and every transition runs behind it. "clip" cannot be scrolled at all. (On phones the rule in the
+     max-width block below takes over, as before.) */
+  overflow: clip;
 }
 
 .slide-panel {
@@ -839,6 +844,58 @@ nav {
   letter-spacing: 0.18em;
   color: var(--mute);
 }
+
+/* A score preview that opens the page viewer (assets/score-viewer.js) */
+.score-preview-box.is-viewable,
+.score-card.is-viewable { cursor: pointer; }
+.score-preview-box.is-viewable:focus-visible,
+.score-card.is-viewable:focus-visible { outline: none; }
+.score-preview-box.is-viewable:hover .score-placeholder,
+.score-preview-box.is-viewable:focus-visible .score-placeholder,
+.score-card.is-viewable:hover .score-placeholder,
+.score-card.is-viewable:focus-visible .score-placeholder {
+  border-style: solid;
+  border-color: var(--accent);
+  background: #0e0d0b;
+}
+.score-preview-box.is-viewable .score-placeholder p,
+.score-card.is-viewable .score-placeholder p { transition: color 0.3s; }
+.score-preview-box.is-viewable:hover .score-placeholder p,
+.score-preview-box.is-viewable:focus-visible .score-placeholder p,
+.score-card.is-viewable:hover .score-placeholder p,
+.score-card.is-viewable:focus-visible .score-placeholder p { color: var(--accent); }
+
+/* A score preview that shows the title page (the picture sits in the placeholder, the words wait until hover) */
+.score-placeholder.has-img { position: relative; padding: 0; overflow: hidden; background: #f6f3ec; border-style: solid; }
+.score-placeholder.has-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
+.score-placeholder.has-img .score-icon,
+.score-placeholder.has-img p { position: relative; z-index: 1; opacity: 0; transition: opacity 0.3s, color 0.3s; }
+.score-placeholder.has-img::after { content: ""; position: absolute; inset: 0; background: rgba(11,11,10,.82); opacity: 0; transition: opacity 0.3s; }
+.score-placeholder.has-img .score-icon, .score-placeholder.has-img p { z-index: 2; }
+.score-preview-box.is-viewable:hover .score-placeholder.has-img::after,
+.score-preview-box.is-viewable:focus-visible .score-placeholder.has-img::after { opacity: 1; }
+.score-preview-box.is-viewable:hover .score-placeholder.has-img .score-icon,
+.score-preview-box.is-viewable:focus-visible .score-placeholder.has-img .score-icon { opacity: .75; }
+.score-preview-box.is-viewable:hover .score-placeholder.has-img p,
+.score-preview-box.is-viewable:focus-visible .score-placeholder.has-img p { opacity: 1; }
+@media (hover: none) { .score-placeholder.has-img::after { display: none; } .score-placeholder.has-img .score-icon, .score-placeholder.has-img p { display: none; } }
+
+/* A preview with data-soon: "Coming soon" instead of "View the score" (Courier, light, accent colour). Remove data-soon and it is gone. */
+[data-soon] > .score-placeholder::after {
+  content: "Coming soon";
+  order: 1;
+  margin: 4px 0 10px;
+  font: 300 11px/1 "Courier New", Courier, monospace;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+[data-soon] > .score-placeholder .score-num { order: 2; }
+body.lang-el-active [data-soon] > .score-placeholder::after { content: "Σύντομα"; }
+body.lang-cn-active [data-soon] > .score-placeholder::after { content: "即将推出"; }
+body [data-soon] > .score-placeholder p.lang-en,
+body [data-soon] > .score-placeholder p.lang-el,
+body [data-soon] > .score-placeholder p.lang-cn { display: none !important; }
 
 /* Score text */
 .score-text-box h4 {

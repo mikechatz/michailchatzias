@@ -26,6 +26,8 @@
 
   <!-- Shared stylesheet (one level up) -->
   <link rel="stylesheet" href="../style.css">
+  <!-- Contact page only: link buttons and the subject drop-down -->
+  <link rel="stylesheet" href="contact.css">
 </head>
 <body class="subpage lang-en-active"
       data-title-en="Contact — Michaïl Chatziasemidis"
@@ -77,9 +79,9 @@
 
     <div class="sub-lang">
       <button class="lang-btn active" id="btn-lang-en" data-lang="en">EN</button>
-      <span class="lang-sep">/</span>
+      <span class="lang-sep">|</span>
       <button class="lang-btn" id="btn-lang-el" data-lang="el">ΕΛ</button>
-      <!-- <span class="lang-sep">/</span>
+      <!-- <span class="lang-sep">|</span>
       <button class="lang-btn" id="btn-lang-cn">中文</button> -->
     </div>
     <button type="button" id="mobile-hamburger" class="mobile-hamburger" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
@@ -139,27 +141,26 @@
 
       <div class="contact-layout">
                   <!-- Direct Links -->
+                  <!-- Direct Links: an icon in place of the name (aria-label / title keep the name for screen readers and hover) -->
                   <div class="contact-links">
-                    <a href="mailto:michailchatzias@gmail.com">
-                      <b class="lang-en">Email</b>
-                      <b class="lang-el">Email</b>
-                      <b class="lang-cn">电子邮件</b>
+                    <a href="mailto:michailchatzias@gmail.com" aria-label="Email" title="Email">
+                      <svg class="cl-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3.5 7.5 12 13.5l8.5-6"/></svg>
                       <span>michailchatzias@gmail.com</span>
                     </a>
-                    <a href="https://instagram.com/michailchatzias/" target="_blank" rel="noopener">
-                      <b>Instagram</b>
+                    <a href="https://instagram.com/michailchatzias/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+                      <svg class="cl-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".9" class="fill"/></svg>
                       <span>instagram.com/michailchatzias</span>
                     </a>
-                    <a href="https://michailchatzias.bandcamp.com" target="_blank" rel="noopener">
-                      <b>Bandcamp</b>
+                    <a href="https://michailchatzias.bandcamp.com" target="_blank" rel="noopener" aria-label="Bandcamp" title="Bandcamp">
+                      <svg class="cl-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 18 8 6h13.5L16 18Z"/></svg>
                       <span>michailchatzias.bandcamp.com</span>
                     </a>
-                    <a href="https://soundcloud.com/michailchatzias" target="_blank" rel="noopener">
-                      <b>SoundCloud</b>
+                    <a href="https://soundcloud.com/michailchatzias" target="_blank" rel="noopener" aria-label="SoundCloud" title="SoundCloud">
+                      <svg class="cl-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.5 18.5V8.6c1.3-.8 2.9-1.1 4.4-.7 2 .5 3.4 2.2 3.7 4.2 1.8-.1 3.100 1.100 3.100 2.700s-1.300 2.700-3 2.700Z"/><path d="M3 13v3.500M6 11v5.500M9 9.500V16.500"/></svg>
                       <span>soundcloud.com/michailchatzias</span>
                     </a>
-                    <a href="https://youtube.com/@michailchatzias" target="_blank" rel="noopener">
-                      <b>YouTube</b>
+                    <a href="https://youtube.com/@michailchatzias" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube">
+                      <svg class="cl-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9.200 5 2.800-5 2.800Z" class="fill"/></svg>
                       <span>youtube.com/@michailchatzias</span>
                     </a>
                   </div>
@@ -202,7 +203,38 @@
                         <span class="lang-el">ΘΕΜΑ</span>
                         <span class="lang-cn">主题</span>
                       </label>
-                      <input type="text" id="form-subject" name="subject" required placeholder="Game Audio / Composition Commission">
+                      <!-- A text box you can type in freely. The arrow at its end opens prepared subjects (contact.js);
+                           choosing one only fills the box, and it stays editable.
+                           To change the suggestions, edit the <li> items below (data-en / data-el / data-cn = the text that is inserted).
+                           data-key is what a link can ask for: contact/?subject=composition fills the box with that suggestion
+                           (keys: game-audio, composition, orchestration, sound-design, collaboration, score, violin). -->
+                      <div class="subj-field" id="subject-field">
+                        <input type="text" id="form-subject" name="subject" required autocomplete="off"
+                               role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="subject-list"
+                               placeholder="Game Audio / Composition Commission">
+                        <button type="button" class="subj-toggle" id="subject-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="subject-list">
+                          <span class="subj-sr lang-en">Show suggested subjects</span>
+                          <span class="subj-sr lang-el">Εμφάνιση προτεινόμενων θεμάτων</span>
+                          <span class="subj-sr lang-cn">显示推荐主题</span>
+                          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9.500 6 6 6-6"/></svg>
+                        </button>
+                        <div class="subj-pop" id="subject-pop" hidden>
+                          <p class="subj-hint">
+                            <span class="lang-en">Pick one, then edit it as you like</span>
+                            <span class="lang-el">Διαλέξτε ένα και αλλάξτε το όπως θέλετε</span>
+                            <span class="lang-cn">选择后可自由修改</span>
+                          </p>
+                          <ul class="subj-list" id="subject-list" role="listbox" aria-label="Suggested subjects">
+                          <li role="option" id="subj-opt-1" data-key="game-audio" aria-selected="false" data-en="Game audio inquiry" data-el="Ερώτημα για game audio" data-cn="游戏音频咨询"><span class="lang-en">Game audio inquiry</span><span class="lang-el">Ερώτημα για game audio</span><span class="lang-cn">游戏音频咨询</span></li>
+                          <li role="option" id="subj-opt-2" data-key="composition" aria-selected="false" data-en="Composition commission" data-el="Ανάθεση σύνθεσης" data-cn="委约作曲"><span class="lang-en">Composition commission</span><span class="lang-el">Ανάθεση σύνθεσης</span><span class="lang-cn">委约作曲</span></li>
+                          <li role="option" id="subj-opt-3" data-key="orchestration" aria-selected="false" data-en="Orchestration / arrangement" data-el="Ενορχήστρωση / διασκευή" data-cn="配器 / 改编"><span class="lang-en">Orchestration / arrangement</span><span class="lang-el">Ενορχήστρωση / διασκευή</span><span class="lang-cn">配器 / 改编</span></li>
+                          <li role="option" id="subj-opt-4" data-key="sound-design" aria-selected="false" data-en="Sound design" data-el="Sound design" data-cn="音效设计"><span class="lang-en">Sound design</span><span class="lang-el">Sound design</span><span class="lang-cn">音效设计</span></li>
+                          <li role="option" id="subj-opt-5" data-key="collaboration" aria-selected="false" data-en="Collaboration" data-el="Συνεργασία" data-cn="合作"><span class="lang-en">Collaboration</span><span class="lang-el">Συνεργασία</span><span class="lang-cn">合作</span></li>
+                          <li role="option" id="subj-opt-6" data-key="score" aria-selected="false" data-en="Score request" data-el="Αίτημα για παρτιτούρα" data-cn="乐谱请求"><span class="lang-en">Score request</span><span class="lang-el">Αίτημα για παρτιτούρα</span><span class="lang-cn">乐谱请求</span></li>
+                          <li role="option" id="subj-opt-7" data-key="violin" aria-selected="false" data-en="Violin performance / recording" data-el="Βιολί: εκτέλεση / ηχογράφηση" data-cn="小提琴演奏 / 录音"><span class="lang-en">Violin performance / recording</span><span class="lang-el">Βιολί: εκτέλεση / ηχογράφηση</span><span class="lang-cn">小提琴演奏 / 录音</span></li>
+                          </ul>
+                        </div>
+                      </div>
                     </div>
 
                     <div class="form-group">
@@ -236,5 +268,6 @@
   </main>
 
   <script src="../subpage.js"></script>
+  <script src="contact.js"></script>
 </body>
 </html>

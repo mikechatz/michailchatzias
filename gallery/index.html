@@ -22,7 +22,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,700;1,500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
 
   <!-- Title-screen intro: switched on here so the page never flashes before the black screen (off for "reduce motion") -->
   <script>
@@ -88,9 +88,9 @@
 
     <div class="sub-lang">
       <button class="lang-btn active" id="btn-lang-en" data-lang="en">EN</button>
-      <span class="lang-sep">/</span>
+      <span class="lang-sep">|</span>
       <button class="lang-btn" id="btn-lang-el" data-lang="el">ΕΛ</button>
-      <!-- <span class="lang-sep">/</span>
+      <!-- <span class="lang-sep">|</span>
       <button class="lang-btn" id="btn-lang-cn">中文</button> -->
     </div>
     <button type="button" id="mobile-hamburger" class="mobile-hamburger" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
@@ -164,9 +164,21 @@
             <span class="lang-en">Performances</span>
             <span class="lang-el">Συναυλίες</span>
           </button>
-          <button type="button" class="gal-option" data-go="photos">
-            <span class="lang-en">Photos</span>
-            <span class="lang-el">Φωτογραφίες</span>
+          <!-- Photos is not ready yet: its option sits in a greyed box (everything behind it, banner included, turns grey)
+               with the word between two oversized parentheses and "coming soon" at the bottom. It still leads to the Photos section. -->
+          <button type="button" class="gal-option gal-soon" data-go="photos">
+            <span class="soon-paren" aria-hidden="true">(</span>
+            <span class="soon-word">
+              <span class="lang-en">Photos</span>
+              <span class="lang-el">Φωτογραφίες</span>
+              <span class="lang-cn">照片</span>
+            </span>
+            <span class="soon-paren" aria-hidden="true">)</span>
+            <span class="soon-note">
+              <span class="lang-en">Coming soon</span>
+              <span class="lang-el">Σύντομα</span>
+              <span class="lang-cn">敬请期待</span>
+            </span>
           </button>
         </div>
       </div>
@@ -423,8 +435,16 @@
          ====================================================================== -->
     <section class="gal-photos" id="gal-photos" aria-label="Photos">
       <p class="gal-stub">
-        <span class="lang-en">Photos · coming soon</span>
-        <span class="lang-el">Φωτογραφίες · σύντομα</span>
+        <span class="gal-stub-label">
+          <span class="lang-en">Photos</span>
+          <span class="lang-el">Φωτογραφίες</span>
+          <span class="lang-cn">照片</span>
+        </span>
+        <span class="gal-stub-soon">
+          <span class="lang-en">Coming soon</span>
+          <span class="lang-el">Σύντομα</span>
+          <span class="lang-cn">敬请期待</span>
+        </span>
       </p>
     </section>
 

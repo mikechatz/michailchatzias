@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en" class="subpage works-page">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Works — Michaïl Chatziasemidis</title>
+  <link rel="canonical" href="https://michailchatzias.com/works/">
+  <meta name="description" content="The work catalogue, recordings and scores of Michaïl Chatziasemidis: compositions, orchestration and sound design.">
+
+  <meta property="og:title" content="Works — Michaïl Chatziasemidis">
+  <meta property="og:description" content="Work catalogue, recordings and score previews.">
+  <meta property="og:image" content="https://michailchatzias.com/assets/background.webp">
+  <meta property="og:url" content="https://michailchatzias.com/works/">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Works — Michaïl Chatziasemidis">
+  <meta name="twitter:description" content="Work catalogue, recordings and score previews.">
+  <meta name="twitter:image" content="https://michailchatzias.com/assets/background.webp">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>𝄞</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+
+  <!-- Shared styles first, then everything specific to this page -->
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../assets/score-viewer.css">
+  <link rel="stylesheet" href="works.css">
+
+  <!-- Without JavaScript: no shelf, every volume is simply shown one after the other -->
+  <noscript><style>.wk-stage { display: none; } .wk-vol[hidden] { display: flex; } .wk-vol { position: static; } .wk-main { position: static; padding-top: 90px; } html.works-page, html.works-page body { overflow: auto; height: auto; } .vol-close { display: none; } .sc-viewer { display: none; }</style></noscript>
+</head>
+<body class="subpage lang-en-active"
+      data-title-en="Works — Michaïl Chatziasemidis"
+      data-title-el="Έργα — Μιχαήλ Χατζηασεμίδης"
+      data-title-cn="作品 — 米哈伊尔·Chatziasemidis">
+
+  <script>
+    try {
+      var l = localStorage.getItem("preferred_lang");
+      if (l === "el" || l === "cn") {
+        document.documentElement.lang = l;
+        document.body.className = "subpage lang-" + l + "-active";
+      }
+    } catch (e) {}
+  </script>
+
+  <header class="sub-nav">
+    <a class="nav-brand" href="../" aria-label="Back to the main page">M.</a>
+
+    <div class="sub-nav-links" role="navigation" aria-label="Main">
+      <a href="../#about">
+        <span class="lang-en">About</span>
+        <span class="lang-el">Σχετικά</span>
+        <span class="lang-cn">关于</span>
+      </a>
+      <a href="../#expertise">
+        <span class="lang-en">Expertise</span>
+        <span class="lang-el">Ειδικότητες</span>
+        <span class="lang-cn">专业</span>
+      </a>
+      <a href="./" class="active" aria-current="page">
+        <span class="lang-en">Works</span>
+        <span class="lang-el">Έργα</span>
+        <span class="lang-cn">作品</span>
+      </a>
+      <a href="../gallery/">
+        <span class="lang-en">Gallery</span>
+        <span class="lang-el">Γκαλερί</span>
+        <span class="lang-cn">画廊</span>
+      </a>
+      <a href="../contact/">
+        <span class="lang-en">Contact</span>
+        <span class="lang-el">Επικοινωνία</span>
+        <span class="lang-cn">联系</span>
+      </a>
+    </div>
+
+    <div class="sub-lang">
+      <button class="lang-btn active" id="btn-lang-en" data-lang="en">EN</button>
+      <span class="lang-sep">|</span>
+      <button class="lang-btn" id="btn-lang-el" data-lang="el">ΕΛ</button>
+      <!-- <span class="lang-sep">|</span>
+      <button class="lang-btn" id="btn-lang-cn">中文</button> -->
+    </div>
+    <button type="button" id="mobile-hamburger" class="mobile-hamburger" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- MOBILE ONLY: hamburger menu (styles from style.css; behaviour in subpage.js) -->
+  <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+    <button type="button" id="mobile-menu-close" class="mobile-menu-close" aria-label="Close menu">✕</button>
+    <div class="mobile-menu-nav" role="navigation" aria-label="Main">
+    <a class="mobile-menu-link" href="../#about">
+      <span class="lang-en">About</span>
+      <span class="lang-el">Σχετικά</span>
+      <span class="lang-cn">关于</span>
+    </a>
+    <a class="mobile-menu-link" href="../#expertise">
+      <span class="lang-en">Expertise</span>
+      <span class="lang-el">Ειδικότητες</span>
+      <span class="lang-cn">专业</span>
+    </a>
+    <a class="mobile-menu-link active" href="./" aria-current="page">
+      <span class="lang-en">Works</span>
+      <span class="lang-el">Έργα</span>
+      <span class="lang-cn">作品</span>
+    </a>
+    <a class="mobile-menu-link" href="../gallery/">
+      <span class="lang-en">Gallery</span>
+      <span class="lang-el">Γκαλερί</span>
+      <span class="lang-cn">画廊</span>
+    </a>
+    <a class="mobile-menu-link" href="../contact/">
+      <span class="lang-en">Contact</span>
+      <span class="lang-el">Επικοινωνία</span>
+      <span class="lang-cn">联系</span>
+    </a>
+    </div>
+    <div class="mobile-menu-lang">
+      <button type="button" class="lang-btn active" data-lang="en">EN</button>
+      <span class="lang-sep">|</span>
+      <button type="button" class="lang-btn" data-lang="el">ΕΛ</button>
+    </div>
+  </div>
+  <div id="mobile-menu-backdrop" class="mobile-menu-backdrop"></div>
+
+<main class="wk-main" id="wk-main">
+
+  <!-- ======================================================================
+       THE SHELF
+       Three objects stand on it and show only their spines. Clicking one takes it
+       off the shelf (works.js clones it, turns it to its cover and opens it);
+       the volume below it (id="vol-…") then fills the screen.
+
+       Each object has two faces, both drawn here:
+         .f-spine  what you see on the shelf
+         .f-cover  what you see when it has been taken out
+       The look of each one (colours, lettering) is in works.css, section 3.
+       ====================================================================== -->
+  <section class="wk-stage" id="wk-stage" aria-label="Shelf">
+
+    <h1 class="wk-title">
+      <span class="lang-en">Works</span>
+      <span class="lang-el">Έργα</span>
+      <span class="lang-cn">作品</span>
+    </h1>
+
+    <div class="wk-niche">
+      <div class="wk-shelf" id="wk-shelf">
+
+        <!-- I · Work Catalogue: a ledger-style book -->
+        <button type="button" class="wk-item k-catalogue" data-open="catalogue" style="--i:0" aria-label="Open: Work Catalogue">
+          <div class="wk-box">
+            <div class="f-spine">
+              <span class="sp-band"></span>
+              <span class="sp-title">
+                <span class="lang-en">Work Catalogue</span>
+                <span class="lang-el">Κατάλογος Έργων</span>
+                <span class="lang-cn">作品目录</span>
+              </span>
+              <span class="sp-mark">M.C.</span>
+              <span class="sp-band"></span>
+            </div>
+            <div class="f-cover">
+              <div class="cv-frame">
+                <span class="cv-num">I</span>
+                <span class="cv-title">
+                  <span class="lang-en">Work<br>Catalogue</span>
+                  <span class="lang-el">Κατάλογος<br>Έργων</span>
+                  <span class="lang-cn">作品<br>目录</span>
+                </span>
+                <span class="cv-rule"></span>
+                <span class="cv-name">Michaïl Chatziasemidis</span>
+              </div>
+            </div>
+          </div>
+        </button>
+
+        <!-- II · Recordings: a record sleeve (the vinyl slides out when it opens) -->
+        <button type="button" class="wk-item k-recordings" data-open="recordings" style="--i:1" aria-label="Open: Recordings">
+          <div class="wk-box">
+            <div class="f-spine">
+              <span class="sp-title">
+                <span class="lang-en">Recordings</span>
+                <span class="lang-el">Ηχογραφήσεις</span>
+                <span class="lang-cn">录音</span>
+              </span>
+              <span class="sp-mark">LP</span>
+            </div>
+            <div class="f-cover">
+              <span class="cv-ring"></span>
+              <span class="cv-num">II</span>
+              <span class="cv-title">
+                <span class="lang-en">Recordings</span>
+                <span class="lang-el">Ηχογραφήσεις</span>
+                <span class="lang-cn">录音</span>
+              </span>
+              <span class="cv-name">Michaïl Chatziasemidis</span>
+            </div>
+          </div>
+        </button>
+
+        <!-- III · Scores: a dossier with a strap -->
+        <button type="button" class="wk-item k-scores" data-open="scores" style="--i:2" aria-label="Open: Scores">
+          <div class="wk-box">
+            <div class="f-spine">
+              <span class="sp-band"></span>
+              <span class="sp-label">
+                <span class="sp-title">
+                  <span class="lang-en">Scores</span>
+                  <span class="lang-el">Παρτιτούρες</span>
+                  <span class="lang-cn">乐谱</span>
+                </span>
+              </span>
+              <span class="sp-mark">M.C.</span>
+              <span class="sp-band"></span>
+            </div>
+            <div class="f-cover">
+              <span class="cv-tab">
+                <span class="lang-en">Scores</span>
+                <span class="lang-el">Παρτιτούρες</span>
+                <span class="lang-cn">乐谱</span>
+              </span>
+              <span class="cv-strap"></span>
+              <span class="cv-num">III</span>
+              <span class="cv-name">Michaïl Chatziasemidis</span>
+            </div>
+          </div>
+        </button>
+
+      </div>
+    </div>
+
+    <p class="wk-hint">
+      <span class="lang-en">Take one off the shelf</span>
+      <span class="lang-el">Διαλέξτε ένα από το ράφι</span>
+      <span class="lang-cn">从书架上取下一本</span>
+    </p>
+  </section>
+
+
+  <!-- ======================================================================
+       VOLUME I · WORK CATALOGUE
+       Plain lists, so search engines and screen readers can read all of it. The layout follows the
+       catalogue of Dimitris Economou: a heading for each kind of work (here the kinds of ensemble),
+       and for each work its title, its instrumentation, then one line of facts (duration, date,
+       commission, premiere). Works are listed newest first inside each heading.
+
+       HOW TO ADD A WORK: copy one <li class="cat-row"> and put it in the <ul> under the right heading
+       (<h4 class="cat-sub">) of the Compositions group. To add a new heading, copy an <h4> and its <ul>.
+         data-cat   compositions | orchestration | sound-design  (on the group; the filter uses it)
+
+       The line of facts is <p class="cat-meta"> with one <span class="m"> for each fact. Leave a fact out
+       when it is not known (the line disappears when it is empty). Examples, in the order used on
+       Dimitris Economou's page:
+         <span class="m">Duration: 6′</span>
+         <span class="m"><span class="lang-en">7 April 2024</span><span class="lang-el">7/IV/2024</span></span>
+         <span class="m"><span class="lang-en">Commissioned by NAME (2024)</span><span class="lang-el">Παραγγελία από NAME (2024)</span></span>
+         <span class="m"><span class="lang-en">Premiere: PERFORMERS, VENUE, CITY, 12/04/2024</span><span class="lang-el">Πρώτη εκτέλεση: …</span></span>
+       Do not use the word "solo" for the instrumentation (write "for clarinet in B♭", "for piano").
+       The REC / SCORE chips are buttons: REC opens the Recordings and plays that record, SCORE opens the Scores and
+       the score viewer. Both find the work by data-key, which must be the same as the data-key of the <button class="rec">
+       and of the <button class="sc-card"> of that work (a work without a recording or a score gets no chip for it).
+       ====================================================================== -->
+  <section class="wk-vol" id="vol-catalogue" data-vol="catalogue" hidden aria-labelledby="h-catalogue">
+    <div class="vol-bar">
+      <button type="button" class="vol-close" aria-label="Back to the shelf">
+        <svg class="vol-x" viewBox="0 0 36 12" aria-hidden="true"><path class="vx-shaft" d="M2 6H34"/><path class="vx-head" d="M7.200 .8 2 6l5.200 5.200"/></svg>
+        <span class="vol-back"><span class="lang-en">Back to the shelf</span><span class="lang-el">Πίσω στο ράφι</span><span class="lang-cn">返回书架</span></span>
+      </button>
+      <span class="vol-tag">I</span>
+    </div>
+    <div class="vol-scroll">
+      <div class="wk-vol-inner">
+        <header class="vol-head">
+          <h2 class="vol-title" id="h-catalogue">
+            <span class="lang-en">Work Catalogue</span>
+            <span class="lang-el">Κατάλογος Έργων</span>
+            <span class="lang-cn">作品目录</span>
+          </h2>
+          <p class="vol-sub">
+            <span class="lang-en">Compositions, orchestrations and sound design.</span>
+            <span class="lang-el">Συνθέσεις, ενορχηστρώσεις και sound design.</span>
+            <span class="lang-cn">作曲、配器与声音设计。</span>
+          </p>
+        </header>
+
+        <div class="cat-filter" role="group" aria-label="Filter">
+          <button type="button" class="cat-f" data-filter="all" aria-pressed="true"><span class="lang-en">All</span><span class="lang-el">Όλα</span><span class="lang-cn">全部</span></button>
+          <button type="button" class="cat-f" data-filter="compositions" aria-pressed="false"><span class="lang-en">Compositions</span><span class="lang-el">Συνθέσεις</span><span class="lang-cn">作曲</span></button>
+          <button type="button" class="cat-f" data-filter="orchestration" aria-pressed="false"><span class="lang-en">Orchestrations</span><span class="lang-el">Ενορχηστρώσεις</span><span class="lang-cn">配器</span></button>
+          <button type="button" class="cat-f" data-filter="sound-design" aria-pressed="false"><span class="lang-en">Sound design</span><span class="lang-el">Sound design</span><span class="lang-cn">声音设计</span></button>
+        </div>
+
+        <section class="cat-group" data-cat="compositions" aria-labelledby="cg-compositions">
+          <h3 class="grp-h" id="cg-compositions"><span class="lang-en">Compositions</span><span class="lang-el">Συνθέσεις</span><span class="lang-cn">作曲</span></h3>
+          <h4 class="cat-sub"><span class="lang-en">Orchestral</span><span class="lang-el">Ορχηστρικά</span></h4>
+          <ul class="cat-list">
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2025</span>
+            <div class="cat-body">
+              <span class="cat-title">Lamento</span>
+              <span class="cat-forces"><span class="lang-en">for orchestra</span><span class="lang-el">για ορχήστρα</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">30 June 2025</span><span class="lang-el">30/VI/2025</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"></span>
+          </li>
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2022</span>
+            <div class="cat-body">
+              <span class="cat-title">arcānum</span>
+              <span class="cat-forces"><span class="lang-en">for symphony orchestra</span><span class="lang-el">για συμφωνική ορχήστρα</span></span>
+            </div>
+            <span class="cat-marks"></span>
+          </li>
+          </ul>
+          <h4 class="cat-sub"><span class="lang-en">Choral</span><span class="lang-el">Χορωδιακά</span></h4>
+          <ul class="cat-list">
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2024</span>
+            <div class="cat-body">
+              <span class="cat-title"><span class="lang-en">Christmas Carols</span><span class="lang-el">Κάλαντα Χριστουγέννων</span></span>
+              <span class="cat-forces"><span class="lang-en">for mixed choir</span><span class="lang-el">για μικτή χορωδία</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">10 January 2024</span><span class="lang-el">10/I/2024</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"></span>
+          </li>
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2022</span>
+            <div class="cat-body">
+              <span class="cat-title">Per voci 3</span>
+              <span class="cat-forces"><span class="lang-en">for women’s choir</span><span class="lang-el">για γυναικεία χορωδία</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">5 October 2022</span><span class="lang-el">5/X/2022</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"></span>
+          </li>
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2022</span>
+            <div class="cat-body">
+              <span class="cat-title"><span class="lang-en">2 Haiku for Autumn</span><span class="lang-el">2 χαϊκού για το φθινόπωρο</span></span>
+              <span class="cat-forces"><span class="lang-en">for mixed choir</span><span class="lang-el">για μικτή χορωδία</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">5 September 2022</span><span class="lang-el">5/IX/2022</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"></span>
+          </li>
+          </ul>
+          <h4 class="cat-sub"><span class="lang-en">Chamber ensembles</span><span class="lang-el">Μουσική δωματίου</span></h4>
+          <ul class="cat-list">
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2024</span>
+            <div class="cat-body">
+              <span class="cat-title">emmonæ (abbr.)</span>
+              <span class="cat-forces"><span class="lang-en">for flute, violin, cello and piano</span><span class="lang-el">για φλάουτο, βιολί, βιολοντσέλο και πιάνο</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">4 April 2024</span><span class="lang-el">4/IV/2024</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"><button type="button" class="chip" data-go="recordings" data-key="emmonae-abbr">REC</button><button type="button" class="chip" data-go="scores" data-key="emmonae-abbr">SCORE</button></span>
+          </li>
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2024</span>
+            <div class="cat-body">
+              <span class="cat-title">emmonæ</span>
+              <span class="cat-forces"><span class="lang-en">for flute, violin, cello and piano</span><span class="lang-el">για φλάουτο, βιολί, βιολοντσέλο και πιάνο</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">4 April 2024</span><span class="lang-el">4/IV/2024</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"></span>
+          </li>
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2023</span>
+            <div class="cat-body">
+              <span class="cat-title"><span class="lang-en">String Quartet</span><span class="lang-el">Κουαρτέτο εγχόρδων</span></span>
+              <span class="cat-forces"><span class="lang-en">for string quartet</span><span class="lang-el">για κουαρτέτο εγχόρδων</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">19 July 2023</span><span class="lang-el">19/VII/2023</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"></span>
+          </li>
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2022</span>
+            <div class="cat-body">
+              <span class="cat-title">Ángor</span>
+              <span class="cat-forces"><span class="lang-en">transcription for wind quintet</span><span class="lang-el">μεταγραφή για κουιντέτο πνευστών</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">9 December 2022</span><span class="lang-el">9/XII/2022</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"></span>
+          </li>
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2022</span>
+            <div class="cat-body">
+              <span class="cat-title">Ángor</span>
+              <span class="cat-forces"><span class="lang-en">for violin I, violin II (or viola), cello, clarinet in B♭ and trombone</span><span class="lang-el">για βιολί I, βιολί II (ή βιόλα), βιολοντσέλο, κλαρινέτο σε σι♭ και τρομπόνι</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">9 December 2022</span><span class="lang-el">9/XII/2022</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"></span>
+          </li>
+          </ul>
+          <h4 class="cat-sub"><span class="lang-en">Trios</span><span class="lang-el">Τρίο</span></h4>
+          <ul class="cat-list">
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2022</span>
+            <div class="cat-body">
+              <span class="cat-title">Tr1o</span>
+              <span class="cat-forces"><span class="lang-en">for flute, cello and piano</span><span class="lang-el">για φλάουτο, βιολοντσέλο και πιάνο</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">12 March 2022</span><span class="lang-el">12/III/2022</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"></span>
+          </li>
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2021</span>
+            <div class="cat-body">
+              <span class="cat-title"><span class="lang-en">Three-voice Twelve-tone Miniature</span><span class="lang-el">Τρίφωνη δωδεκάφθογγη μινιατούρα</span></span>
+              <span class="cat-forces"><span class="lang-en">for clarinet in B♭, violin and cello</span><span class="lang-el">για κλαρινέτο σε σι♭, βιολί και βιολοντσέλο</span></span>
+            </div>
+            <span class="cat-marks"></span>
+          </li>
+          </ul>
+          <h4 class="cat-sub"><span class="lang-en">Duos</span><span class="lang-el">Ντουέτα</span></h4>
+          <ul class="cat-list">
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2023</span>
+            <div class="cat-body">
+              <span class="cat-title">II aves canunt de IV temporibus anni</span>
+              <span class="cat-forces"><span class="lang-en">for flute and clarinet in B♭</span><span class="lang-el">για φλάουτο και κλαρινέτο σε σι♭</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">17 April 2023</span><span class="lang-el">17/IV/2023</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"></span>
+          </li>
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2021</span>
+            <div class="cat-body">
+              <span class="cat-title">Δερ-Β6-07-εν-Ά822-κια</span>
+              <span class="cat-forces"><span class="lang-en">duo for cello and piano</span><span class="lang-el">ντουέτο για βιολοντσέλο και πιάνο</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">12 May 2021</span><span class="lang-el">12/V/2021</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"></span>
+          </li>
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2021</span>
+            <div class="cat-body">
+              <span class="cat-title"><span class="lang-en">Two-voice Twelve-tone Miniature</span><span class="lang-el">Δίφωνη δωδεκάφθογγη μινιατούρα</span></span>
+              <span class="cat-forces"><span class="lang-en">for violin and clarinet in B♭</span><span class="lang-el">για βιολί και κλαρινέτο σε σι♭</span></span>
+            </div>
+            <span class="cat-marks"></span>
+          </li>
+          </ul>
+          <h4 class="cat-sub"><span class="lang-en">One instrument</span><span class="lang-el">Για ένα όργανο</span></h4>
+          <ul class="cat-list">
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2024</span>
+            <div class="cat-body">
+              <span class="cat-title"><span class="lang-en">2 Miniatures</span><span class="lang-el">2 μινιατούρες</span></span>
+              <span class="cat-forces"><span class="lang-en">for clarinet in B♭</span><span class="lang-el">για κλαρινέτο σε σι♭</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">7 April 2024</span><span class="lang-el">7/IV/2024</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"><button type="button" class="chip" data-go="recordings" data-key="miniatures">REC</button><button type="button" class="chip" data-go="scores" data-key="miniatures">SCORE</button></span>
+          </li>
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2023</span>
+            <div class="cat-body">
+              <span class="cat-title"><span class="lang-en">Prelude</span><span class="lang-el">Πρελούδιο</span></span>
+              <span class="cat-forces"><span class="lang-en">for piano</span><span class="lang-el">για πιάνο</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">12 August 2023</span><span class="lang-el">12/VIII/2023</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"></span>
+          </li>
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2022</span>
+            <div class="cat-body">
+              <span class="cat-title">somniátrix lycóris</span>
+              <span class="cat-forces"><span class="lang-en">for piano</span><span class="lang-el">για πιάνο</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">27 April 2022</span><span class="lang-el">27/IV/2022</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"></span>
+          </li>
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2021</span>
+            <div class="cat-body">
+              <span class="cat-title"><span class="lang-en">Twelve-tone Miniature</span><span class="lang-el">Δωδεκάφθογγη μινιατούρα</span></span>
+              <span class="cat-forces"><span class="lang-en">for clarinet in B♭</span><span class="lang-el">για κλαρινέτο σε σι♭</span></span>
+            </div>
+            <span class="cat-marks"></span>
+          </li>
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2020</span>
+            <div class="cat-body">
+              <span class="cat-title">Extrā fenestram</span>
+              <span class="cat-forces"><span class="lang-en">for flute</span><span class="lang-el">για φλάουτο</span></span>
+            </div>
+            <span class="cat-marks"></span>
+          </li>
+          </ul>
+          <h4 class="cat-sub"><span class="lang-en">Electronic</span><span class="lang-el">Ηλεκτρονικά μέσα</span></h4>
+          <ul class="cat-list">
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2024</span>
+            <div class="cat-body">
+              <span class="cat-title">lo-fi{re} /*a lo-fi soundscape*/</span>
+              <span class="cat-forces"><span class="lang-en">for electronic media</span><span class="lang-el">για ηλεκτρονικά μέσα</span></span>
+            </div>
+            <span class="cat-marks"><button type="button" class="chip" data-go="recordings" data-key="lofire">REC</button></span>
+          </li>
+          </ul>
+        </section>
+        <section class="cat-group" data-cat="orchestration" aria-labelledby="cg-orchestration">
+          <h3 class="grp-h" id="cg-orchestration"><span class="lang-en">Orchestrations</span><span class="lang-el">Ενορχηστρώσεις</span><span class="lang-cn">配器</span></h3>
+          <ul class="cat-list">
+          <li class="cat-row" data-cat="orchestration">
+            <span class="cat-year">2025</span>
+            <div class="cat-body">
+              <span class="cat-title"><span class="lang-en">Rhapsody in B minor, Op. 79, No. 1</span><span class="lang-el">Ραψωδία σε σι ελάσσονα, έργο 79, αρ. 1</span></span>
+              <span class="cat-comp"><span class="lang-en">Johannes Brahms</span><span class="lang-el">Γιοχάνες Μπραμς</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">for orchestra</span><span class="lang-el">για ορχήστρα</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"><button type="button" class="chip" data-go="scores" data-key="brahms-rhapsody-79-1">SCORE</button></span>
+          </li>
+          <li class="cat-row" data-cat="orchestration">
+            <span class="cat-year">2025</span>
+            <div class="cat-body">
+              <span class="cat-title"><span class="lang-en">No. 1</span><span class="lang-el">Αρ. 1</span></span>
+              <span class="cat-work"><span class="lang-en">Fifteen Hungarian Peasant Songs, Sz. 71</span><span class="lang-el">Δεκαπέντε ουγγρικά αγροτικά τραγούδια, Sz. 71</span></span>
+              <span class="cat-comp"><span class="lang-en">Béla Bartók</span><span class="lang-el">Μπέλα Μπάρτοκ</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">for orchestra</span><span class="lang-el">για ορχήστρα</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"><button type="button" class="chip" data-go="scores" data-key="bartok-peasant-1">SCORE</button></span>
+          </li>
+          <!-- Assignment was: woodwinds, horns, strings, percussion (and harp if desired); the title page says "for orchestra" -->
+          <li class="cat-row" data-cat="orchestration">
+            <span class="cat-year">2025</span>
+            <div class="cat-body">
+              <span class="cat-title"><span class="lang-en">No. 12</span><span class="lang-el">Αρ. 12</span></span>
+              <span class="cat-work"><span class="lang-en">Fifteen Hungarian Peasant Songs, Sz. 71</span><span class="lang-el">Δεκαπέντε ουγγρικά αγροτικά τραγούδια, Sz. 71</span></span>
+              <span class="cat-comp"><span class="lang-en">Béla Bartók</span><span class="lang-el">Μπέλα Μπάρτοκ</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">for orchestra</span><span class="lang-el">για ορχήστρα</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"><button type="button" class="chip" data-go="scores" data-key="bartok-peasant-12">SCORE</button></span>
+          </li>
+          <!-- Assignment: woodwinds in pairs, 4 horns, 2 trumpets, 3 trombones, 2 timpani, strings -->
+          <li class="cat-row" data-cat="orchestration">
+            <span class="cat-year">2025</span>
+            <div class="cat-body">
+              <span class="cat-title">Allegro giusto</span>
+              <span class="cat-work"><span class="lang-en">Piano Sonata in A minor, D. 784, Op. 143</span><span class="lang-el">Πιανιστική σονάτα σε λα ελάσσονα, D. 784, έργο 143</span></span>
+              <span class="cat-comp"><span class="lang-en">Franz Schubert</span><span class="lang-el">Φραντς Σούμπερτ</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">for orchestra</span><span class="lang-el">για ορχήστρα</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"><button type="button" class="chip" data-go="scores" data-key="schubert-sonata-143">SCORE</button></span>
+          </li>
+          <li class="cat-row" data-cat="orchestration">
+            <span class="cat-year">2025</span>
+            <div class="cat-body">
+              <span class="cat-title"><span class="lang-en">Folk Song No. 8</span><span class="lang-el">Λαϊκό τραγούδι αρ. 8</span></span>
+              <span class="cat-work"><span class="lang-en">Ten Easy Pieces for Piano, Sz. 39</span><span class="lang-el">Δέκα εύκολα κομμάτια για πιάνο, Sz. 39</span></span>
+              <span class="cat-comp"><span class="lang-en">Béla Bartók</span><span class="lang-el">Μπέλα Μπάρτοκ</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">for orchestra</span><span class="lang-el">για ορχήστρα</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"><button type="button" class="chip" data-go="scores" data-key="bartok-folk-song-8">SCORE</button></span>
+          </li>
+          <li class="cat-row" data-cat="orchestration">
+            <span class="cat-year">2024</span>
+            <div class="cat-body">
+              <span class="cat-title"><span class="lang-en">Sailor’s Song</span><span class="lang-el">Το τραγούδι του ναύτη</span></span>
+              <span class="cat-work"><span class="lang-en">Lyric Pieces, Op. 68, No. 1</span><span class="lang-el">Λυρικά κομμάτια, έργο 68, αρ. 1</span></span>
+              <span class="cat-comp"><span class="lang-en">Edvard Grieg</span><span class="lang-el">Έντβαρντ Γκριγκ</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">for brass section</span><span class="lang-el">για ομάδα χάλκινων πνευστών</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"><button type="button" class="chip" data-go="scores" data-key="grieg-sailors-song">SCORE</button></span>
+          </li>
+          <!-- his own choice, not a textbook exercise -->
+          <li class="cat-row" data-cat="orchestration">
+            <span class="cat-year">2024</span>
+            <div class="cat-body">
+              <span class="cat-title">Adagio</span>
+              <span class="cat-work"><span class="lang-en">Sonata No. 1 in F minor, Op. 2</span><span class="lang-el">Σονάτα αρ. 1 σε φα ελάσσονα, έργο 2</span></span>
+              <span class="cat-comp"><span class="lang-en">L. v. Beethoven</span><span class="lang-el">Λ. φαν Μπετόβεν</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">for orchestra</span><span class="lang-el">για ορχήστρα</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"><button type="button" class="chip" data-go="scores" data-key="beethoven-sonata1-adagio">SCORE</button></span>
+          </li>
+          <!-- Two files existed (kept the one dated 20-5-2024) -->
+          <li class="cat-row" data-cat="orchestration">
+            <span class="cat-year">2024</span>
+            <div class="cat-body">
+              <span class="cat-title">Allegro</span>
+              <span class="cat-work"><span class="lang-en">Sonata No. 1 in F minor, Op. 2</span><span class="lang-el">Σονάτα αρ. 1 σε φα ελάσσονα, έργο 2</span></span>
+              <span class="cat-comp"><span class="lang-en">L. v. Beethoven</span><span class="lang-el">Λ. φαν Μπετόβεν</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">for orchestra</span><span class="lang-el">για ορχήστρα</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"><button type="button" class="chip" data-go="scores" data-key="beethoven-sonata1-allegro">SCORE</button></span>
+          </li>
+          <li class="cat-row" data-cat="orchestration">
+            <span class="cat-year">2024</span>
+            <div class="cat-body">
+              <span class="cat-title">Allegro</span>
+              <span class="cat-work"><span class="lang-en">Piano Sonata No. 12 in F major, K. 332</span><span class="lang-el">Πιανιστική σονάτα αρ. 12 σε φα μείζονα, K. 332</span></span>
+              <span class="cat-comp"><span class="lang-en">W. A. Mozart</span><span class="lang-el">Β. Α. Μότσαρτ</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">for orchestra</span><span class="lang-el">για ορχήστρα</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"><button type="button" class="chip" data-go="scores" data-key="mozart-k332-allegro">SCORE</button></span>
+          </li>
+          <li class="cat-row" data-cat="orchestration">
+            <span class="cat-year">2024</span>
+            <div class="cat-body">
+              <span class="cat-title">II. Andante cantabile</span>
+              <span class="cat-work"><span class="lang-en">Piano Sonata No. 10 in C major, K. 330</span><span class="lang-el">Πιανιστική σονάτα αρ. 10 σε ντο μείζονα, K. 330</span></span>
+              <span class="cat-comp"><span class="lang-en">W. A. Mozart</span><span class="lang-el">Β. Α. Μότσαρτ</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">for orchestra</span><span class="lang-el">για ορχήστρα</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"><button type="button" class="chip" data-go="scores" data-key="mozart-k330-andante">SCORE</button></span>
+          </li>
+          <!-- Assignment: 2 flutes, 2 oboes, 2 clarinets, 2 bassoons and strings -->
+          <li class="cat-row" data-cat="orchestration">
+            <span class="cat-year">2024</span>
+            <div class="cat-body">
+              <span class="cat-title">Mit Lebhaftigkeit…</span>
+              <span class="cat-work"><span class="lang-en">Sonata No. 27 in E minor, Op. 90</span><span class="lang-el">Σονάτα αρ. 27 σε μι ελάσσονα, έργο 90</span></span>
+              <span class="cat-comp"><span class="lang-en">L. v. Beethoven</span><span class="lang-el">Λ. φαν Μπετόβεν</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">for orchestra</span><span class="lang-el">για ορχήστρα</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"><button type="button" class="chip" data-go="scores" data-key="beethoven-op90">SCORE</button></span>
+          </li>
+          <!-- Assignment: 2 flutes, 2 oboes, 2 clarinets, 2 bassoons -->
+          <li class="cat-row" data-cat="orchestration">
+            <span class="cat-year">2024</span>
+            <div class="cat-body">
+              <span class="cat-title">Andante con espressione</span>
+              <span class="cat-work"><span class="lang-en">Sonatina in F major, Op. 55, No. 4</span><span class="lang-el">Σονατίνα σε φα μείζονα, έργο 55, αρ. 4</span></span>
+              <span class="cat-comp"><span class="lang-en">Friedrich Kuhlau</span><span class="lang-el">Φρίντριχ Κούλαου</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">for woodwind section</span><span class="lang-el">για ομάδα ξύλινων πνευστών</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"><button type="button" class="chip" data-go="scores" data-key="kuhlau-sonatina">SCORE</button></span>
+          </li>
+          <li class="cat-row" data-cat="orchestration">
+            <span class="cat-year">2023</span>
+            <div class="cat-body">
+              <span class="cat-title"><span class="lang-en">No. 5</span><span class="lang-el">Αρ. 5</span></span>
+              <span class="cat-work"><span class="lang-en">Papillons, Op. 2</span><span class="lang-el">Papillons, έργο 2</span></span>
+              <span class="cat-comp"><span class="lang-en">Robert Schumann</span><span class="lang-el">Ρόμπερτ Σούμαν</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">for string orchestra</span><span class="lang-el">για ορχήστρα εγχόρδων</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"><button type="button" class="chip" data-go="scores" data-key="schumann-papillons-5">SCORE</button></span>
+          </li>
+          <li class="cat-row" data-cat="orchestration">
+            <span class="cat-year">2023</span>
+            <div class="cat-body">
+              <span class="cat-title">Menuet</span>
+              <span class="cat-work"><span class="lang-en">Sonata in B♭ major, Op. 26 (K. 498a)</span><span class="lang-el">Σονάτα σε σι♭ μείζονα, έργο 26 (K. 498a)</span></span>
+              <span class="cat-comp"><span class="lang-en">A. E. Müller</span><span class="lang-el">Α. Ε. Μύλλερ</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">for string orchestra</span><span class="lang-el">για ορχήστρα εγχόρδων</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"><button type="button" class="chip" data-go="scores" data-key="mozart-sonata-bb">SCORE</button></span>
+          </li>
+          <li class="cat-row" data-cat="orchestration">
+            <span class="cat-year">2023</span>
+            <div class="cat-body">
+              <span class="cat-title"><span class="lang-en">Sarabande</span><span class="lang-el">Σαραμπάντ</span></span>
+              <span class="cat-work"><span class="lang-en">French Suite No. 1 in D minor, BWV 812</span><span class="lang-el">Γαλλική σουίτα αρ. 1 σε ρε ελάσσονα, BWV 812</span></span>
+              <span class="cat-comp"><span class="lang-en">J. S. Bach</span><span class="lang-el">Ι. Σ. Μπαχ</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">for string orchestra</span><span class="lang-el">για ορχήστρα εγχόρδων</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"><button type="button" class="chip" data-go="scores" data-key="bach-sarabande">SCORE</button></span>
+          </li>
+          </ul>
+        </section>
+        <section class="cat-group" data-cat="sound-design" aria-labelledby="cg-sound-design">
+          <h3 class="grp-h" id="cg-sound-design"><span class="lang-en">Sound design</span><span class="lang-el">Sound design</span><span class="lang-cn">声音设计</span></h3>
+          <ul class="cat-list">
+          <li class="cat-row is-placeholder" data-cat="sound-design">
+            <span class="cat-year">2022</span>
+            <div class="cat-body">
+              <span class="cat-title">Title of the project</span>
+              <span class="cat-forces">Game audio</span>
+            </div>
+            <span class="cat-marks"></span>
+          </li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======================================================================
+       VOLUME II · RECORDINGS
+       Each record is a button; nothing from YouTube / SoundCloud / Bandcamp is
+       requested until a record is clicked.
+       HOW TO ADD ONE: copy a <button class="rec"> and change
+         arts/NAME.webp  (inside the .disc-label) the artwork printed on the vinyl's label: a square WebP picture.
+                    Every record with data-kind="youtube" uses arts/youtube.webp (the same label for all of them);
+                    the others have their own picture,
+                    about 600 × 600 px (a small file, 30–80 KB), saved in the folder works/arts/. Until the file exists the label is plain red.
+         data-kind  youtube | soundcloud | bandcamp
+         data-src   the embed address (YouTube: .../embed/VIDEO_ID, Bandcamp: the EmbeddedPlayer address,
+                    SoundCloud: https://w.soundcloud.com/player/?url=<the track address, encoded>)
+       ====================================================================== -->
+  <section class="wk-vol" id="vol-recordings" data-vol="recordings" hidden aria-labelledby="h-recordings">
+    <div class="vol-bar">
+      <button type="button" class="vol-close" aria-label="Back to the shelf">
+        <svg class="vol-x" viewBox="0 0 36 12" aria-hidden="true"><path class="vx-shaft" d="M2 6H34"/><path class="vx-head" d="M7.200 .8 2 6l5.200 5.200"/></svg>
+        <span class="vol-back"><span class="lang-en">Back to the shelf</span><span class="lang-el">Πίσω στο ράφι</span><span class="lang-cn">返回书架</span></span>
+      </button>
+      <span class="vol-tag">II</span>
+    </div>
+    <div class="vol-scroll">
+      <div class="wk-vol-inner">
+        <header class="vol-head">
+          <h2 class="vol-title" id="h-recordings">
+            <span class="lang-en">Recordings</span>
+            <span class="lang-el">Ηχογραφήσεις</span>
+            <span class="lang-cn">录音</span>
+          </h2>
+          <p class="vol-sub">
+            <span class="lang-en">Choose a record.</span>
+            <span class="lang-el">Διαλέξτε έναν δίσκο.</span>
+            <span class="lang-cn">请选择一张唱片。</span>
+          </p>
+        </header>
+
+        <!-- The player: a bar (what is playing + the ✕ that closes it) above the player itself. Clicking the playing record closes it too. -->
+        <div class="rec-player" id="rec-player">
+          <div class="rec-bar" id="rec-bar" hidden>
+            <span class="rec-now">
+              <span class="rec-now-label"><span class="lang-en">Now playing</span><span class="lang-el">Παίζει τώρα</span><span class="lang-cn">正在播放</span></span>
+              <span class="rec-now-name" id="rec-now-name"></span>
+            </span>
+            <button type="button" class="rec-x" id="rec-x" title="Close the player">
+              <span aria-hidden="true">✕</span>
+              <span class="wk-sr lang-en">Close the player</span><span class="wk-sr lang-el">Κλείσιμο αναπαραγωγής</span><span class="wk-sr lang-cn">关闭播放器</span>
+            </button>
+          </div>
+          <div class="rec-stage" id="rec-stage" aria-live="polite">
+            <p class="rec-empty">
+              <span class="lang-en">Nothing is playing</span>
+              <span class="lang-el">Δεν παίζει τίποτα</span>
+              <span class="lang-cn">暂无播放</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="rec-grid" id="rec-grid">
+          <button type="button" class="rec" data-key="emmonae-abbr" data-kind="soundcloud"
+                  data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/michailchatzias/emmonae-abbr-2024&color=%23b8321f&auto_play=true&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false">
+            <span class="disc"><span class="disc-label"><img class="disc-art" src="arts/emmonae.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.add('no-art');this.remove()"><b class="disc-year">2024</b></span></span>
+            <span class="rec-name">emmonæ (abbr.)</span>
+            <span class="rec-meta">2024</span>
+          </button>
+          <button type="button" class="rec" data-key="miniatures" data-kind="youtube"
+                  data-src="https://www.youtube-nocookie.com/embed/-dDyYOflE8A?autoplay=1&rel=0">
+            <span class="disc"><span class="disc-label"><img class="disc-art" src="arts/youtube.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.add('no-art');this.remove()"><b class="disc-year">2024</b></span></span>
+            <span class="rec-name">
+              <span class="lang-en">2 Miniatures for Solo Clarinet</span>
+              <span class="lang-el">2 Μινιατούρες για σόλο κλαρινέτο</span>
+            </span>
+            <span class="rec-meta">2024 · Spyros Koukas</span>
+          </button>
+          <button type="button" class="rec" data-key="lofire" data-kind="bandcamp"
+                  data-src="https://bandcamp.com/EmbeddedPlayer/album=2444936824/size=large/bgcol=0b0b0a/linkcol=b8321f/tracklist=false/artwork=small/track=3491761612/transparent=true/">
+            <span class="disc"><span class="disc-label"><img class="disc-art" src="arts/lofire.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.add('no-art');this.remove()"><b class="disc-year">2024</b></span></span>
+            <span class="rec-name">lo-fi{re}</span>
+            <span class="rec-meta">
+              <span class="lang-en">a lo-fi soundscape</span>
+              <span class="lang-el">ένα lo-fi soundscape</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======================================================================
+       VOLUME III · SCORES
+       Each card opens the page viewer. The pages are pictures, never a PDF
+       (so there is no file to download). For now they are placeholders.
+       Compositions and orchestrations are kept apart: each has its own <section class="sc-group"> with its own heading.
+       HOW TO ADD A SCORE: copy a <button class="sc-card">, put it in the right group, and change
+         data-title   shown above the viewer
+         data-pages   the page pictures, comma separated:  "p1.webp,p2.webp,p3.webp"
+         data-count   (placeholders only) how many blank pages to show
+         data-soon    (no value) "Coming soon" on the thumbnail and in the viewer, until the score is ready. Delete it when data-embed / data-pages are added.
+         data-embed   ORCHESTRATIONS: the address of the MuseScore player (musescore.com ▸ the score ▸ Share ▸ Embed; copy the
+                      address that is in src="…" of the code it gives). The score then opens full screen on the black
+                      background as a MuseScore player, and the pages are not used (no data-pages / data-count needed).
+         data-key     the same word as the data-key of the work's SCORE chip in the catalogue (so the chip opens this score)
+         the picture  the first page as the thumbnail: put <img src="orchestrations/NAME.webp" alt="" loading="lazy" decoding="async"
+                      draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"> inside the
+                      <span class="sc-thumb"> and add class has-img to that span. A WebP about 600 px wide is enough.
+       ====================================================================== -->
+  <section class="wk-vol" id="vol-scores" data-vol="scores" hidden aria-labelledby="h-scores">
+    <div class="vol-bar">
+      <button type="button" class="vol-close" aria-label="Back to the shelf">
+        <svg class="vol-x" viewBox="0 0 36 12" aria-hidden="true"><path class="vx-shaft" d="M2 6H34"/><path class="vx-head" d="M7.200 .8 2 6l5.200 5.200"/></svg>
+        <span class="vol-back"><span class="lang-en">Back to the shelf</span><span class="lang-el">Πίσω στο ράφι</span><span class="lang-cn">返回书架</span></span>
+      </button>
+      <span class="vol-tag">III</span>
+    </div>
+    <div class="vol-scroll">
+      <div class="wk-vol-inner">
+        <header class="vol-head">
+          <h2 class="vol-title" id="h-scores">
+            <span class="lang-en">Scores</span>
+            <span class="lang-el">Παρτιτούρες</span>
+            <span class="lang-cn">乐谱</span>
+          </h2>
+          <p class="vol-sub">
+            <span class="lang-en">Choose a score to read.</span>
+            <span class="lang-el">Διαλέξτε μια παρτιτούρα για ανάγνωση.</span>
+            <span class="lang-cn">请选择一份乐谱阅读。</span>
+          </p>
+        </header>
+
+        <section class="sc-group" aria-labelledby="sg-compositions">
+          <h3 class="grp-h" id="sg-compositions"><span class="lang-en">Compositions</span><span class="lang-el">Συνθέσεις</span><span class="lang-cn">作曲</span></h3>
+          <div class="sc-grid">
+          <button type="button" class="sc-card" data-key="emmonae-abbr" data-title="emmonæ (abbr.)" data-pages="" data-count="8" data-soon>
+            <span class="sc-thumb"><span class="sc-clef">𝄞</span></span>
+            <span class="sc-name">emmonæ (abbr.)</span>
+            <span class="sc-meta">2024</span>
+          </button>
+          <button type="button" class="sc-card" data-key="miniatures" data-title="2 Miniatures for Solo Clarinet" data-pages="" data-count="6" data-soon>
+            <span class="sc-thumb"><span class="sc-clef">𝄞</span></span>
+            <span class="sc-name">
+              <span class="lang-en">2 Miniatures for Solo Clarinet</span>
+              <span class="lang-el">2 Μινιατούρες για σόλο κλαρινέτο</span>
+            </span>
+            <span class="sc-meta">2024</span>
+          </button>
+          <button type="button" class="sc-card" data-title="Score title" data-pages="" data-count="12" data-soon>
+            <span class="sc-thumb"><span class="sc-clef">𝄞</span></span>
+            <span class="sc-name">Score title</span>
+            <span class="sc-meta">2023</span>
+          </button>
+          </div>
+        </section>
+        <section class="sc-group" aria-labelledby="sg-orchestrations">
+          <h3 class="grp-h" id="sg-orchestrations"><span class="lang-en">Orchestrations</span><span class="lang-el">Ενορχηστρώσεις</span><span class="lang-cn">配器</span></h3>
+          <div class="sc-grid">
+          <!-- an orchestration, ready to copy (remove the comment marks and fill in):
+          <button type="button" class="sc-card" data-key="word" data-title="Title, orchestration of COMPOSER"
+                  data-embed="https://musescore.com/user/0000/scores/0000/embed">
+            <span class="sc-thumb has-img"><img src="orchestrations/name.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name">Title</span>
+            <span class="sc-meta">COMPOSER · 2023</span>
+          </button> -->
+          <!-- oldest first (the catalogue above lists them newest first). A card with data-soon shows "Coming soon" on its thumbnail and in the viewer. When the MuseScore address arrives, replace data-soon by data-embed="…" (the "coming soon" is then gone) -->
+          <button type="button" class="sc-card" data-key="bach-sarabande" data-title="French Suite No. 1 in D minor, BWV 812 — Sarabande (J. S. Bach)"
+                  data-embed="https://musescore.com/user/3428276/scores/40525023/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40525023/s/alZP0M/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/bach-sarabande.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">French Suite No. 1 in D minor, BWV 812 — Sarabande</span><span class="lang-el">Γαλλική σουίτα αρ. 1 σε ρε ελάσσονα, BWV 812 — Sarabande</span></span>
+            <span class="sc-meta">J. S. Bach · 2023</span>
+          </button>
+          <button type="button" class="sc-card" data-key="mozart-sonata-bb" data-title="Sonata in B♭ major, Op. 26 (K. 498a) — Menuet (A. E. Müller)"
+                  data-embed="https://musescore.com/user/3428276/scores/40527141/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40527141/s/f6FcY7/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/mozart-sonata-bb.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Sonata in B♭ major, Op. 26 (K. 498a) — Menuet</span><span class="lang-el">Σονάτα σε σι♭ μείζονα, έργο 26 (K. 498a) — Menuet</span></span>
+            <span class="sc-meta">A. E. Müller · 2023</span>
+          </button>
+          <button type="button" class="sc-card" data-key="schumann-papillons-5" data-title="Papillons, Op. 2 — No. 5 (Robert Schumann)"
+                  data-embed="https://musescore.com/user/3428276/scores/40527600/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40527600/s/v2wtEK/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/schumann-papillons-5.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Papillons, Op. 2 — No. 5</span><span class="lang-el">Papillons, έργο 2 — Αρ. 5</span></span>
+            <span class="sc-meta">Robert Schumann · 2023</span>
+          </button>
+          <!-- Assignment: 2 flutes, 2 oboes, 2 clarinets, 2 bassoons -->
+          <button type="button" class="sc-card" data-key="kuhlau-sonatina" data-title="Sonatina in F major, Op. 55, No. 4 — Andante con espressione (Friedrich Kuhlau)"
+                  data-embed="https://musescore.com/user/3428276/scores/40528170/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40528170/s/A9Ym2G/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/kuhlau-sonatina.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Sonatina in F major, Op. 55, No. 4 — Andante con espressione</span><span class="lang-el">Σονατίνα σε φα μείζονα, έργο 55, αρ. 4 — Andante con espressione</span></span>
+            <span class="sc-meta">Friedrich Kuhlau · 2024</span>
+          </button>
+          <!-- Assignment: 2 flutes, 2 oboes, 2 clarinets, 2 bassoons and strings -->
+          <button type="button" class="sc-card" data-key="beethoven-op90" data-title="Sonata No. 27 in E minor, Op. 90 — Mit Lebhaftigkeit… (L. v. Beethoven)"
+                  data-embed="https://musescore.com/user/3428276/scores/40529244/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40529244/s/04CvLv/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/beethoven-op90.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Sonata No. 27 in E minor, Op. 90 — Mit Lebhaftigkeit…</span><span class="lang-el">Σονάτα αρ. 27 σε μι ελάσσονα, έργο 90 — Mit Lebhaftigkeit…</span></span>
+            <span class="sc-meta">L. v. Beethoven · 2024</span>
+          </button>
+          <button type="button" class="sc-card" data-key="mozart-k330-andante" data-title="Piano Sonata No. 10 in C major, K. 330 — II. Andante cantabile (W. A. Mozart)"
+                  data-embed="https://musescore.com/user/3428276/scores/40531362/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40531362/s/KUX0h_/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/mozart-k330-andante.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Piano Sonata No. 10 in C major, K. 330 — II. Andante cantabile</span><span class="lang-el">Πιανιστική σονάτα αρ. 10 σε ντο μείζονα, K. 330 — II. Andante cantabile</span></span>
+            <span class="sc-meta">W. A. Mozart · 2024</span>
+          </button>
+          <button type="button" class="sc-card" data-key="mozart-k332-allegro" data-title="Piano Sonata No. 12 in F major, K. 332 — Allegro (W. A. Mozart)"
+                  data-embed="https://musescore.com/user/3428276/scores/40530426/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40530426/s/wN1WIv/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/mozart-k332-allegro.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Piano Sonata No. 12 in F major, K. 332 — Allegro</span><span class="lang-el">Πιανιστική σονάτα αρ. 12 σε φα μείζονα, K. 332 — Allegro</span></span>
+            <span class="sc-meta">W. A. Mozart · 2024</span>
+          </button>
+          <!-- Two files existed (kept the one dated 20-5-2024) -->
+          <button type="button" class="sc-card" data-key="beethoven-sonata1-allegro" data-title="Sonata No. 1 in F minor, Op. 2 — Allegro (L. v. Beethoven)"
+                  data-embed="https://musescore.com/user/3428276/scores/40532559/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40532559/s/v1sv7U/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/beethoven-sonata1-allegro.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Sonata No. 1 in F minor, Op. 2 — Allegro</span><span class="lang-el">Σονάτα αρ. 1 σε φα ελάσσονα, έργο 2 — Allegro</span></span>
+            <span class="sc-meta">L. v. Beethoven · 2024</span>
+          </button>
+          <!-- his own choice, not a textbook exercise -->
+          <button type="button" class="sc-card" data-key="beethoven-sonata1-adagio" data-title="Sonata No. 1 in F minor, Op. 2 — Adagio (L. v. Beethoven)"
+                  data-embed="https://musescore.com/user/3428276/scores/40532862/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40532862/s/EdpFbh/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/beethoven-sonata1-adagio.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Sonata No. 1 in F minor, Op. 2 — Adagio</span><span class="lang-el">Σονάτα αρ. 1 σε φα ελάσσονα, έργο 2 — Adagio</span></span>
+            <span class="sc-meta">L. v. Beethoven · 2024</span>
+          </button>
+          <button type="button" class="sc-card" data-key="grieg-sailors-song" data-title="Lyric Pieces, Op. 68, No. 1 — Sailor’s Song (Edvard Grieg)"
+                  data-embed="https://musescore.com/user/3428276/scores/40533114/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40533114/s/9D2GCs/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/grieg-sailors-song.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Lyric Pieces, Op. 68, No. 1 — Sailor’s Song</span><span class="lang-el">Λυρικά κομμάτια, έργο 68, αρ. 1 — Το τραγούδι του ναύτη</span></span>
+            <span class="sc-meta">Edvard Grieg · 2024</span>
+          </button>
+          <button type="button" class="sc-card" data-key="bartok-folk-song-8" data-title="Ten Easy Pieces for Piano, Sz. 39 — Folk Song No. 8 (Béla Bartók)"
+                  data-embed="https://musescore.com/user/3428276/scores/40533816/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40533816/s/q9n21O/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/bartok-folk-song-8.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Ten Easy Pieces for Piano, Sz. 39 — Folk Song No. 8</span><span class="lang-el">Δέκα εύκολα κομμάτια για πιάνο, Sz. 39 — Λαϊκό τραγούδι αρ. 8</span></span>
+            <span class="sc-meta">Béla Bartók · 2025</span>
+          </button>
+          <!-- Assignment: woodwinds in pairs, 4 horns, 2 trumpets, 3 trombones, 2 timpani, strings -->
+          <button type="button" class="sc-card" data-key="schubert-sonata-143" data-title="Piano Sonata in A minor, D. 784, Op. 143 — Allegro giusto (Franz Schubert)"
+                  data-embed="https://musescore.com/user/3428276/scores/40534572/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40534572/s/2XgeAp/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/schubert-sonata-143.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Piano Sonata in A minor, D. 784, Op. 143 — Allegro giusto</span><span class="lang-el">Πιανιστική σονάτα σε λα ελάσσονα, D. 784, έργο 143 — Allegro giusto</span></span>
+            <span class="sc-meta">Franz Schubert · 2025</span>
+          </button>
+          <!-- Assignment was: woodwinds, horns, strings, percussion (and harp if desired); the title page says "for orchestra" -->
+          <button type="button" class="sc-card" data-key="bartok-peasant-12" data-title="Fifteen Hungarian Peasant Songs, Sz. 71 — No. 12 (Béla Bartók)"
+                  data-embed="https://musescore.com/user/3428276/scores/40535178/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40535178/s/DaSoAs/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/bartok-peasant-12.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Fifteen Hungarian Peasant Songs, Sz. 71 — No. 12</span><span class="lang-el">Δεκαπέντε ουγγρικά αγροτικά τραγούδια, Sz. 71 — Αρ. 12</span></span>
+            <span class="sc-meta">Béla Bartók · 2025</span>
+          </button>
+          <button type="button" class="sc-card" data-key="bartok-peasant-1" data-title="Fifteen Hungarian Peasant Songs, Sz. 71 — No. 1 (Béla Bartók)"
+                  data-embed="https://musescore.com/user/3428276/scores/40535586/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40535586/s/nbzYYQ/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/bartok-peasant-1.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Fifteen Hungarian Peasant Songs, Sz. 71 — No. 1</span><span class="lang-el">Δεκαπέντε ουγγρικά αγροτικά τραγούδια, Sz. 71 — Αρ. 1</span></span>
+            <span class="sc-meta">Béla Bartók · 2025</span>
+          </button>
+          <button type="button" class="sc-card" data-key="brahms-rhapsody-79-1" data-title="Rhapsody in B minor, Op. 79, No. 1 (Johannes Brahms)"
+                  data-embed="https://musescore.com/user/3428276/scores/40536462/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40536462/s/bllrvQ/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/brahms-rhapsody-79-1.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Rhapsody in B minor, Op. 79, No. 1</span><span class="lang-el">Ραψωδία σε σι ελάσσονα, έργο 79, αρ. 1</span></span>
+            <span class="sc-meta">Johannes Brahms · 2025</span>
+          </button>
+          </div>
+        </section>
+
+        <!-- Leads to the contact page with the subject "Score request" already filled in (contact/index.html: data-key="score") -->
+        <div class="vol-cta">
+          <a class="vol-cta-btn" href="../contact/?subject=score">
+            <span class="lang-en">Request a score<span class="btn-arrow"> →</span></span>
+            <span class="lang-el">Ζητήστε ένα έργο<span class="btn-arrow"> →</span></span>
+            <span class="lang-cn">请求乐谱<span class="btn-arrow"> →</span></span>
+          </a>
+        </div>
+      </div>
+      <!-- (the page viewer is built by ../assets/score-viewer.js when a card is opened) -->
+    </div>
+  </section>
+
+</main>
+
+  <script src="../subpage.js"></script>
+  <script src="../assets/score-viewer.js"></script>
+  <script src="works.js"></script>
+</body>
+</html>

@@ -1,0 +1,718 @@
+/* ==========================================================================
+   works/works.css — everything specific to the Works page.
+   Shared things (colours, fonts, top bar) come from ../style.css, loaded first.
+
+   1. Page frame            5. Volume I  · Work Catalogue
+   2. The shelf             6. Volume II · Recordings (vinyls)
+   3. The three objects     7. Volume III· Scores and the page viewer
+   4. Taken off the shelf   8. Phones, 9. Reduced motion
+   ========================================================================== */
+
+/* ---------- 1. Page frame ---------- */
+html.works-page,
+html.works-page body { height: 100%; overflow: hidden; }
+
+[hidden] { display: none !important; }
+
+.wk-main {
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --wk-pad: clamp(20px, 4vw, 48px);
+
+  position: fixed;
+  top: var(--wk-top, 72px);   /* works.js sets this to the real header height */
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+/* ---------- 2. The shelf ---------- */
+.wk-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px 2vh;
+  /* one size drives the whole shelf: the height of the tallest object */
+  --h: clamp(230px, min(46vh, 34vw), 450px);
+}
+
+.wk-title {
+  margin: 0 0 clamp(16px, 4vh, 44px);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(30px, 4.6vw, 60px);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: center;
+}
+.wk-title::after {
+  content: "";
+  display: block;
+  height: 2px;
+  margin-top: 12px;
+  background: var(--accent);
+}
+
+/* the niche the objects stand in, with the plank under them */
+.wk-niche {
+  position: relative;
+  padding: calc(var(--h) * 0.13) calc(var(--h) * 0.24) 0;
+  border: 1px solid var(--line-light);
+  border-bottom: 0;
+  background: linear-gradient(to bottom, #0e0d0c, #131210);
+}
+.wk-niche::after {                      /* the plank */
+  content: "";
+  position: absolute;
+  left: -26px;
+  right: -26px;
+  bottom: -14px;
+  height: 14px;
+  background: #1c1b18;
+  border-top: 2px solid #34322d;
+  box-shadow: 0 22px 34px rgba(0, 0, 0, 0.65);
+}
+.wk-shelf {
+  display: flex;
+  align-items: flex-end;
+  gap: calc(var(--h) * 0.07);
+}
+
+.wk-hint {
+  margin: clamp(26px, 5vh, 46px) 0 0;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--mute);
+  opacity: 0.7;
+}
+
+/* ---------- 3. The three objects ----------
+   Every object is a little 3D box: the spine faces you on the shelf, the cover is the face on its
+   right-hand side, and works.js turns the box a quarter turn to show it.
+   --t  thickness (what you see of it on the shelf)   --ih  height   --r  cover width ÷ height  */
+.wk-item {
+  --t: calc(var(--h) * 0.2);
+  --ih: var(--h);
+  --r: 0.72;
+  --d: calc(var(--ih) * var(--r));      /* cover width */
+
+  position: relative;
+  flex: none;
+  width: var(--t);
+  height: var(--ih);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  transition: transform 0.35s var(--ease);
+  animation: wkRise 0.9s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 0.13s + 0.1s);
+}
+@keyframes wkRise { from { translate: 0 34px; opacity: 0; } to { translate: 0 0; opacity: 1; } }
+
+.wk-item:hover,
+.wk-item:focus-visible,
+.wk-item.is-hot { transform: translateY(-14px); outline: none; }
+.wk-item:focus-visible .f-spine { box-shadow: 0 0 0 2px var(--accent); }
+.wk-item.is-gone { visibility: hidden; }
+
+.k-catalogue { --t: calc(var(--h) * 0.2);  --ih: var(--h);              --r: 0.72; }
+.k-recordings{ --t: calc(var(--h) * 0.105); --ih: calc(var(--h) * 0.92); --r: 1; }
+.k-scores    { --t: calc(var(--h) * 0.15); --ih: calc(var(--h) * 0.96); --r: 0.74; }
+
+.wk-box,
+.wk-fly .wk-box {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(calc(var(--d) * -0.5));     /* rests with the spine at the front */
+}
+.f-spine,
+.f-cover { position: absolute; backface-visibility: hidden; overflow: hidden; }
+.f-spine {
+  inset: 0;
+  transform: translateZ(calc(var(--d) * 0.5));
+}
+.f-cover {
+  top: 0;
+  left: 50%;
+  width: var(--d);
+  height: 100%;
+  margin-left: calc(var(--d) * -0.5);
+  transform: rotateY(90deg) translateZ(calc(var(--t) * 0.5));
+}
+
+.sp-title {
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: calc(var(--t) * 0.3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.sp-mark {
+  font-family: var(--font-body);
+  font-size: calc(var(--t) * 0.15);
+  letter-spacing: 0.08em;
+  writing-mode: vertical-rl;
+}
+.f-spine { display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
+
+/* I · Work Catalogue: bone-coloured ledger with red bands */
+.k-catalogue .f-spine,
+.k-catalogue .f-cover,
+.k-catalogue .bk-front { background: #d8d1c2; color: #14120f; }
+.k-catalogue .f-spine { padding: 0 0 7%; background-image: linear-gradient(90deg, rgba(0,0,0,.2), transparent 16%, transparent 84%, rgba(0,0,0,.25)); }
+.k-catalogue .sp-band { align-self: stretch; height: 5.5%; background: var(--accent); }
+.k-catalogue .sp-band:first-child { margin-top: 7%; }
+.k-catalogue .sp-band:last-child { margin-top: 0; margin-bottom: -7%; }
+.k-catalogue .sp-title { flex: 1; display: flex; align-items: center; padding-top: 1em; }   /* a little down, off the red band */
+.k-catalogue .sp-title > span { display: block; }
+
+/* II · Recordings: a red sleeve */
+.k-recordings .f-spine,
+.k-recordings .f-cover,
+.k-recordings .bk-front { background: var(--accent); color: #f1e9db; }
+.k-recordings .f-spine { padding: 8% 0; background-image: linear-gradient(90deg, rgba(0,0,0,.25), transparent 20%, transparent 80%, rgba(0,0,0,.3)); }
+.k-recordings .sp-title { font-style: italic; font-weight: 600; letter-spacing: 0.1em; margin-top: 0.9em; }   /* off the top edge */
+
+/* III · Scores: a grey dossier with a label and a strap */
+.k-scores .f-spine,
+.k-scores .f-cover,
+.k-scores .bk-front { background: #55534d; color: #14120f; }
+.k-scores .f-spine { background-image: linear-gradient(90deg, rgba(0,0,0,.28), transparent 16%, transparent 84%, rgba(0,0,0,.3)); padding: 0 0 7%; }
+.k-scores .sp-band { align-self: stretch; height: 3%; background: var(--accent); margin-top: 20%; }
+.k-scores .sp-band:last-child { margin-top: 0; margin-bottom: -7%; }
+.k-scores .sp-label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  margin: 8% 12% 8%;
+  background: #e6dfd0;
+}
+.k-scores .sp-label .sp-title { font-size: calc(var(--t) * 0.27); }
+
+/* covers: shared lettering */
+.f-cover,
+.bk-front { font-family: var(--font-display); }
+.cv-num {
+  position: absolute;
+  font-weight: 800;
+  font-size: calc(var(--ih) * 0.05);
+  letter-spacing: 0.1em;
+}
+.cv-name {
+  position: absolute;
+  left: 0; right: 0; bottom: 6%;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: calc(var(--ih) * 0.026);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.cv-title {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1.06;
+  text-align: center;
+}
+
+.cv-frame {
+  position: absolute;
+  inset: 6%;
+  border: 2px solid #14120f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--ih) * 0.04);
+}
+.k-catalogue .cv-num { top: 6%; left: 0; right: 0; text-align: center; }
+.k-catalogue .cv-title { font-size: calc(var(--ih) * 0.075); }
+.k-catalogue .cv-rule { width: 30%; height: 3px; background: var(--accent); }
+.k-catalogue .cv-name { position: static; font-size: calc(var(--ih) * 0.024); }
+
+.k-recordings .cv-ring {
+  position: absolute;
+  left: 50%; top: 9%;
+  width: 62%; aspect-ratio: 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  border: 2px solid rgba(241, 233, 219, 0.85);
+  box-shadow: inset 0 0 0 calc(var(--ih) * 0.05) transparent, 0 0 0 calc(var(--ih) * 0.03) rgba(241,233,219,.0);
+}
+.k-recordings .cv-ring::after {
+  content: "";
+  position: absolute; inset: 36%;
+  border-radius: 50%;
+  border: 2px solid rgba(241, 233, 219, 0.85);
+}
+.k-recordings .cv-num { left: 8%; top: 5%; }
+.k-recordings .cv-title { position: absolute; left: 0; right: 0; bottom: 17%; font-size: calc(var(--ih) * 0.062); font-style: italic; font-weight: 600; text-transform: none; letter-spacing: 0.02em; }
+
+.k-scores .cv-tab {
+  position: absolute;
+  left: 8%; top: 7%;
+  padding: 3% 5%;
+  background: #e6dfd0;
+  font-weight: 800;
+  font-size: calc(var(--ih) * 0.05);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.k-scores .cv-strap {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 76%;
+  width: 7%;
+  background: var(--accent);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.2);
+}
+.k-scores .cv-num { left: 8%; bottom: 14%; color: #e6dfd0; }
+.k-scores .cv-name { color: #e6dfd0; right: 28%; text-align: left; left: 8%; }
+
+/* the shelf's captions: dim everything else a little while one is lifted (pure polish) */
+.wk-shelf:has(.wk-item:hover) .wk-item:not(:hover) { opacity: 0.8; }
+
+/* ---------- 4. Taken off the shelf ----------
+   works.js puts a copy of the object on top of its slot (.wk-fly), turns it, opens it, and
+   expands the volume out of the open cover. */
+.wk-fly {
+  --r: 0.72;
+  position: fixed;
+  z-index: 45;                         /* above the volume while it grows out of the cover (below the top bar) */
+  perspective: 1800px;
+  pointer-events: none;
+}
+.wk-fly .wk-box { inset: 0; }
+.wk-open {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: var(--d);
+  height: var(--ih);
+  margin-left: calc(var(--d) * -0.5);
+  perspective: 2000px;
+  opacity: 0;
+}
+.bk-cover {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+}
+.bk-front,
+.bk-back { position: absolute; inset: 0; backface-visibility: hidden; overflow: hidden; }
+.bk-back { transform: rotateY(180deg); background: #1b1a17; }
+.bk-front .cv-frame { inset: 6%; }
+
+/* a vinyl sliding out of the sleeve */
+.bk-vinyl { position: absolute; left: 4%; top: 4%; width: 92%; aspect-ratio: 1; }
+.disc,
+.bk-vinyl .disc { display: block; }
+
+/* ---------- Volumes ---------- */
+.wk-vol {
+  position: fixed;
+  z-index: 40;
+  top: var(--wk-top, 72px);
+  left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  overflow: hidden;
+}
+.vol-bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px var(--wk-pad);
+}
+.vol-close {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 8px 8px 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: var(--mute);
+  font-family: var(--font-body);
+  transition: color 0.25s ease;
+}
+.vol-x {                                /* a slim left arrow: back to the shelf */
+  width: 36px; height: 12px;
+  overflow: visible;
+  fill: none; stroke: currentColor; stroke-width: 1.1; stroke-linecap: butt; stroke-linejoin: miter;
+}
+.vol-x path { transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); transform-box: fill-box; }
+.vol-x .vx-shaft { transform-origin: right center; }
+.vol-close:hover .vx-shaft,                 /* on hover the arrow stretches a little to the left */
+.vol-close:focus-visible .vx-shaft { transform: scaleX(1.13); }
+.vol-close:hover .vx-head,
+.vol-close:focus-visible .vx-head { transform: translateX(-4px); }
+.vol-back { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; }
+.vol-close:hover,
+.vol-close:focus-visible { color: var(--accent); outline: none; }
+.vol-tag {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+.vol-scroll {
+  position: relative;
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.wk-vol-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: clamp(26px, 5vh, 56px) var(--wk-pad) 90px;
+}
+.vol-head { margin-bottom: clamp(22px, 4vh, 40px); }
+.vol-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(30px, 5vw, 64px);
+  line-height: 1.05;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.vol-title::after { content: ""; display: block; width: 72px; height: 2px; margin-top: 14px; background: var(--accent); }
+.vol-sub { margin: 14px 0 0; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mute); }
+
+/* contents fade in as the volume opens */
+.wk-vol.is-in .cat-row,
+.wk-vol.is-in .rec,
+.wk-vol.is-in .sc-card { animation: wkIn 0.6s var(--ease) both; animation-delay: calc(var(--n, 0) * 0.07s); }
+.wk-vol.is-in .cat-row { animation-delay: calc(var(--n, 0) * 0.03s); }      /* (the catalogue is long: a quicker ripple) */
+@keyframes wkIn { from { opacity: 0; translate: 0 18px; } to { opacity: 1; translate: 0 0; } }
+
+/* ---------- 5. Volume I · Work Catalogue ---------- */
+.cat-filter { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-bottom: 26px; }
+.cat-f {
+  position: relative;
+  padding: 6px 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mute);
+  transition: color 0.25s ease;
+}
+.cat-f:hover,
+.cat-f:focus-visible { color: var(--fg); outline: none; }
+.cat-f[aria-pressed="true"] { color: var(--fg); }
+.cat-f[aria-pressed="true"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--accent); }
+
+/* One work: year | title, instrumentation, and one line of facts | REC / SCORE labels.
+   (The layout follows the catalogue of Dimitris Economou: title, instrumentation, then the facts.) */
+.cat-row {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: baseline;
+}
+.cat-list { list-style: none; margin: 0; padding: 0; }
+/* the kinds of ensemble inside Compositions: Orchestral, Choral, Chamber ensembles, … */
+.cat-sub {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 34px 0 4px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.cat-sub:first-of-type { margin-top: 8px; }
+.cat-sub::after { content: ""; flex: 1; height: 1px; background: var(--line); transform: translateY(-3px); }   /* the one rule kept: it sets each kind of ensemble apart */
+
+/* a heading for each kind of work (Compositions, Orchestrations, …) in the catalogue and in the scores */
+.grp-h {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  margin: 0 0 16px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(20px, 2.4vw, 28px);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.cat-group + .cat-group,
+.sc-group + .sc-group { margin-top: clamp(40px, 7vh, 72px); }
+.cat-row { padding: 11px 0; }                    /* no rules between the works: the space does it */
+.cat-year { font-size: 13px; color: var(--accent); letter-spacing: 0.1em; }
+.cat-body { min-width: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 22px; }   /* title, instrumentation and date on one line (they wrap on a narrow screen) */
+.cat-title { font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: clamp(17px, 1.8vw, 22px); line-height: 1.25; overflow-wrap: anywhere; }
+.cat-forces,
+.cat-work,
+.cat-comp { font-size: 12.5px; letter-spacing: 0.04em; line-height: 1.5; color: var(--fg); opacity: 0.8; }   /* instrumentation / the work it comes from / the original composer */
+.cat-meta { margin: 0; font-size: 11.5px; letter-spacing: 0.06em; line-height: 1.6; color: var(--mute); }
+.cat-meta .m + .m::before { content: " · "; }
+.cat-marks { display: flex; gap: 6px; justify-content: flex-end; }
+.chip { padding: 4px 8px; background: rgba(236, 231, 220, 0.06); font-size: 9px; letter-spacing: 0.16em; color: var(--mute); }
+button.chip {                                     /* REC and SCORE: they open the recording and the score of the work */
+  border: 0;
+  padding: 6px 10px;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+button.chip:hover,
+button.chip:focus-visible { background: var(--accent); color: #fff; outline: none; }
+.cat-row.is-placeholder .cat-title,
+.cat-row.is-placeholder .cat-forces { opacity: 0.45; }
+
+/* ---------- 6. Volume II · Recordings ---------- */
+.rec-player {                       /* bar + player: it sits in the middle, whatever its kind */
+  max-width: 840px;
+  margin: 0 auto clamp(26px, 5vh, 46px);
+}
+.rec-bar { display: flex; align-items: center; gap: 14px; padding-bottom: 10px; }
+.rec-now { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 14px; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); }
+.rec-now-label { flex: none; }
+.rec-now-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--font-display); font-weight: 600; font-size: 16px; letter-spacing: 0.01em; text-transform: none; color: var(--fg); }
+.rec-x {
+  flex: none;
+  display: grid; place-items: center;
+  width: 44px; height: 44px;
+  margin: -6px -8px -6px 0;          /* (the button is bigger than the bar; the ✕ itself lines up with the player's edge) */
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--mute);
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.rec-x:hover, .rec-x:focus-visible { color: var(--accent); outline: none; }
+.wk-sr { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.rec-stage {
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.02);
+}
+.rec-stage.has-player { background: #000; }
+.rec-empty { margin: 0; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mute); }
+.rec-stage iframe { display: block; width: 100%; border: 0; }
+.rec-stage[data-kind="youtube"] { aspect-ratio: 16 / 9; }
+.rec-stage[data-kind="youtube"] iframe { height: 100%; }
+.rec-stage[data-kind="soundcloud"] iframe { height: 166px; }
+.rec-stage[data-kind="bandcamp"] iframe { height: 120px; }
+/* Bandcamp's own player is 700px wide and leaves white space beyond that, so it is not stretched; SoundCloud's fills the width */
+.rec-stage[data-kind="soundcloud"],
+.rec-stage[data-kind="bandcamp"] { min-height: 0; }
+.rec-player[data-kind="soundcloud"] { max-width: none; }
+.rec-player[data-kind="bandcamp"] { max-width: 700px; }
+
+.rec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: clamp(22px, 4vw, 44px) clamp(18px, 3vw, 36px);
+}
+.rec {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-align: center;
+  color: var(--fg);
+  font: inherit;
+}
+.disc {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    conic-gradient(from 20deg, transparent, rgba(255,255,255,.10) 12%, transparent 25%, transparent 50%, rgba(255,255,255,.10) 62%, transparent 75%),
+    repeating-radial-gradient(circle, #0c0c0b 0 2px, #1b1a18 2px 3px);
+  box-shadow: 0 0 0 1px #2a2824, 0 14px 30px rgba(0, 0, 0, 0.6);
+  transition: transform 0.45s var(--ease);
+}
+.disc-label {                          /* the label in the middle of the record: large, and it carries the artwork */
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 60%; aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px #0b0b0a, 0 0 0 4px #2a2824;   /* a dark rim separates it from the grooves */
+  color: #f1e9db;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  padding-bottom: 26%;                 /* (the year sits above the spindle hole while there is no artwork) */
+}
+.disc-year { font-weight: 400; }
+.disc-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; -webkit-user-drag: none; }
+.disc-label::after { content: ""; position: absolute; left: 50%; top: 50%; width: 5.5%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: var(--bg); box-shadow: 0 0 0 1.5px rgba(0,0,0,.35); }
+.rec:hover .disc,
+.rec:focus-visible .disc { transform: scale(1.04) rotate(8deg); }
+.rec:focus-visible { outline: none; }
+.rec:focus-visible .rec-name { text-decoration: underline; text-underline-offset: 6px; }
+.rec.is-playing .disc { animation: wkSpin 3.2s linear infinite; }
+@keyframes wkSpin { to { transform: rotate(360deg); } }
+.rec-name { font-family: var(--font-display); font-weight: 600; font-size: 17px; line-height: 1.25; }
+.rec.is-playing .rec-name { color: var(--accent); }
+.rec-meta { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); }
+
+/* ---------- 7. Volume III · Scores ---------- */
+.sc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: clamp(24px, 4vw, 44px) clamp(18px, 3vw, 34px);
+}
+.sc-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+  color: var(--fg);
+  font: inherit;
+}
+.paper,
+.sc-thumb {
+  background-color: #f6f3ec;
+  background-image:
+    repeating-linear-gradient(to bottom, transparent 0 var(--sg, 11px), #1d1b18 var(--sg, 11px) calc(var(--sg, 11px) + 1px));
+  background-size: 100% 100%;
+}
+.sc-thumb {
+  position: relative;
+  display: block;
+  aspect-ratio: 1 / 1.414;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.55);
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  --sg: 9px;
+  background-image: none;
+  overflow: hidden;
+}
+.sc-thumb::before {      /* five-line staves, six systems */
+  content: "";
+  position: absolute;
+  inset: 14% 10% 10%;
+  background:
+    repeating-linear-gradient(to bottom,
+      #1d1b18 0 1px, transparent 1px 5px,
+      #1d1b18 5px 6px, transparent 6px 10px,
+      transparent 10px 100%) 0 0 / 100% 14.3%;
+  opacity: 0.8;
+}
+.sc-clef { position: absolute; left: 9%; top: 6%; color: #1d1b18; font-size: 22px; line-height: 1; }
+/* the first page of the score as the thumbnail (<img> inside .sc-thumb, class has-img); without the picture the staves above show */
+.sc-thumb.has-img::before,
+.sc-thumb.has-img .sc-clef { display: none; }
+.sc-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; pointer-events: none; -webkit-user-drag: none; }
+/* a card with data-soon: "coming soon" across the middle of the paper (Courier, light, in the accent colour). Remove data-soon and it is gone. */
+.sc-card[data-soon] .sc-thumb::after {
+  content: "Coming soon";
+  position: absolute; left: 0; right: 0; top: 50%;
+  transform: translateY(-50%);
+  padding: 12px 0;
+  text-align: center;
+  background: #f6f3ec;
+  color: var(--accent);
+  font: 300 11px/1 "Courier New", Courier, monospace;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+body.lang-el-active .sc-card[data-soon] .sc-thumb::after { content: "Σύντομα"; }
+body.lang-cn-active .sc-card[data-soon] .sc-thumb::after { content: "即将推出"; }
+.sc-card:hover .sc-thumb,
+.sc-card:focus-visible .sc-thumb { transform: translateY(-8px) rotate(-1.2deg); box-shadow: 0 22px 36px rgba(0,0,0,.6); }
+.sc-card:focus-visible { outline: none; }
+.sc-card:focus-visible .sc-name { text-decoration: underline; text-underline-offset: 6px; }
+/* with the dossier open the cards fan out */
+.wk-vol.is-in .sc-card:nth-child(3n+1) .sc-thumb { transform-origin: 20% 100%; }
+.sc-name { font-family: var(--font-display); font-weight: 600; font-size: 17px; line-height: 1.25; }
+.sc-meta { margin-top: -6px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); }
+
+/* "Request a score" at the bottom of the scores */
+.vol-cta { margin-top: clamp(44px, 8vh, 80px); }
+.vol-cta-btn {
+  display: inline-block;
+  padding: 14px 28px;
+  background: var(--fg);
+  color: var(--bg);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+.vol-cta-btn:hover, .vol-cta-btn:focus-visible { background: var(--accent); color: #fff; outline: none; }
+.vol-cta-btn .btn-arrow { display: inline-block; margin-left: 0.5em; transition: transform 0.25s ease; }
+.vol-cta-btn:hover .btn-arrow, .vol-cta-btn:focus-visible .btn-arrow { transform: translateX(4px); }
+@media (max-width: 768px) { .vol-cta-btn { display: block; text-align: center; } }
+
+/* ---------- 8. Phones ---------- */
+@media (max-width: 768px) {
+  .wk-stage { --h: min(44vh, 98vw * 0.78); padding-bottom: 20px; }
+  .wk-niche { padding-left: calc(var(--h) * 0.14); padding-right: calc(var(--h) * 0.14); }
+  .wk-caption-hint { display: none; }
+  .wk-item:hover { transform: none; }
+
+  .vol-back { display: none; }
+  .cat-row {
+    grid-template-columns: 52px minmax(0, 1fr) auto;
+    gap: 4px 14px;
+    padding: 14px 0;
+  }
+  .cat-marks { flex-direction: column; align-items: flex-end; }
+  .cat-body { column-gap: 14px; }
+  .cat-title { flex: 1 0 100%; }                    /* on a phone the title has its own line; the instrumentation and the date follow */
+  .cat-sub { margin-top: 28px; }
+
+  .rec-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* ---------- 9. Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .vol-x path { transition: none; }
+  .wk-item { animation: none; transition: none; }
+  .wk-vol.is-in .cat-row,
+  .wk-vol.is-in .rec,
+  .wk-vol.is-in .sc-card { animation: none; }
+  .disc,
+  .sc-thumb { transition: none; }
+  .rec.is-playing .disc { animation: none; }
+}

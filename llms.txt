@@ -15,6 +15,7 @@
 - [About](https://michailchatzias.com/#about): Biography, background, and education.
 - [Expertise](https://michailchatzias.com/#expertise): Composition, orchestration, violin performance, and sound design.
 - [Works](https://michailchatzias.com/#works): Selected Audio tracks of compositions.
+- [Work Catalogue, Recordings and Scores](https://michailchatzias.com/works/): The full work catalogue, recordings and score previews.
 - [Gallery](https://michailchatzias.com/gallery/): Videos and photographs of concerts, by year.
 - [Contact](https://michailchatzias.com/contact/): Message form and direct links.
 
