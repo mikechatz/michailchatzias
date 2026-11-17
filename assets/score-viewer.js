@@ -10,8 +10,12 @@
                        "https://musescore.com/user/123/scores/456/embed" (unlisted: ".../scores/456/s/SECRET/embed").
                        It opens full screen on the black background; nothing is requested from that site before.
           data-soon    (no value) the viewer shows only "Coming soon" (until pages or an embed exist; delete it then)
+          data-image   (instead of pages) one picture, shown whole on the black background: "assets/gallery/photo.webp"
+          data-video   (instead of pages) a YouTube video id; the player opens on the black background and starts playing
+                       (youtube-nocookie.com; nothing is requested from YouTube before). data-title is shown above it.
+          The media tiles of one grid (.gallery-grid) are a group: the viewer then has arrows (and ← →) to step through them.
         (an element that is not a <button> also needs role="button" tabindex="0"; Enter and Space then work too)
-     2. In script:  ScoreViewer.open({ title, pages: [...], count, embed, opener })
+     2. In script:  ScoreViewer.open({ title, pages: [...], count, embed, image, video, opener })
 
    The pages are pictures, never a PDF. The look is in assets/score-viewer.css.
    Two pages side by side (a cover alone on the right first, like a book) or one page. Turn with the arrows,
@@ -56,7 +60,7 @@
   let sv, svBook, svStage, svPrev, svNext, svPage, svTotal, svTitle, svEmbed, modeBtns;
   let built = false;
 
-  const V = { pages: [], N: 0, S: 0, s: 0, mode: isPhone() ? "one" : "two", manual: false, busy: false, opener: null, title: "", embed: "" };
+  const V = { group: null, gi: 0, kind: "", pages: [], N: 0, S: 0, s: 0, mode: isPhone() ? "one" : "two", manual: false, busy: false, opener: null, title: "", embed: "" };
   const DRAG_D = 1000;                                  // the leaf's animations are scrubbed on a 0…1000 scale
   const drag = { id: null, x0: 0, y0: 0, on: false, dir: 0, L: null, anims: null, p: 0, range: 300, pts: [], raf: 0 };
   const touches = new Set();                            // fingers down: a pinch is not a page turn
@@ -157,6 +161,7 @@
 
   // turn one leaf by itself: dir +1 forward, -1 back. The leaf hinges on the spine.
   function flip(dir) {
+    if (V.group) { mediaStep(dir); return; }            // in the Gallery's media the arrows go to the neighbouring picture or video
     if (V.busy || V.embed) return;
     const s2 = V.s + dir;
     if (s2 < 0 || s2 >= V.S) return;
@@ -195,14 +200,27 @@
     render();
   }
 
+  // the Gallery's media: the arrows (and ← →) step through the tiles of the same grid, round and round
+  function mediaStep(dir) {
+    const g = V.group;
+    if (!g || g.length < 2 || !isOpen()) return;
+    const i = (V.gi + dir + g.length) % g.length;
+    open(Object.assign(fromElement(g[i]), { group: g, index: i, swap: true }));
+  }
+
   function open(o) {
     build();
     o = o || {};
+    V.group = o.group && o.group.length > 1 ? o.group : null;     // (only the media tiles of the Gallery pass a group)
+    V.gi = o.index || 0;
     V.pages = (o.pages || []).map(x => String(x).trim()).filter(Boolean);
     V.N = V.pages.length || Math.max(1, parseInt(o.count || "8", 10) || 8);
     V.title = o.title || "";
     V.opener = o.opener || null;
     V.embed = /^https:\/\//i.test(o.embed || "") ? o.embed : (o.soon ? "soon" : "");   // an outside player (MuseScore) instead of the pages; "soon" = only the words "coming soon"
+    V.kind = "";                                       // "image" / "video": the Gallery's media, shown on the same black screen
+    if (o.image) { V.embed = "image"; V.kind = "image"; }
+    else if (/^[\w-]{6,20}$/.test(o.video || "")) { V.embed = "https://www.youtube-nocookie.com/embed/" + o.video + "?autoplay=1&rel=0&playsinline=1"; V.kind = "video"; }
     if (closing) { closing.cancel(); closing = null; sv.style.pointerEvents = ""; }   // opened again while still fading out
     V.busy = false;
     if (isPhone()) V.mode = "one";
@@ -214,6 +232,12 @@
     modeBtns.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.mode === V.mode)));
     sv.classList.toggle("is-embed", !!V.embed);
     sv.classList.toggle("is-soon", V.embed === "soon");
+    sv.classList.toggle("is-media", !!V.group);
+    svPrev.disabled = svNext.disabled = false;
+    sv.classList.toggle("is-image", V.kind === "image");
+    sv.classList.toggle("is-video", V.kind === "video");
+    sv.setAttribute("aria-label", V.kind ? "Media viewer" : "Score viewer");
+    $("#sv-close", sv).setAttribute("aria-label", V.kind ? "Close" : "Close the score");
     svEmbed.replaceChildren();
     if (V.embed === "soon") {
       svBook.replaceChildren();
@@ -221,13 +245,20 @@
       soon.className = "sv-soon";
       soon.innerHTML = '<span class="lang-en">Coming soon</span><span class="lang-el">Σύντομα</span><span class="lang-cn">即将推出</span>';
       svEmbed.appendChild(soon);
+    } else if (V.kind === "image") {
+      svBook.replaceChildren();
+      const pic = document.createElement("img");
+      pic.src = o.image;
+      pic.alt = V.title;
+      pic.draggable = false;
+      svEmbed.appendChild(pic);
     } else if (V.embed) {
       svBook.replaceChildren();
       // nothing is requested from the other site until the score is opened
       const frame = document.createElement("iframe");
       frame.title = V.title;
       frame.src = V.embed;
-      frame.allow = "autoplay; fullscreen; encrypted-media";
+      frame.allow = V.kind === "video" ? "autoplay; encrypted-media; picture-in-picture; fullscreen" : "autoplay; fullscreen; encrypted-media";
       frame.setAttribute("allowfullscreen", "");
       frame.setAttribute("referrerpolicy", "no-referrer-when-downgrade");
       svEmbed.appendChild(frame);
@@ -236,8 +267,10 @@
     }
     sv.hidden = false;
     if (!V.embed) { layout(); render(); }
-    if (!reduce.matches) sv.animate([{ opacity: 0 }, { opacity: 1 }], { duration: FADE });
-    (V.embed ? $("#sv-close", sv) : svNext).focus({ preventScroll: true });
+    if (!o.swap) {
+      if (!reduce.matches) sv.animate([{ opacity: 0 }, { opacity: 1 }], { duration: FADE });
+      (V.embed ? $("#sv-close", sv) : svNext).focus({ preventScroll: true });
+    }
   }
   function close() {
     if (!isOpen()) return;
@@ -407,7 +440,7 @@
     });
     sv.addEventListener("click", (e) => {
       if (press.moved || V.busy || drag.on) return;
-      if (e.target.closest(".sheet:not(.is-blank), .sv-leaf, button, input, label, .sv-title")) return;
+      if (e.target.closest(".sheet:not(.is-blank), .sv-leaf, button, input, label, .sv-title, .sv-embed img")) return;
       // a little room around the arrows, the buttons and the page number, so a tap that just misses them does not close the score
       const m = press.touch ? SAFE_MARGIN_TOUCH : SAFE_MARGIN;
       const nearControl = $$(".sv-arrow, .sv-mode, .sv-close, .sv-count", sv).some(c => {
@@ -441,6 +474,7 @@
     const k = e.key;
     let used = true;
     if (k === "Escape") close();
+    else if (V.group && (k === "ArrowRight" || k === "ArrowLeft")) mediaStep(k === "ArrowRight" ? 1 : -1);
     else if (V.embed && k !== "Tab") used = false;      // (an outside player has its own keys)
     else if (k === "ArrowRight" || k === "ArrowDown" || k === "PageDown") flip(1);
     else if (k === "ArrowLeft" || k === "ArrowUp" || k === "PageUp") flip(-1);
@@ -469,18 +503,30 @@
       pages: (el.dataset.pages || "").split(","),
       count: el.dataset.count,
       embed: el.dataset.embed,
+      image: el.dataset.image,
+      video: el.dataset.video,
       soon: el.hasAttribute("data-soon"),
       opener: el
     };
   }
+  // a media tile (data-image / data-video) opens together with the other media tiles of its grid, for the arrows
+  function openFrom(el) {
+    const o = fromElement(el);
+    const grid = (o.image || o.video) ? el.closest("[data-media-group], .gallery-grid") : null;
+    if (grid) {
+      const g = $$("[data-score-open][data-image], [data-score-open][data-video]", grid);
+      o.group = g; o.index = g.indexOf(el);
+    }
+    open(o);
+  }
   document.addEventListener("click", (e) => {
     const el = e.target.closest && e.target.closest("[data-score-open]");
-    if (el) open(fromElement(el));
+    if (el) openFrom(el);
   });
   document.addEventListener("keydown", (e) => {
     if ((e.key !== "Enter" && e.key !== " ") || isOpen()) return;
     const el = e.target.closest && e.target.closest("[data-score-open]");
-    if (el && el.tagName !== "BUTTON" && el.tagName !== "A") { e.preventDefault(); open(fromElement(el)); }
+    if (el && el.tagName !== "BUTTON" && el.tagName !== "A") { e.preventDefault(); openFrom(el); }
   });
 
   window.ScoreViewer = { open, close, isOpen };

@@ -964,78 +964,6 @@ body [data-soon] > .score-placeholder p.lang-cn { display: none !important; }
   margin-left: auto;
 }
 
-/* Works */
-.track-row {
-  border-top: 1px solid var(--line);
-  padding: 32px 0;
-  display: grid;
-  grid-template-columns: 70px 1fr;
-  gap: 20px;
-}
-
-.track-row > div {
-  min-width: 0; 
-  width: 100%;
-}
-
-.track-row:last-child {
-  border-bottom: 1px solid var(--line);
-}
-
-.track-row h3 {
-  font-size: clamp(22px, 3.2vw, 42px);
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-
-.track-row iframe,
-.track-placeholder {
-  width: 100%;
-  border: 0;
-  display: block;
-}
-
-/* Specific to SoundCloud: Keep it wide */
-.track-row iframe[src*="soundcloud.com"] {
-  max-width: 100%;
-}
-
-/* Specific to Bandcamp: Limit width to prevent empty space */
-.track-row iframe[src*="bandcamp.com"] {
-  max-width: 700px;
-}
-
-.track-placeholder {
-  height: 120px;
-  border: 1px dashed var(--line-light);
-  display: grid;
-  place-items: center;
-  color: var(--mute);
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  background: rgba(20, 19, 16, 0.4);
-}
-
-/* Paste at the bottom of your style.css */
-.video-container {
-  position: relative;
-  width: 100%;
-  padding-bottom: 50%; /* 16:9 Aspect Ratio */
-  height: 0;
-  overflow: hidden;
-  background: var(--bg-card);
-  border: 1px solid var(--line);
-}
-
-.video-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
 /* Gallery */
 .gallery-grid {
   display: grid;
@@ -1089,6 +1017,26 @@ body [data-soon] > .score-placeholder p.lang-cn { display: none !important; }
 .gallery-item:nth-child(2) { grid-column: span 5; }
 .gallery-item:nth-child(3) { grid-column: span 4; }
 .gallery-item:nth-child(4) { grid-column: span 8; }
+
+/* Gallery tiles on the main page: a picture or a video poster that opens the media viewer */
+.gallery-item.gm { cursor: pointer; place-items: stretch; background: #0b0b0a; -webkit-tap-highlight-color: transparent; }
+.gallery-item.gm img { position: absolute; inset: 0; filter: grayscale(0.25) brightness(0.82); transition: transform 0.7s var(--ease, ease), filter 0.5s ease; }
+.gallery-item.gm::after {            /* darkens the bottom, so the words can be read on any picture */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top, rgba(11, 11, 10, 0.88) 0%, rgba(11, 11, 10, 0.35) 38%, transparent 62%);
+}
+.gallery-item.gm:hover img, .gallery-item.gm:focus-visible img { transform: scale(1.04); filter: grayscale(0) brightness(0.95); }
+.gallery-item.gm:focus-visible { outline: 1px solid var(--accent); outline-offset: 3px; }
+.gm-cap { position: absolute; left: 20px; right: 20px; bottom: 18px; z-index: 2; display: flex; flex-direction: column; gap: 4px; text-align: left; }
+.gm-cap b { font-family: var(--font-display); font-weight: 700; font-size: clamp(17px, 1.7vw, 24px); letter-spacing: 0.04em; text-transform: uppercase; }
+.gm-cap small { font-family: "Courier New", Courier, monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); }
+.gm-play {
+  position: absolute; z-index: 2; top: 50%; left: 50%; width: 64px; height: 64px; margin: -32px 0 0 -32px;
+  border: 1px solid rgba(236, 231, 220, 0.7); border-radius: 50%; background: rgba(11, 11, 10, 0.35);
+  display: grid; place-items: center; transition: background 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+}
+.gm-play i { width: 0; height: 0; margin-left: 4px; border-left: 15px solid var(--fg, #ece7dc); border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
+.gallery-item.gm:hover .gm-play, .gallery-item.gm:focus-visible .gm-play { background: var(--accent); border-color: var(--accent); transform: scale(1.08); }
 
 .gallery-placeholder {
   color: var(--mute);
@@ -1301,10 +1249,6 @@ body [data-soon] > .score-placeholder p.lang-cn { display: none !important; }
     gap: 10px;
   }
 
-  .track-row {
-    grid-template-columns: 1fr;
-  }
-
   .banner-items {
     justify-content: flex-start;
   }
@@ -1328,7 +1272,6 @@ body [data-soon] > .score-placeholder p.lang-cn { display: none !important; }
 .score-zigzag-row.row-right.is-video { grid-template-columns: 1fr 340px; }
 .is-video .score-preview-box { max-width: 340px; }
 .is-video .score-placeholder { aspect-ratio: 16 / 9; }
-.is-video .video-container { margin: 0; }
 
 /* Button groups */
 .stage-cta-buttons {
@@ -1374,7 +1317,8 @@ body [data-soon] > .score-placeholder p.lang-cn { display: none !important; }
   margin: 0 0 28px;
 }
 
-.works-scores {
+.works-scores,
+.works-recs {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 360px));
   gap: 44px;
@@ -1395,6 +1339,103 @@ body [data-soon] > .score-placeholder p.lang-cn { display: none !important; }
 }
 
 .score-card .label { display: block; margin-top: 4px; }
+
+/* Works preview: recordings.
+   The records, and the player that opens under them when one is tapped (script.js, section 3), look as they do on
+   the Works page (works/works.css, "Recordings"). The player is only built on a tap, so nothing is requested from
+   SoundCloud or YouTube before that. The grid of the records is the one of the score cards (above). */
+.rec {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-align: center;
+  color: var(--fg);
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+.disc {
+  position: relative;
+  width: min(100%, 250px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    conic-gradient(from 20deg, transparent, rgba(255,255,255,.10) 12%, transparent 25%, transparent 50%, rgba(255,255,255,.10) 62%, transparent 75%),
+    repeating-radial-gradient(circle, #0c0c0b 0 2px, #1b1a18 2px 3px);
+  box-shadow: 0 0 0 1px #2a2824, 0 14px 30px rgba(0, 0, 0, 0.6);
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.disc-label {                          /* the label in the middle of the record: large, and it carries the artwork */
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 60%; aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 4px #2a2824;   /* a dark rim separates it from the grooves */
+  color: #f1e9db;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  padding-bottom: 26%;                 /* (the year sits above the spindle hole while there is no artwork) */
+}
+.disc-year { font-weight: 400; }
+.disc-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; -webkit-user-drag: none; }
+.disc-label::after { content: ""; position: absolute; left: 50%; top: 50%; width: 5.5%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: var(--bg); box-shadow: 0 0 0 1.5px rgba(0, 0, 0, 0.35); }
+.rec:focus-visible { outline: none; }
+.rec:focus-visible .disc { transform: scale(1.04) rotate(8deg); }
+.rec:focus-visible .rec-name { text-decoration: underline; text-underline-offset: 6px; }
+@media (hover: hover) {
+  .rec:hover .disc { transform: scale(1.04) rotate(8deg); }
+}
+.rec.is-playing .disc { animation: rec-spin 3.2s linear infinite; }
+@keyframes rec-spin { to { transform: rotate(360deg); } }
+.rec-name { font-family: var(--font-display); font-weight: 600; font-size: 17px; line-height: 1.25; }
+.rec.is-playing .rec-name { color: var(--accent); }
+.rec-meta { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); }
+
+.rec-player {                           /* bar + player, as wide as the two records; only there while a record plays */
+  max-width: calc(2 * 360px + 44px);
+  margin-top: 40px;
+  contain: inline-size;                 /* what is inside never asks the page for more width (a long name is cut short with …) */
+}
+.rec-bar { display: flex; align-items: center; gap: 14px; padding-bottom: 10px; }
+.rec-now { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 14px; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); }
+.rec-now-label { flex: none; }
+.rec-now-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--font-display); font-weight: 600; font-size: 16px; letter-spacing: 0.01em; text-transform: none; color: var(--fg); }
+.rec-x {
+  flex: none;
+  display: grid; place-items: center;
+  width: 44px; height: 44px;
+  margin: -6px -8px -6px 0;            /* (the button is bigger than the bar; the ✕ itself lines up with the player's edge) */
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--mute);
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.rec-x:hover, .rec-x:focus-visible { color: var(--accent); outline: none; }
+.rec-sr { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.rec-stage { background: #000; }
+.rec-stage iframe { display: block; width: 100%; border: 0; }
+.rec-stage[data-kind="youtube"] { aspect-ratio: 16 / 9; }
+.rec-stage[data-kind="youtube"] iframe { height: 100%; }
+.rec-stage[data-kind="soundcloud"] iframe { height: 166px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .disc { transition: none; }
+  .rec.is-playing .disc { animation: none; }
+}
 
 /* Contact panel: closing statement */
 .closing-grid {
@@ -1906,23 +1947,6 @@ body [data-soon] > .score-placeholder p.lang-cn { display: none !important; }
     min-height: 220px;
   }
 
-  .track-row {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-    .track-row > div {
-    min-width: 0; 
-    width: 100%;
-  }
-
-  .track-row iframe {
-    display: block;
-    width: 100% !important;
-    max-width: 100%;
-    width: 100%;
-  }
-
-
   .panel-footer {
     flex-direction: column;
     align-items: flex-start;
@@ -2020,25 +2044,35 @@ body [data-soon] > .score-placeholder p.lang-cn { display: none !important; }
     top: 50%;
     transform: translateY(-50%);
     z-index: 200;
+    width: 52px;
+    height: 120px;
+    place-items: center;
     background: none;
     border: none;
-    padding: 14px 16px;
+    padding: 0;
     cursor: pointer;
-    font-size: 26px;
-    font-weight: 200;
-    line-height: 1;
-    color: rgba(255, 255, 255, 0.95);
-    text-shadow: 0 0 12px rgba(255, 255, 255, 0.45), 0 2px 10px rgba(0, 0, 0, 0.85);
+    color: var(--mute);               /* the same thin chevron as the viewers' arrows */
     transition: color 0.2s, transform 0.2s;
+  }
+  .mobile-stage-back-btn svg {
+    width: 22px;
+    height: 44px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   body.expertise-stage-active .mobile-stage-back-btn {
-    display: block;
+    display: grid;
   }
 
   .mobile-stage-back-btn:hover,
-  .mobile-stage-back-btn:active {
-    color: var(--accent);
+  .mobile-stage-back-btn:active,
+  .mobile-stage-back-btn:focus-visible {
+    color: var(--fg);
+    outline: none;
     transform: translateY(-50%) translateX(-3px);
   }
 
@@ -2086,12 +2120,17 @@ body [data-soon] > .score-placeholder p.lang-cn { display: none !important; }
   .stage-cta-buttons .expertise-stage-btn { flex: 1 1 100%; text-align: center; }
 
   .works-subhead { font-size: 16px; }
-  .works-scores { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .works-scores,
+  .works-recs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
   .score-card .score-placeholder { padding: 10px; }
   .score-card .score-placeholder .score-icon { font-size: 36px; margin-bottom: 10px; }
   .score-card .score-placeholder p { font-size: 9px; letter-spacing: 0.08em; }
   .score-card .score-placeholder .score-num { font-size: 9px; }
   .score-card-title { font-size: 14px; }
+  .rec-name { font-size: 15px; }
+  .rec-meta { font-size: 10px; letter-spacing: 0.1em; }
+  .rec-player { margin-top: 28px; }
+  .rec-now-name { font-size: 15px; }
 
   .panel-cta .expertise-stage-btn { width: 100%; text-align: center; }
 

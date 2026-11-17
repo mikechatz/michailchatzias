@@ -193,18 +193,16 @@
   /* ---------- Years follow the cursor, like the index on a phone ----------
      Run the mouse up or down the years and they bulge out to the LEFT in a smooth curve
      that follows the cursor's height: the year level with the cursor slides out the most,
-     its neighbours less, and the ones beyond the reach not at all. Each word also leans to
-     follow the outline of that curve, never more than MAX_TILT degrees either way. The years glide back when the cursor leaves.
+     its neighbours less, and the ones beyond the reach not at all. The years glide back when the
+     cursor leaves. They only slide and grow: no word is turned.
      Only the label moves: the button keeps its place, so clicking still works.
      Mouse and pen only, desktop layout only. */
   const REACH_Y   = 170;   // px: how far above and below the cursor the curve reaches
   const REACH_X   = 320;   // px: the cursor must also be this close sideways to the years
   const PUSH      = 52;    // px: how far the year at the cursor's height slides left
-  const MAX_TILT  = 5;     // degrees: a word never leans more than this, either way
-  const TILT_GAIN = 0.2;   // 1 = the curve's natural slope; bigger = leans more (still capped)
   const GROW      = 0.45;  // how much bigger the year at the cursor gets (0.45 = 45% bigger)
   // Phones: no cursor. The "cursor" is the middle of the screen, the years are scrolled past it,
-  // and the year in the middle rises, grows and straightens while its neighbours follow the curve.
+  // and the year in the middle rises and grows while its neighbours follow the curve.
   const REACH_M   = 170;   // px: how far left and right of the screen's middle the curve reaches
   const PUSH_M    = 32.5;   // px: how far the year in the middle rises
   const TICK_MS   = 10;    // phones: length of the tiny vibration when a new year reaches the middle (0 = off)
@@ -212,7 +210,7 @@
   const DAMPING   = 27;    // how quickly the swing dies out (lower = more bounce, higher = more stiff and calm)
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const yearItems = $$(".gal-year").map(btn => ({ btn, label: btn.firstChild, x: 0, vx: 0, y: 0, vy: 0, a: 0, va: 0, z: 1, vz: 0 }));
+  const yearItems = $$(".gal-year").map(btn => ({ btn, label: btn.firstChild, x: 0, vx: 0, y: 0, vy: 0, z: 1, vz: 0 }));
   let pointer = null;        // {x, y} while the mouse is over the timeline, else null
   let lastTime = 0;
   let running = false;
@@ -231,7 +229,7 @@
     let nearest = -1, nearestDist = Infinity;
 
     yearItems.forEach(item => {
-      let tx = 0, ty = 0, ta = 0, tz = 1;
+      let tx = 0, ty = 0, tz = 1;
       if (active) {
         const r = item.btn.getBoundingClientRect();    // the button never moves
         if (mobile) {
@@ -240,11 +238,8 @@
           if (Math.abs(dx) < REACH_M) {
             const k = Math.PI * dx / REACH_M;
             const bell  = 0.5 + 0.5 * Math.cos(k);                 // 1 in the middle, 0 at the reach
-            const slope = 0.5 * Math.sin(k) * Math.PI / REACH_M;
             ty = -PUSH_M * bell;                                   // straight up
             tz = 1 + GROW * bell;
-            const tilt = Math.atan(PUSH_M * slope * TILT_GAIN) * 180 / Math.PI;   // (opposite lean to desktop)
-            ta = Math.max(-MAX_TILT, Math.min(MAX_TILT, tilt));
           }
         } else {
           const dy = r.top + r.height / 2 - pointer.y;
@@ -255,13 +250,9 @@
           if (!chosen && Math.abs(dy) < REACH_Y && side > 0) {
             const k = Math.PI * dy / REACH_Y;
             const bell  = 0.5 + 0.5 * Math.cos(k);                 // 1 at the cursor, 0 at the reach
-            const slope = 0.5 * Math.sin(k) * Math.PI / REACH_Y;   // how steeply the bell falls, per px
             const s = side * side * (3 - 2 * side);                // fade out when the cursor is far sideways
             tx = -PUSH * bell * s;
             tz = 1 + GROW * bell * s;
-            // above the cursor the word leans like "\\", below it like "/" (the minus sign flips the direction)
-            const tilt = -Math.atan(PUSH * slope * TILT_GAIN * s) * 180 / Math.PI;
-            ta = Math.max(-MAX_TILT, Math.min(MAX_TILT, tilt));
           }
         }
       }
@@ -270,18 +261,13 @@
       item.x  += item.vx * dt;
       item.vy += (STIFFNESS * (ty - item.y) - DAMPING * item.vy) * dt;
       item.y  += item.vy * dt;
-      item.va += (STIFFNESS * (ta - item.a) - DAMPING * item.va) * dt;
-      item.a  += item.va * dt;
       item.vz += (STIFFNESS * (tz - item.z) - DAMPING * item.vz) * dt;
       item.z  += item.vz * dt;
-      const still = Math.abs(tx - item.x) < 0.02 && Math.abs(ty - item.y) < 0.02 &&
-                    Math.abs(ta - item.a) < 0.02 && Math.abs(tz - item.z) < 0.001 &&
-                    Math.abs(item.vx) < 0.05 && Math.abs(item.vy) < 0.05 &&
-                    Math.abs(item.va) < 0.05 && Math.abs(item.vz) < 0.01;
+      const still = Math.abs(tx - item.x) < 0.02 && Math.abs(ty - item.y) < 0.02 && Math.abs(tz - item.z) < 0.001 &&
+                    Math.abs(item.vx) < 0.05 && Math.abs(item.vy) < 0.05 && Math.abs(item.vz) < 0.01;
       if (!still) busy = true;
-      else if (!active) { item.x = 0; item.y = 0; item.a = 0; item.z = 1; item.vx = item.vy = item.va = item.vz = 0; }
+      else if (!active) { item.x = 0; item.y = 0; item.z = 1; item.vx = item.vy = item.vz = 0; }
       item.label.style.translate = item.x.toFixed(2) + "px " + item.y.toFixed(2) + "px";
-      item.label.style.rotate = item.a.toFixed(2) + "deg";
       item.label.style.scale = item.z.toFixed(3);
       // brightness: every year is quiet, and the one nearest the cursor (or the middle of the screen) glows
       if (item.btn.classList.contains("is-selected")) {

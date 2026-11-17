@@ -21,6 +21,11 @@
   const FADE = 1100;    // how long the black takes to fade away
   const BIG  = 1.3;     // the name is up to this much bigger on the title screen
 
+  // Is the page opening on the hero? A # in the address (/#expertise) means it is about to show another section,
+  // so the name must stay put and fade instead of travelling to the hero.
+  // (Read now, before script.js starts moving the address around.)
+  const opensOnHero = !location.hash || location.hash.toLowerCase() === "#hero";
+
   // While the black screen is up, the page underneath must not scroll or slide
   const stop = (e) => { e.preventDefault(); e.stopPropagation(); };
   overlay.addEventListener("wheel", stop, { passive: false });
@@ -81,9 +86,7 @@
     word.style.transform = from;
 
     // is the hero what we land on?
-    // (a # in the address, such as /#expertise, means the page is about to slide somewhere else, so never land on the hero then)
-    const wantsHero = !location.hash || location.hash === "#hero";
-    const onHero = wantsHero && r.top >= -2 && r.bottom <= innerHeight + 2 && r.right > 0 && r.left < innerWidth;
+    const onHero = opensOnHero && r.top >= -2 && r.bottom <= innerHeight + 2 && r.right > 0 && r.left < innerWidth;
 
     word.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, easing: "ease-out", fill: "forwards" });
     setTimeout(() => {

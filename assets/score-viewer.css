@@ -242,3 +242,45 @@
 .sc-viewer.is-embed .sv-stage { cursor: default; touch-action: auto; }
 @media (max-width: 768px) and (orientation: portrait) { .sv-embed { width: calc(100% - 12px); height: calc(100% - 8px); } }
 @media (max-height: 560px) and (orientation: landscape) { .sv-embed { width: calc(100% - 120px); height: calc(100% - 12px); } }
+
+/* The Gallery's media on the same black screen: one picture shown whole, or a 16:9 video player */
+.sc-viewer.is-image .sv-embed::before,
+.sc-viewer.is-video .sv-embed::before { content: none; }
+.sc-viewer.is-image .sv-embed { width: calc(100% - 32px); height: calc(100% - 16px); }
+.sv-embed img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: contain;
+  -webkit-user-drag: none;
+}
+.sc-viewer.is-video .sv-embed {
+  background: #000;
+  width: min(1400px, calc(100% - 32px), calc((100dvh - 110px) * 16 / 9));
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+@media (max-width: 768px) and (orientation: portrait) {
+  .sc-viewer.is-video .sv-embed { width: calc(100% - 12px); }
+  .sc-viewer.is-image .sv-embed { width: calc(100% - 12px); height: calc(100% - 8px); }
+}
+@media (max-height: 560px) and (orientation: landscape) {
+  .sc-viewer.is-video .sv-embed { width: min(calc(100% - 120px), calc((100dvh - 70px) * 16 / 9)); }
+}
+
+/* Gallery media with neighbours: the arrows come back, and the picture or player leaves room for them */
+.sc-viewer.is-media .sv-arrow { display: grid; }
+.sc-viewer.is-media.is-video .sv-embed { width: min(1400px, calc(100% - 170px), calc((100dvh - 110px) * 16 / 9)); }
+.sc-viewer.is-media.is-image .sv-embed { width: calc(100% - 170px); }
+@media (max-width: 768px) and (orientation: portrait) {
+  /* on an upright phone the arrows sit side by side under the picture */
+  .sc-viewer.is-media .sv-arrow { top: auto; bottom: 14px; transform: none; width: 56px; height: 56px; }
+  .sc-viewer.is-media .sv-prev { left: calc(50% - 64px); }
+  .sc-viewer.is-media .sv-next { right: calc(50% - 64px); }
+  .sc-viewer.is-media .sv-arrow svg { width: 16px; height: 32px; }
+  .sc-viewer.is-media.is-video .sv-embed { width: calc(100% - 12px); }
+  .sc-viewer.is-media.is-image .sv-embed { width: calc(100% - 12px); height: calc(100% - 88px); align-self: flex-start; margin-top: 4px; }
+}
+@media (max-height: 560px) and (orientation: landscape) {
+  .sc-viewer.is-media.is-video .sv-embed { width: min(calc(100% - 120px), calc((100dvh - 70px) * 16 / 9)); }
+  .sc-viewer.is-media.is-image .sv-embed { width: calc(100% - 120px); }
+}

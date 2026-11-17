@@ -24,6 +24,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
 
+  <!-- Title-screen intro: switched on here so the page never flashes before the black screen (off for "reduce motion").
+       Opened straight into a volume (e.g. works/#scores), the word stays in the middle and fades out with the black. -->
+  <script>
+    try { if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("wk-intro-on"); } catch (e) {}
+  </script>
+
   <!-- Shared styles first, then everything specific to this page -->
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="../assets/score-viewer.css">
@@ -36,6 +42,8 @@
       data-title-en="Works — Michaïl Chatziasemidis"
       data-title-el="Έργα — Μιχαήλ Χατζηασεμίδης"
       data-title-cn="作品 — 米哈伊尔·Chatziasemidis">
+
+  <div class="wk-intro" id="wk-intro" aria-hidden="true"><div class="wk-intro-bg"></div></div>
 
   <script>
     try {
@@ -284,18 +292,13 @@
             <span class="lang-el">Κατάλογος Έργων</span>
             <span class="lang-cn">作品目录</span>
           </h2>
-          <p class="vol-sub">
-            <span class="lang-en">Compositions, orchestrations and sound design.</span>
-            <span class="lang-el">Συνθέσεις, ενορχηστρώσεις και sound design.</span>
-            <span class="lang-cn">作曲、配器与声音设计。</span>
-          </p>
         </header>
 
         <div class="cat-filter" role="group" aria-label="Filter">
           <button type="button" class="cat-f" data-filter="all" aria-pressed="true"><span class="lang-en">All</span><span class="lang-el">Όλα</span><span class="lang-cn">全部</span></button>
           <button type="button" class="cat-f" data-filter="compositions" aria-pressed="false"><span class="lang-en">Compositions</span><span class="lang-el">Συνθέσεις</span><span class="lang-cn">作曲</span></button>
           <button type="button" class="cat-f" data-filter="orchestration" aria-pressed="false"><span class="lang-en">Orchestrations</span><span class="lang-el">Ενορχηστρώσεις</span><span class="lang-cn">配器</span></button>
-          <button type="button" class="cat-f" data-filter="sound-design" aria-pressed="false"><span class="lang-en">Sound design</span><span class="lang-el">Sound design</span><span class="lang-cn">声音设计</span></button>
+          <!-- Sound design is hidden for now (see the note at its group, below): <button type="button" class="cat-f" data-filter="sound-design" aria-pressed="false"><span class="lang-en">Sound design</span><span class="lang-el">Sound design</span><span class="lang-cn">声音设计</span></button> -->
         </div>
 
         <section class="cat-group" data-cat="compositions" aria-labelledby="cg-compositions">
@@ -324,6 +327,17 @@
           </ul>
           <h4 class="cat-sub"><span class="lang-en">Choral</span><span class="lang-el">Χορωδιακά</span></h4>
           <ul class="cat-list">
+          <li class="cat-row" data-cat="compositions">
+            <span class="cat-year">2026</span>
+            <div class="cat-body">
+              <span class="cat-title"><span class="lang-en">Apolytikion of St. Demetrius</span><span class="lang-el">Απολυτίκιο του Αγίου Δημητρίου</span></span>
+              <span class="cat-forces"><span class="lang-en">in F major, for mixed choir</span><span class="lang-el">σε φα μείζονα, για μικτή χορωδία</span></span>
+              <p class="cat-meta">
+                <span class="m"><span class="lang-en">October 2026</span><span class="lang-el">X/2026</span></span>
+              </p>
+            </div>
+            <span class="cat-marks"></span>
+          </li>
           <li class="cat-row" data-cat="compositions">
             <span class="cat-year">2024</span>
             <div class="cat-body">
@@ -725,6 +739,10 @@
           </li>
           </ul>
         </section>
+        <!-- SOUND DESIGN is hidden for now (nothing to show yet). To bring it back: take out the comment marks around this
+             group and around its filter button at the top of the catalogue. (The filter addresses, works/#sound-design,
+             follow the filter buttons by themselves.) -->
+        <!--
         <section class="cat-group" data-cat="sound-design" aria-labelledby="cg-sound-design">
           <h3 class="grp-h" id="cg-sound-design"><span class="lang-en">Sound design</span><span class="lang-el">Sound design</span><span class="lang-cn">声音设计</span></h3>
           <ul class="cat-list">
@@ -738,6 +756,7 @@
           </li>
           </ul>
         </section>
+        -->
       </div>
     </div>
   </section>

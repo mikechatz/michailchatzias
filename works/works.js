@@ -22,7 +22,8 @@
   const items  = $$(".wk-item");
 
   const VOLS    = ["catalogue", "recordings", "scores"];
-  const FILTERS = ["compositions", "orchestration", "sound-design"];   // addresses that open the catalogue already filtered
+  const catBtns = $$(".cat-f");                                                   // the filter buttons of the catalogue (index.html)
+  const FILTERS = catBtns.map(b => b.dataset.filter).filter(f => f !== "all");   // the addresses that open it already filtered: one for each button (a hidden button is no address)
 
   /* ---------- 1. Shelf basics ---------- */
   function setTop() {
@@ -302,7 +303,6 @@
   window.addEventListener("popstate", () => { const h = fromHash(); go(h.vol, h.filter); });
 
   /* ---------- 4. Work Catalogue ---------- */
-  const catBtns = $$(".cat-f");
   const catGroups = $$(".cat-group");
   function setFilter(f) {
     if (f !== "all" && FILTERS.indexOf(f) < 0) f = "all";
@@ -404,6 +404,81 @@
     if (e.key === "Escape" && openId && !busy) navigate(null);
     else if (e.key === "Escape" && busy) skip();
   });
+
+  /* ---------- Title-screen intro ----------
+     The page starts as a black screen with WORKS in the middle. The word travels to the page's title
+     (same place, same size) while the black fades; then works.css puts the objects on the shelf and
+     brings in "Take one off the shelf". Timings in ms; change them here. */
+  (function intro() {
+    const root    = document.documentElement;
+    const overlay = $("#wk-intro");
+    const title   = $(".wk-title");
+    if (!overlay || !title || !root.classList.contains("wk-intro-on")) return;
+
+    const HOLD = 0;          // the word sits in the middle for this long before it moves
+    const MOVE = 700;        // how long it takes to travel to its place
+    const FADE = 800;        // how long the black takes to fade away (it starts just after the move begins)
+
+    // Opened straight into a volume (works/#scores)? Then the shelf is not on screen and the word does not travel.
+    // (Read from the address: "start", further down, does not exist yet when this runs.)
+    const direct = !!fromHash().vol;
+
+    const finish = () => {
+      root.classList.add("wk-landed");                // shows the real title, exactly under the word, and starts the shelf
+      overlay.remove();
+    };
+
+    const begin = () => {
+      const bg   = overlay.firstElementChild;
+      const r    = direct ? { left: 0, top: 0 } : title.getBoundingClientRect();
+      const word = title.cloneNode(true);             // the same text, in the language in use
+      word.removeAttribute("id");
+      word.className = "wk-intro-word";
+      const cs = getComputedStyle(title);               // copy the real title's size, so phone and desktop both match
+      Object.assign(word.style, {
+        position: "fixed", left: r.left + "px", top: r.top + "px", opacity: "0",
+        fontSize: cs.fontSize, letterSpacing: cs.letterSpacing
+      });
+      overlay.appendChild(word);
+
+      const w = word.getBoundingClientRect();         // the word at its real size and place
+      // the title screen shows it as big as the gallery's title screen does (1.7 x that page's title, clamp(38px, 7.6vw, 104px)),
+      // so the three title screens match; never wider than the screen
+      const target = 1.7 * Math.min(104, Math.max(38, innerWidth * 0.076));
+      const k = Math.min(target / parseFloat(cs.fontSize), (innerWidth * 0.88) / w.width);
+      word.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, easing: "ease-out", fill: "forwards" });
+
+      if (direct) {
+        // the word stays in the middle and fades out together with the black, uncovering the volume
+        word.style.left = (innerWidth - w.width) / 2 + "px";
+        word.style.top  = (innerHeight - w.height) / 2 + "px";
+        word.style.transform = "scale(" + k + ")";
+        setTimeout(() => {                            // (short: the visitor came for the volume, not for the title screen)
+          word.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 450, easing: "ease-in-out", fill: "forwards" });
+          bg.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 450, easing: "ease-in-out", fill: "forwards" }).onfinish = finish;
+        }, 250);
+        return;
+      }
+
+      // from the middle of the screen, bigger, to the title's own place and size
+      const dx = innerWidth  / 2 - (w.left + w.width  / 2);
+      const dy = innerHeight / 2 - (w.top  + w.height / 2);
+      const from = "translate(" + dx + "px," + dy + "px) scale(" + k + ")";
+      word.style.transform = from;
+      setTimeout(() => {
+        word.animate([{ transform: from }, { transform: "none" }],
+                     { duration: MOVE, easing: "cubic-bezier(0.65, 0, 0.2, 1)", fill: "forwards" });
+        bg.animate([{ opacity: 1 }, { opacity: 0 }],
+                   { duration: FADE, delay: 60, easing: "ease-in-out", fill: "forwards" }).onfinish = finish;
+      }, HOLD + 300);
+    };
+
+    // wait for the fonts, so the word is measured in its real typeface (but never longer than 0.8 s)
+    Promise.race([
+      document.fonts ? document.fonts.ready : Promise.resolve(),
+      new Promise(res => setTimeout(res, direct ? 300 : 800))
+    ]).then(begin).catch(finish);                     // (if anything in here ever fails, the page simply appears)
+  })();
 
   /* ---------- Start ---------- */
   const start = fromHash();

@@ -764,7 +764,45 @@ document.addEventListener("DOMContentLoaded", () => {
   if (mobileBtnEn) mobileBtnEn.addEventListener("click", () => setLanguage("en"));
   if (mobileBtnEl) mobileBtnEl.addEventListener("click", () => setLanguage("el"));
 
-  /* ── IntersectionObserver: track which section is visible ── */
+  /* ── The section the phone is showing ──
+     Everything that depends on it is kept in step here: the rhomboids, the centre name, the state the desktop
+     book also uses (currentTabIndex, introStep) and the address. Whoever moves the page, the observer below
+     (scrolling) or navigateToHash (landing), says where it now is, so the state is never behind the page. */
+  function showSection(index) {
+    updateMobileRhomboids(index);
+    updateMobileCentreName(index > 0);
+
+    if (index === 0) {
+      currentTabIndex = 0;
+      introStep = 0;
+      setPortraitUncovered(false);
+      setExpertiseCardsVisible(false);
+    } else if (index === 1) {
+      currentTabIndex = 0;
+      introStep = 1;
+      setPortraitUncovered(true);
+      setExpertiseCardsVisible(false);
+    } else {
+      currentTabIndex = index - 1; // index 2 -> panel-expertise (1), 3 -> works (2), 4 -> gallery (3), 5 -> contact (4)
+      setPortraitUncovered(true);
+      if (index === 2) {
+        // mobile section 2 is panel-expertise
+        setExpertiseCardsVisible(true);
+      } else {
+        setExpertiseCardsVisible(false);
+        closeAllExpertiseStages();
+      }
+    }
+
+    // Sync URL hash with the visible section
+    const mobileHashMap = ["", "#about", "#expertise", "#works", "#gallery", "#contact"];
+    const newHash = mobileHashMap[index] || "";
+    history.replaceState(null, "", newHash || window.location.pathname);
+  }
+
+  /* ── IntersectionObserver: track which section is visible (as the visitor scrolls) ──
+     It starts at the very end of this file (watchSections), once the page has landed on the section the address
+     names. Started earlier, its first report would be the cover the page begins on, and it would wipe the # from the address. */
   const observerOptions = {
     root: null, /* use viewport as root, works for both snap and non-snap */
     threshold: 0.25
@@ -777,46 +815,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
-      const id = entry.target.id;
-      const index = mobileSnapSections.indexOf(id);
-      if (index < 0) return;
-      updateMobileRhomboids(index);
-      updateMobileCentreName(index > 0);
-
-      // Keep desktop state variables in sync with user's mobile scrolling
-      if (index === 0) {
-        currentTabIndex = 0;
-        introStep = 0;
-        setPortraitUncovered(false);
-        setExpertiseCardsVisible(false);
-      } else if (index === 1) {
-        currentTabIndex = 0;
-        introStep = 1;
-        setPortraitUncovered(true);
-        setExpertiseCardsVisible(false);
-      } else {
-        currentTabIndex = index - 1; // index 2 -> panel-expertise (1), 3 -> works (2), 4 -> gallery (3), 5 -> contact (4)
-        setPortraitUncovered(true);
-        if (index === 2) {
-          // mobile section 2 is panel-expertise
-          setExpertiseCardsVisible(true);
-        } else {
-          setExpertiseCardsVisible(false);
-          closeAllExpertiseStages();
-        }
-      }
-
-      // Sync URL hash with the visible section
-      const mobileHashMap = ["", "#about", "#expertise", "#works", "#gallery", "#contact"];
-      const newHash = mobileHashMap[index] || "";
-      history.replaceState(null, "", newHash || window.location.pathname);
+      const index = mobileSnapSections.indexOf(entry.target.id);
+      if (index >= 0) showSection(index);
     });
   }, observerOptions);
 
-  mobileSnapSections.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) sectionObserver.observe(el);
-  });
+  function watchSections() {
+    mobileSnapSections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) sectionObserver.observe(el);
+    });
+  }
 
   /* ── Resize & Orientation Change Handling ── */
   let lastOrientationMobile = isMobile();
@@ -934,6 +943,79 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const savedLang = localStorage.getItem("preferred_lang") || "en";
   setLanguage(savedLang);
+
+  // ------------------------------------------------------------------------
+  // 3. RECORDINGS  (Works panel: tap a record and its player opens under the records)
+  //
+  // Nothing is requested from SoundCloud or YouTube until a record is tapped: the player (an iframe) is built then.
+  // A player that loads by itself in the background can take focus when it is ready, and the browser then scrolls
+  // the page to it: on a phone that threw the visitor into Works from wherever they were. One that is built on a tap
+  // loads while the visitor is already looking at it.
+  // ------------------------------------------------------------------------
+  function initRecordings() {
+    const player = document.getElementById("rec-player");
+    if (!player) return;
+    const stage = document.getElementById("rec-stage");
+    const now   = document.getElementById("rec-now-name");
+    const recs  = Array.from(document.querySelectorAll(".rec"));
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let move = null;                                      // the animation that is resizing the player
+
+    // The player opens, changes and closes by growing or shrinking to its new height instead of jumping.
+    // `change` does the work; a closing player stays until it has shrunk, then goes.
+    function morph(change, closing = false) {
+      const from = player.offsetHeight;                   // its height right now, even in the middle of a move
+      if (move) { move.cancel(); move = null; }
+      player.style.overflow = "";
+      change();
+      const to = closing ? 0 : player.offsetHeight;
+      if (!closing) player.scrollIntoView({ block: "nearest", behavior: reduceMotion.matches ? "instant" : "smooth" });   // (measured at full size, so it ends up on screen)
+      if (reduceMotion.matches || Math.abs(to - from) < 2) { player.hidden = closing; return; }
+      player.style.overflow = "hidden";
+      move = player.animate([{ height: from + "px" }, { height: to + "px" }],
+                            { duration: 320, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" });
+      move.onfinish = () => { move = null; player.style.overflow = ""; player.hidden = closing; };
+    }
+
+    function markPlaying(playing) {
+      recs.forEach(b => {
+        b.classList.toggle("is-playing", b === playing);
+        b.setAttribute("aria-pressed", String(b === playing));
+      });
+    }
+
+    function play(btn) {
+      const name = btn.querySelector(".rec-name");
+      const frame = document.createElement("iframe");
+      frame.title = btn.dataset.title;
+      frame.src = btn.dataset.src;                        // (nothing is requested from the other sites until now)
+      frame.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+      frame.allowFullscreen = true;
+      frame.referrerPolicy = "no-referrer-when-downgrade";
+      morph(() => {
+        player.hidden = false;
+        stage.dataset.kind = btn.dataset.kind;
+        stage.replaceChildren(frame);
+        now.innerHTML = name.innerHTML;                   // the same name, in whichever language is showing
+      });
+      markPlaying(btn);
+    }
+
+    function stop() {
+      morph(() => stage.replaceChildren(), true);         // (the iframe goes, so the sound stops)
+      markPlaying(null);
+    }
+
+    recs.forEach(btn => btn.addEventListener("click", () => {
+      if (btn.classList.contains("is-playing")) stop(); else play(btn);     // the record that is playing: tap it again to put it away
+    }));
+    document.getElementById("rec-x").addEventListener("click", () => {
+      const playing = recs.find(b => b.classList.contains("is-playing"));
+      stop();
+      if (playing) playing.focus({ preventScroll: true });     // (the ✕ goes away with the player: the keyboard goes back to the record)
+    });
+  }
+  initRecordings();
 
   // ------------------------------------------------------------------------
   // 4. CONTACT FORM SUBMISSION
@@ -1054,25 +1136,19 @@ document.addEventListener("DOMContentLoaded", () => {
     mo.observe(navTabsEl, { subtree: true, attributeFilter: ["class"] });
   }
 
-  /* ── On load: navigate to the section matching the URL hash ── */
-  function navigateToHash() {
-    const hash = window.location.hash.toLowerCase();
-    if (!hash) return; // clean URL → stay at hero/cover
-    const dest = HASH_MAP[hash];
-    if (!dest) return; // unknown hash → stay at hero
+  /* The page positions itself from its address, so the browser must not put an old scroll position back on reload */
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 
+  /* ── Show the section the address names (on load, and whenever the address changes) ──
+     Phones jump straight there, with no animation; no # (or one we do not know) means the cover.
+     Desktop slides the book to that leaf. */
+  function navigateToHash() {
+    const dest = HASH_MAP[window.location.hash.toLowerCase()];
     if (isMobile()) {
-      const mobileIds = {
-        "#about":   "section-about",
-        "#expertise":   "panel-expertise",
-        "#craft":    "panel-expertise",   // legacy name
-        "#works":   "panel-works",
-        "#gallery": "panel-gallery",
-        "#contact": "panel-contact",
-      };
-      const targetId = mobileIds[hash];
-      if (targetId) setTimeout(() => mobileGoTo(targetId, false), 100);
-    } else {
+      const sectionId = !dest ? "section-hero" : dest.tab === 0 ? "section-about" : panels[dest.tab].id;
+      mobileGoTo(sectionId, false);
+      showSection(mobileSnapSections.indexOf(sectionId));
+    } else if (dest) {
       goToTab(dest.tab, dest.sub);
     }
   }
@@ -1087,6 +1163,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   navigateToHash();
+  watchSections();    // only now: the first thing it reports is where the page really is
 
   /* Browser back/forward */
   window.addEventListener("popstate", navigateToHash);

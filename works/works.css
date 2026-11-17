@@ -83,11 +83,11 @@ html.works-page body { height: 100%; overflow: hidden; }
 
 .wk-hint {
   margin: clamp(26px, 5vh, 46px) 0 0;
-  font-size: 11px;
+  font-size: clamp(14px, 1.5vw, 20px);
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--mute);
-  opacity: 0.7;
+  opacity: 0.85;
 }
 
 /* ---------- 3. The three objects ----------
@@ -716,3 +716,35 @@ body.lang-cn-active .sc-card[data-soon] .sc-thumb::after { content: "即将推�
   .sc-thumb { transition: none; }
   .rec.is-playing .disc { animation: none; }
 }
+
+
+/* ---------- Title-screen intro ----------
+   A black screen with WORKS in the middle; the word travels to the page's title while the black fades.
+   Then the three objects are put on the shelf one by one, and last the line "Take one off the shelf"
+   glides up from below and fades in. The timing is in works.js (the word) and here (the objects, the line). */
+.wk-intro { position: fixed; inset: 0; z-index: 9999; display: none; animation: wkIntroFail 0.5s ease 6s forwards; }
+html.wk-intro-on .wk-intro { display: block; }
+.wk-intro-bg { position: absolute; inset: 0; background: #000; }
+.wk-intro-word { white-space: nowrap; pointer-events: none; will-change: transform, opacity; color: var(--fg); font-family: var(--font-display); font-weight: 800; text-transform: uppercase; line-height: 1; margin: 0; }
+@keyframes wkIntroFail { to { opacity: 0; visibility: hidden; } }          /* safety net: if the script never runs, the black screen clears itself */
+
+/* before the word has landed, everything it will reveal waits (and shows itself after 6.5 s if the script never runs) */
+html.wk-intro-on:not(.wk-landed) .wk-title { visibility: hidden; animation: wkIntroShow 0.01s linear 6.5s forwards; }
+html.wk-intro-on:not(.wk-landed) .wk-niche,
+html.wk-intro-on:not(.wk-landed) .wk-hint { opacity: 0; animation: wkIntroShow 0.01s linear 6.5s forwards; }
+html.wk-intro-on:not(.wk-landed) .wk-item { animation: wkIntroShow 0.01s linear 6.5s forwards; opacity: 0; }
+@keyframes wkIntroShow { to { opacity: 1; visibility: visible; } }
+
+html.wk-landed .wk-title::after { animation: wkLine 0.6s var(--ease) both; }
+html.wk-landed .wk-niche { animation: wkNiche 0.5s var(--ease) 0.05s both; }
+/* each object is set down onto the plank from a little above */
+html.wk-landed .wk-item {
+  animation: wkPutDown 0.6s cubic-bezier(0.3, 0.8, 0.35, 1) both;
+  animation-delay: calc(var(--i, 0) * 0.28s + 0.3s);
+}
+html.wk-landed .wk-hint { animation: wkHintIn 1.6s var(--ease) 1.2s both; }   /* the slowest part: it has the last word */
+@keyframes wkLine    { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes wkNiche   { from { opacity: 0; } to { opacity: 1; } }
+@keyframes wkPutDown { from { translate: 0 -90px; opacity: 0; } 60% { opacity: 1; } to { translate: 0 0; opacity: 1; } }
+@keyframes wkHintIn  { from { opacity: 0; translate: 0 34px; } to { opacity: 0.85; translate: 0 0; } }
+@media (prefers-reduced-motion: reduce) { .wk-intro { display: none !important; } html.wk-landed .wk-item, html.wk-landed .wk-hint, html.wk-landed .wk-niche { animation: none; } }

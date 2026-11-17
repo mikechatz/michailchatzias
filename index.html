@@ -166,7 +166,7 @@
 
 <!-- MOBILE ONLY: stage return button (shown when viewing Selected Works) -->
 <button id="mobile-stage-back-btn" class="mobile-stage-back-btn" aria-label="Back to Expertise">
-  <span>→</span>
+  <svg viewBox="0 0 24 48" aria-hidden="true"><path d="M4 4 L20 24 L4 44"/></svg>
 </button>
 
 <!-- Horizontal Book/Score Slider Wrapper (Stacked Leaves Architecture) -->
@@ -431,11 +431,11 @@
                               data-title="…"   (optional; the <h4> of the row is used when it is missing)
                             Later you can put <img src="assets/score-name.webp" alt="First page of …"> inside the box,
                             in place of the grey placeholder, to show the first page as the preview.
-               2. VIDEO   → replace it with
-                            <div class="video-container"><iframe loading="lazy" title="…" src="https://www.youtube-nocookie.com/embed/VIDEO_ID" allowfullscreen></iframe></div>
-               3. AUDIO   → replace it with a SoundCloud <iframe …> (height 166)
-               4. Edit the label (YEAR · FORMAT), the <h4> title and the two <p> texts.
-               5. row-left / row-right only decides which side the media sits on.
+               2. VIDEO / AUDIO → not an <iframe> pasted into the row: a player that loads by itself can take focus when it is
+                            ready, and the browser then scrolls a phone to it, from wherever the visitor is. The records in Works
+                            only build their player when tapped (script.js, section 3); a row needs the same, so ask for it.
+               3. Edit the label (YEAR · FORMAT), the <h4> title and the two <p> texts.
+               4. row-left / row-right only decides which side the media sits on.
                ------------------------------------------------------------------ -->
 
           <!-- Zig-zag scores showcase: Item 1 (Image left, text right) -->
@@ -758,10 +758,12 @@
             <!-- Buttons: first = deeper content, second = contact (?subject=… fills the Subject box on the contact page; keys are listed in contact/index.html) -->
             <div class="expertise-stage-cta-wrap">
               <div class="stage-cta-buttons">
+                <!-- Hidden for now: the work catalogue has no sound design yet (it is hidden in works/index.html too). Bring it back together with that group:
                 <a href="works/#sound-design" class="expertise-stage-btn">
                   <span class="lang-en">See more sound work<span class="btn-arrow"> →</span></span>
                   <span class="lang-el">Περισσότερα έργα ήχου<span class="btn-arrow"> →</span></span>
                 </a>
+                -->
                 <a href="contact/?subject=sound-design" class="expertise-stage-btn is-solid">
                   <span class="lang-en">Get in touch<span class="btn-arrow"> →</span></span>
                   <span class="lang-el">Επικοινωνήστε μαζί μου<span class="btn-arrow"> →</span></span>
@@ -815,40 +817,54 @@
 
           <div class="works-list">
 
-            <!-- ───────── RECORDINGS: 2 embeds, then a button to /works/ ───────── -->
+            <!-- ───────── RECORDINGS: two records, then a button to /works/ ─────────
+                 Each record is a button. Nothing is requested from SoundCloud or YouTube until one is tapped:
+                 script.js (section 3) then builds the player in the box under the records.
+                   data-kind   soundcloud | youtube     the shape of the player that opens
+                   data-src    the embed address (it starts playing as it opens)
+                   data-title  the player's name, for screen readers
+                 The picture printed on the label is works/arts/NAME.webp, the same files as on the Works page
+                 (until the picture is there, the label is plain red with the year). -->
             <div class="works-group">
               <h3 class="works-subhead">
                 <span class="lang-en">Recordings</span>
                 <span class="lang-el">Ηχογραφήσεις</span>
               </h3>
 
-              <!-- Track 1 -->
-            <div class="track-row">
-              <span class="label">01</span>
-              <div>
-                <h3>
-                  <span>emmonæ (abbr.)</span>
-                </h3>
-                <iframe loading="lazy" title="emmonae (abbr.) (2024)" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" 
-                  src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/michailchatzias/emmonae-abbr-2024&color=%23b8321f&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false">
-                </iframe>
+              <div class="works-recs">
+                <button type="button" class="rec" data-kind="soundcloud" aria-pressed="false"
+                        data-title="emmonae (abbr.) (2024)"
+                        data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/michailchatzias/emmonae-abbr-2024&color=%23b8321f&auto_play=true&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false">
+                  <span class="disc"><span class="disc-label"><img class="disc-art" src="works/arts/emmonae.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.add('no-art');this.remove()"><b class="disc-year">2024</b></span></span>
+                  <span class="rec-name">emmonæ (abbr.)</span>
+                  <span class="rec-meta">2024</span>
+                </button>
+                <button type="button" class="rec" data-kind="youtube" aria-pressed="false"
+                        data-title="Michaïl Chatziasemidis - 2 miniatures for solo clarinet (2024) - Performed by Spyros Koukas"
+                        data-src="https://www.youtube-nocookie.com/embed/-dDyYOflE8A?autoplay=1&rel=0">
+                  <span class="disc"><span class="disc-label"><img class="disc-art" src="works/arts/youtube.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.add('no-art');this.remove()"><b class="disc-year">2024</b></span></span>
+                  <span class="rec-name">
+                    <span class="lang-en">2 Miniatures for Solo Clarinet</span>
+                    <span class="lang-el">2 Μινιατούρες για σόλο κλαρινέτο</span>
+                  </span>
+                  <span class="rec-meta">2024 · Spyros Koukas</span>
+                </button>
               </div>
-            </div>
 
-            <!-- Track 2 -->
-            <div class="track-row">
-              <span class="label">02</span>
-              <div>
-                <h3>
-                  <span class="lang-en">2 Miniatures for Solo Clarinet (2024)</span>
-                  <span class="lang-el">2 Μινιατούρες για σόλο κλαρινέτο (2024)</span>
-                </h3>
-                <div class="video-container">
-                  <iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/-dDyYOflE8A" title="Michaïl Chatziasemidis - 2 miniatures for solo clarinet (2024) - Performed by Spyros Koukas" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="no-referrer-when-downgrade" allowfullscreen>
-                  </iframe>
+              <!-- The player: a bar (what is playing + the ✕ that closes it) above the player itself. It is only there while a record plays. -->
+              <div class="rec-player" id="rec-player" hidden>
+                <div class="rec-bar">
+                  <span class="rec-now">
+                    <span class="rec-now-label"><span class="lang-en">Now playing</span><span class="lang-el">Παίζει τώρα</span><span class="lang-cn">正在播放</span></span>
+                    <span class="rec-now-name" id="rec-now-name"></span>
+                  </span>
+                  <button type="button" class="rec-x" id="rec-x">
+                    <span aria-hidden="true">✕</span>
+                    <span class="rec-sr lang-en">Close the player</span><span class="rec-sr lang-el">Κλείσιμο αναπαραγωγής</span><span class="rec-sr lang-cn">关闭播放器</span>
+                  </button>
                 </div>
+                <div class="rec-stage" id="rec-stage"></div>
               </div>
-            </div>
             </div>
 
             <div class="panel-cta">
@@ -904,27 +920,6 @@
                 <span class="lang-el">Πλήρης κατάλογος έργων<span class="btn-arrow"> →</span></span>
               </a>
             </div>
-
-            <!-- Bandcamp embed, moved out of the main page (2 recordings only here).
-                 Paste it into the /works/ subpage when we build it:
-
-            <div class="track-row">
-              <span class="label">03</span>
-              <div>
-                <h3>
-                  <span>lo-fi{re} - a lo-fi soundscape</span>
-                </h3>
-                <iframe loading="lazy" title="lo-fi{re} - a lo-fi soundscape" style="border: 0; width: 100%; height: 120px;" 
-                  src="https://bandcamp.com/EmbeddedPlayer/album=2444936824/size=large/bgcol=0b0b0a/linkcol=b8321f/tracklist=false/artwork=small/track=3491761612/transparent=true/" 
-                  seamless>
-                  <a href="https://mediart.bandcamp.com/album/electronic-music-concert-2024-2">Electronic Music Concert | 2024 by smART | sonic &amp; media Art</a>
-                </iframe>
-              </div>
-            </div>
-
-            
-
-            -->
           </div>
 
           <div class="panel-footer">
@@ -976,41 +971,50 @@
             </div> -->
           
 
+          <!-- ==================================================================
+               The four tiles below open the media viewer (assets/score-viewer.js).
+               On a tile:
+                 data-video="YOUTUBE_ID"   a video: the player opens on the black screen and plays
+                 data-image="path.webp"    a photo: shown whole on the black screen
+                 data-title="..."          the line shown above it in the viewer
+               and inside it the <img> is the picture on the tile (a video uses its poster).
+               The grid sizes follow the tile order: 1st wide, 2nd narrower, 3rd small, 4th wide (see style.css).
+               To change a tile: change the data-video / data-image, the <img src> and the two lines of text.
+               ================================================================== -->
           <div class="gallery-grid">
-            <div class="gallery-item">
-              <div class="gallery-placeholder">
-                <span style="font-size: 20px; opacity: 0.4;">✦</span>
-                <p class="lang-en">Photo Coming Soon</p>
-                <p class="lang-el">Φωτογραφία σύντομα</p>
-                <span style="font-size: 9px; opacity: 0.5;">PHOTO 01</span>
-              </div>
+            <div class="gallery-item gm" role="button" tabindex="0" data-score-open data-video="R0gt7m-4-e4" data-title="Carmina Burana (25 Years of the AUTh Symphony Orchestra, 1 June 2024)" aria-label="Carmina Burana (25 Years of the AUTh Symphony Orchestra, 1 June 2024)">
+              <img src="assets/gallery/main-carmina-burana-2024.webp" alt="" decoding="async" draggable="false">
+            <span class="gm-play" aria-hidden="true"><i></i></span>
+              <span class="gm-cap">
+                <b class="lang-en">Carmina Burana</b><b class="lang-el">Carmina Burana</b>
+                <small class="lang-en">25 years of the AUTh Symphony Orchestra · 2024</small><small class="lang-el">25 χρόνια της Συμφωνικής Ορχήστρας ΑΠΘ · 2024</small>
+              </span>
             </div>
 
-            <div class="gallery-item">
-              <div class="gallery-placeholder">
-                <span style="font-size: 20px; opacity: 0.4;">✦</span>
-                <p class="lang-en">Photo Coming Soon</p>
-                <p class="lang-el">Φωτογραφία σύντομα</p>
-                <span style="font-size: 9px; opacity: 0.5;">PHOTO 02</span>
-              </div>
+            <div class="gallery-item gm" role="button" tabindex="0" data-score-open data-image="assets/gallery/banner-violin.webp" data-title="Violin" aria-label="Violin">
+              <img src="assets/gallery/banner-violin.webp" alt="" decoding="async" draggable="false">
+              <span class="gm-cap">
+                <b class="lang-en">Violin</b><b class="lang-el">Βιολί</b>
+                <small class="lang-en">Photograph</small><small class="lang-el">Φωτογραφία</small>
+              </span>
             </div>
 
-            <div class="gallery-item">
-              <div class="gallery-placeholder">
-                <span style="font-size: 20px; opacity: 0.4;">✦</span>
-                <p class="lang-en">Photo Coming Soon</p>
-                <p class="lang-el">Φωτογραφία σύντομα</p>
-                <span style="font-size: 9px; opacity: 0.5;">PHOTO 03</span>
-              </div>
+            <div class="gallery-item gm" role="button" tabindex="0" data-score-open data-video="lJumWWtQcCA" data-title="Allegro Energico (AUTh Symphony Orchestra, 13 March 2025)" aria-label="Allegro Energico (AUTh Symphony Orchestra, 13 March 2025)">
+              <img src="assets/gallery/main-allegro-energico-2025.webp" alt="" decoding="async" draggable="false">
+            <span class="gm-play" aria-hidden="true"><i></i></span>
+              <span class="gm-cap">
+                <b class="lang-en">Allegro Energico</b><b class="lang-el">Allegro Energico</b>
+                <small class="lang-en">AUTh Symphony Orchestra · 2025</small><small class="lang-el">Συμφωνική Ορχήστρα ΑΠΘ · 2025</small>
+              </span>
             </div>
 
-            <div class="gallery-item">
-              <div class="gallery-placeholder">
-                <span style="font-size: 20px; opacity: 0.4;">✦</span>
-                <p class="lang-en">Photo Coming Soon</p>
-                <p class="lang-el">Φωτογραφία σύντομα</p>
-                <span style="font-size: 9px; opacity: 0.5;">PHOTO 04</span>
-              </div>
+            <div class="gallery-item gm" role="button" tabindex="0" data-score-open data-video="VnUGAZnkEVs" data-title="Verdi Requiem (Berlin Philharmonie, 30 June 2024)" aria-label="Verdi Requiem (Berlin Philharmonie, 30 June 2024)">
+              <img src="assets/gallery/main-verdi-requiem-2024.webp" alt="" decoding="async" draggable="false">
+            <span class="gm-play" aria-hidden="true"><i></i></span>
+              <span class="gm-cap">
+                <b class="lang-en">Verdi Requiem</b><b class="lang-el">Ρέκβιεμ του Βέρντι</b>
+                <small class="lang-en">Berlin Philharmonie · 2024</small><small class="lang-el">Φιλαρμονική του Βερολίνου · 2024</small>
+              </span>
             </div>
           </div>
 
