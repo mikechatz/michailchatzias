@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" class="subpage">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Contact — Michaïl Chatziasemidis</title>
+  <link rel="canonical" href="https://michailchatzias.com/contact/">
+  <meta name="description" content="Get in touch with Michaïl Chatziasemidis — composition, orchestration and violin for your project.">
+
+  <meta property="og:title" content="Contact — Michaïl Chatziasemidis">
+  <meta property="og:description" content="Composer, Orchestrator and Violinist. Get in touch.">
+  <meta property="og:image" content="https://michailchatzias.com/assets/background.webp">
+  <meta property="og:url" content="https://michailchatzias.com/contact/">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Contact — Michaïl Chatziasemidis">
+  <meta name="twitter:description" content="Composer, Orchestrator and Violinist. Get in touch.">
+  <meta name="twitter:image" content="https://michailchatzias.com/assets/background.webp">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>𝄞</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+
+  <!-- Shared stylesheet (one level up) -->
+  <link rel="stylesheet" href="../style.css">
+  <!-- Contact page only: link buttons and the subject drop-down -->
+  <link rel="stylesheet" href="contact.css">
+</head>
+<body class="subpage lang-en-active"
+      data-title-en="Contact — Michaïl Chatziasemidis"
+      data-title-el="Επικοινωνία — Μιχαήλ Χατζηασεμίδης"
+      data-title-cn="联系 — 米哈伊尔·Chatziasemidis">
+
+  <!-- Apply the saved language before first paint (no flash of English for Greek visitors) -->
+  <script>
+    try {
+      var l = localStorage.getItem("preferred_lang");
+      if (l === "el" || l === "cn") {
+        document.documentElement.lang = l;
+        document.body.className = "subpage lang-" + l + "-active";
+      }
+    } catch (e) {}
+  </script>
+
+  <!-- Top bar. (div role="navigation" instead of <nav>: the main-page <nav> styles are fixed/specific to the book layout) -->
+  <header class="sub-nav">
+    <a class="nav-brand" href="../" aria-label="Back to the main page">M.</a>
+
+    <div class="sub-nav-links" role="navigation" aria-label="Main">
+      <a href="../#about">
+        <span class="lang-en">About</span>
+        <span class="lang-el">Σχετικά</span>
+        <span class="lang-cn">关于</span>
+      </a>
+      <a href="../#expertise">
+        <span class="lang-en">Expertise</span>
+        <span class="lang-el">Ειδικότητες</span>
+        <span class="lang-cn">专业</span>
+      </a>
+      <a href="../#works">
+        <span class="lang-en">Works</span>
+        <span class="lang-el">Έργα</span>
+        <span class="lang-cn">作品</span>
+      </a>
+      <a href="../gallery/">
+        <span class="lang-en">Gallery</span>
+        <span class="lang-el">Γκαλερί</span>
+        <span class="lang-cn">画廊</span>
+      </a>
+      <a href="./" class="active" aria-current="page">
+        <span class="lang-en">Contact</span>
+        <span class="lang-el">Επικοινωνία</span>
+        <span class="lang-cn">联系</span>
+      </a>
+    </div>
+
+    <div class="sub-lang">
+      <button class="lang-btn active" id="btn-lang-en" data-lang="en">EN</button>
+      <span class="lang-sep">|</span>
+      <button class="lang-btn" id="btn-lang-el" data-lang="el">ΕΛ</button>
+      <!-- <span class="lang-sep">|</span>
+      <button class="lang-btn" id="btn-lang-cn">中文</button> -->
+    </div>
+    <button type="button" id="mobile-hamburger" class="mobile-hamburger" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- MOBILE ONLY: hamburger menu (styles are the same as the main page's, from style.css; behaviour is in subpage.js) -->
+  <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+    <button type="button" id="mobile-menu-close" class="mobile-menu-close" aria-label="Close menu">✕</button>
+    <div class="mobile-menu-nav" role="navigation" aria-label="Main">
+    <a class="mobile-menu-link" href="../#about">
+      <span class="lang-en">About</span>
+      <span class="lang-el">Σχετικά</span>
+      <span class="lang-cn">关于</span>
+    </a>
+    <a class="mobile-menu-link" href="../#expertise">
+      <span class="lang-en">Expertise</span>
+      <span class="lang-el">Ειδικότητες</span>
+      <span class="lang-cn">专业</span>
+    </a>
+    <a class="mobile-menu-link" href="../#works">
+      <span class="lang-en">Works</span>
+      <span class="lang-el">Έργα</span>
+      <span class="lang-cn">作品</span>
+    </a>
+    <a class="mobile-menu-link" href="../gallery/">
+      <span class="lang-en">Gallery</span>
+      <span class="lang-el">Γκαλερί</span>
+      <span class="lang-cn">画廊</span>
+    </a>
+    <a class="mobile-menu-link active" href="../contact/" aria-current="page">
+      <span class="lang-en">Contact</span>
+      <span class="lang-el">Επικοινωνία</span>
+      <span class="lang-cn">联系</span>
+    </a>
+    </div>
+    <div class="mobile-menu-lang">
+      <button type="button" class="lang-btn active" data-lang="en">EN</button>
+      <span class="lang-sep">|</span>
+      <button type="button" class="lang-btn" data-lang="el">ΕΛ</button>
+    </div>
+  </div>
+  <div id="mobile-menu-backdrop" class="mobile-menu-backdrop"></div>
+
+  <main class="sub-main">
+    <div class="wrap">
+      <div class="section-head">
+        <h1 class="sub-title">
+          <span class="lang-en">CONTACT</span>
+          <span class="lang-el">ΕΠΙΚΟΙΝΩΝΙΑ</span>
+          <span class="lang-cn">联系</span>
+        </h1>
+      </div>
+
+      <div class="contact-layout">
+                  <!-- Direct Links -->
+                  <!-- Direct Links: an icon in place of the name (aria-label / title keep the name for screen readers and hover) -->
+                  <div class="contact-links">
+                    <a href="mailto:michailchatzias@gmail.com" aria-label="Email" title="Email">
+                      <svg class="cl-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3.5 7.5 12 13.5l8.5-6"/></svg>
+                      <span>michailchatzias@gmail.com</span>
+                    </a>
+                    <a href="https://instagram.com/michailchatzias/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+                      <svg class="cl-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".9" class="fill"/></svg>
+                      <span>instagram.com/michailchatzias</span>
+                    </a>
+                    <a href="https://michailchatzias.bandcamp.com" target="_blank" rel="noopener" aria-label="Bandcamp" title="Bandcamp">
+                      <svg class="cl-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 18 8 6h13.5L16 18Z"/></svg>
+                      <span>michailchatzias.bandcamp.com</span>
+                    </a>
+                    <a href="https://soundcloud.com/michailchatzias" target="_blank" rel="noopener" aria-label="SoundCloud" title="SoundCloud">
+                      <svg class="cl-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.5 18.5V8.6c1.3-.8 2.9-1.1 4.4-.7 2 .5 3.4 2.2 3.7 4.2 1.8-.1 3.100 1.100 3.100 2.700s-1.300 2.700-3 2.700Z"/><path d="M3 13v3.500M6 11v5.500M9 9.500V16.500"/></svg>
+                      <span>soundcloud.com/michailchatzias</span>
+                    </a>
+                    <a href="https://youtube.com/@michailchatzias" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube">
+                      <svg class="cl-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9.200 5 2.800-5 2.800Z" class="fill"/></svg>
+                      <span>youtube.com/@michailchatzias</span>
+                    </a>
+                  </div>
+
+                <!-- Emailing Form -->
+                <div class="contact-form-wrapper">
+                  <h3>
+                    <span class="lang-en">Send a Message</span>
+                    <span class="lang-el">ΑΠΟΣΤΟΛΗ ΜΗΝΥΜΑΤΟΣ</span>
+                    <span class="lang-cn">发送消息</span>
+                  </h3>
+                  <p class="form-desc">
+                    <span class="lang-en">For collaborations, commissions, game audio inquiries, or score requests.</span>
+                    <span class="lang-el">Για συνεργασίες, αναθέσεις συνθέσεων, game audio ή παρτιτούρες.</span>
+                    <span class="lang-cn">如需合作、委约、游戏音频咨询或乐谱请求，请与我联系。</span>
+                  </p>
+            
+                  <form id="contact-form" action="https://formspree.io/f/myeeaegl" method="POST">
+                    <div class="form-group">
+                      <label for="form-name">
+                        <span class="lang-en">Your Name</span>
+                        <span class="lang-el">ΟΝΟΜΑΤΕΠΩΝΥΜΟ</span>
+                        <span class="lang-cn">您的姓名</span>
+                      </label>
+                      <input type="text" id="form-name" name="name" required placeholder="Name / Ensemble">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="form-email">
+                        <span class="lang-en">Your Email</span>
+                        <span class="lang-el">EMAIL ΕΠΙΚΟΙΝΩΝΙΑΣ</span>
+                        <span class="lang-cn">您的电子邮件</span>
+                      </label>
+                      <input type="email" id="form-email" name="email" required placeholder="you@domain.com">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="form-subject">
+                        <span class="lang-en">Subject</span>
+                        <span class="lang-el">ΘΕΜΑ</span>
+                        <span class="lang-cn">主题</span>
+                      </label>
+                      <!-- A text box you can type in freely. The arrow at its end opens prepared subjects (contact.js);
+                           choosing one only fills the box, and it stays editable.
+                           To change the suggestions, edit the <li> items below (data-en / data-el / data-cn = the text that is inserted).
+                           data-key is what a link can ask for: contact/?subject=composition fills the box with that suggestion
+                           (keys: game-audio, composition, orchestration, sound-design, collaboration, score, violin). -->
+                      <div class="subj-field" id="subject-field">
+                        <input type="text" id="form-subject" name="subject" required autocomplete="off"
+                               role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="subject-list"
+                               placeholder="Game Audio / Composition Commission">
+                        <button type="button" class="subj-toggle" id="subject-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="subject-list">
+                          <span class="subj-sr lang-en">Show suggested subjects</span>
+                          <span class="subj-sr lang-el">Εμφάνιση προτεινόμενων θεμάτων</span>
+                          <span class="subj-sr lang-cn">显示推荐主题</span>
+                          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9.500 6 6 6-6"/></svg>
+                        </button>
+                        <div class="subj-pop" id="subject-pop" hidden>
+                          <p class="subj-hint">
+                            <span class="lang-en">Pick one, then edit it as you like</span>
+                            <span class="lang-el">Διαλέξτε ένα και αλλάξτε το όπως θέλετε</span>
+                            <span class="lang-cn">选择后可自由修改</span>
+                          </p>
+                          <ul class="subj-list" id="subject-list" role="listbox" aria-label="Suggested subjects">
+                          <li role="option" id="subj-opt-1" data-key="game-audio" aria-selected="false" data-en="Game audio inquiry" data-el="Ερώτημα για game audio" data-cn="游戏音频咨询"><span class="lang-en">Game audio inquiry</span><span class="lang-el">Ερώτημα για game audio</span><span class="lang-cn">游戏音频咨询</span></li>
+                          <li role="option" id="subj-opt-2" data-key="composition" aria-selected="false" data-en="Composition commission" data-el="Ανάθεση σύνθεσης" data-cn="委约作曲"><span class="lang-en">Composition commission</span><span class="lang-el">Ανάθεση σύνθεσης</span><span class="lang-cn">委约作曲</span></li>
+                          <li role="option" id="subj-opt-3" data-key="orchestration" aria-selected="false" data-en="Orchestration / arrangement" data-el="Ενορχήστρωση / διασκευή" data-cn="配器 / 改编"><span class="lang-en">Orchestration / arrangement</span><span class="lang-el">Ενορχήστρωση / διασκευή</span><span class="lang-cn">配器 / 改编</span></li>
+                          <li role="option" id="subj-opt-4" data-key="sound-design" aria-selected="false" data-en="Sound design" data-el="Sound design" data-cn="音效设计"><span class="lang-en">Sound design</span><span class="lang-el">Sound design</span><span class="lang-cn">音效设计</span></li>
+                          <li role="option" id="subj-opt-5" data-key="collaboration" aria-selected="false" data-en="Collaboration" data-el="Συνεργασία" data-cn="合作"><span class="lang-en">Collaboration</span><span class="lang-el">Συνεργασία</span><span class="lang-cn">合作</span></li>
+                          <li role="option" id="subj-opt-6" data-key="score" aria-selected="false" data-en="Score request" data-el="Αίτημα για παρτιτούρα" data-cn="乐谱请求"><span class="lang-en">Score request</span><span class="lang-el">Αίτημα για παρτιτούρα</span><span class="lang-cn">乐谱请求</span></li>
+                          <li role="option" id="subj-opt-7" data-key="violin" aria-selected="false" data-en="Violin performance / recording" data-el="Βιολί: εκτέλεση / ηχογράφηση" data-cn="小提琴演奏 / 录音"><span class="lang-en">Violin performance / recording</span><span class="lang-el">Βιολί: εκτέλεση / ηχογράφηση</span><span class="lang-cn">小提琴演奏 / 录音</span></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="form-message">
+                        <span class="lang-en">Message</span>
+                        <span class="lang-el">ΜΗΝΥΜΑ</span>
+                        <span class="lang-cn">留言</span>
+                      </label>
+                      <textarea id="form-message" name="message" required placeholder="Tell me about your project or inquiry..."></textarea>
+                    </div>
+
+                    <button type="submit" class="form-submit-btn" id="form-submit-btn">
+                      <span class="lang-en">Send Message</span>
+                      <span class="lang-el">ΑΠΟΣΤΟΛΗ ΜΗΝΥΜΑΤΟΣ</span>
+                      <span class="lang-cn">发送消息</span>
+                    </button>
+                    <div id="form-status" class="form-status"></div>
+                  </form>
+                </div>
+                </div>
+
+      <div class="panel-footer">
+        <span class="label lang-en">© 2026 Michaïl Chatziasemidis. All rights reserved.</span>
+        <span class="label lang-el">© 2026 ΜΙΧΑΗΛ ΧΑΤΖΗΑΣΕΜΙΔΗΣ. ΜΕ ΤΗΝ ΕΠΙΦΥΛΑΞΗ ΠΑΝΤΟΣ ΔΙΚΑΙΩΜΑΤΟΣ.</span>
+        <span class="label lang-cn">© 2026 米哈伊尔·Chatziasemidis. 保留所有权利。</span>
+        <a class="label lang-en" href="../">← Back to the main page</a>
+        <a class="label lang-el" href="../">← Πίσω στην αρχική</a>
+        <a class="label lang-cn" href="../">← 返回主页</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="../subpage.js"></script>
+  <script src="contact.js"></script>
+</body>
+</html>

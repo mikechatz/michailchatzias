@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en" class="subpage gallery-page">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Gallery — Michaïl Chatziasemidis</title>
+  <link rel="canonical" href="https://michailchatzias.com/gallery/">
+  <meta name="description" content="Performances and photographs of Michaïl Chatziasemidis: concerts and performances as composer and violinist.">
+
+  <meta property="og:title" content="Gallery — Michaïl Chatziasemidis">
+  <meta property="og:description" content="Concerts and performances, by year.">
+  <meta property="og:image" content="https://michailchatzias.com/assets/background.webp">
+  <meta property="og:url" content="https://michailchatzias.com/gallery/">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Gallery — Michaïl Chatziasemidis">
+  <meta name="twitter:description" content="Concerts and performances, by year.">
+  <meta name="twitter:image" content="https://michailchatzias.com/assets/background.webp">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>𝄞</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,700;1,500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+
+  <!-- Title-screen intro: switched on here so the page never flashes before the black screen (off for "reduce motion") -->
+  <script>
+    try { if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("gal-intro-on"); } catch (e) {}
+  </script>
+
+  <!-- Shared styles first, then everything specific to this page -->
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="gallery.css">
+
+  <!-- Without JavaScript, show every year at once instead of an empty page -->
+  <noscript><style>.year-panel[hidden] { display: block; } .gal-pane { opacity: 1; visibility: visible; position: static; } .gal-years, .gal-hint, .gal-clear { display: none; } .gal-intro { display: none !important; } .gal-title { visibility: visible !important; } .gal-scroller { position: static; overflow: visible; }</style></noscript>
+</head>
+<body class="subpage lang-en-active"
+      data-title-en="Gallery — Michaïl Chatziasemidis"
+      data-title-el="Γκαλερί — Μιχαήλ Χατζηασεμίδης"
+      data-title-cn="画廊 — 米哈伊尔·Chatziasemidis">
+
+  <!-- Title-screen intro (see gallery.js, "intro"). Black screen with GALLERY; the word then settles into the banner's title. -->
+  <div class="gal-intro" id="gal-intro" aria-hidden="true"><div class="gal-intro-bg"></div></div>
+
+
+  <script>
+    try {
+      var l = localStorage.getItem("preferred_lang");
+      if (l === "el" || l === "cn") {
+        document.documentElement.lang = l;
+        document.body.className = "subpage lang-" + l + "-active";
+      }
+    } catch (e) {}
+  </script>
+
+  <header class="sub-nav">
+    <a class="nav-brand" href="../" aria-label="Back to the main page">M.</a>
+
+    <div class="sub-nav-links" role="navigation" aria-label="Main">
+      <a href="../#about">
+        <span class="lang-en">About</span>
+        <span class="lang-el">Σχετικά</span>
+        <span class="lang-cn">关于</span>
+      </a>
+      <a href="../#expertise">
+        <span class="lang-en">Expertise</span>
+        <span class="lang-el">Ειδικότητες</span>
+        <span class="lang-cn">专业</span>
+      </a>
+      <a href="../#works">
+        <span class="lang-en">Works</span>
+        <span class="lang-el">Έργα</span>
+        <span class="lang-cn">作品</span>
+      </a>
+      <a href="./" class="active" aria-current="page">
+        <span class="lang-en">Gallery</span>
+        <span class="lang-el">Γκαλερί</span>
+        <span class="lang-cn">画廊</span>
+      </a>
+      <a href="../contact/">
+        <span class="lang-en">Contact</span>
+        <span class="lang-el">Επικοινωνία</span>
+        <span class="lang-cn">联系</span>
+      </a>
+    </div>
+
+    <div class="sub-lang">
+      <button class="lang-btn active" id="btn-lang-en" data-lang="en">EN</button>
+      <span class="lang-sep">|</span>
+      <button class="lang-btn" id="btn-lang-el" data-lang="el">ΕΛ</button>
+      <!-- <span class="lang-sep">|</span>
+      <button class="lang-btn" id="btn-lang-cn">中文</button> -->
+    </div>
+    <button type="button" id="mobile-hamburger" class="mobile-hamburger" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- MOBILE ONLY: hamburger menu (styles are the same as the main page's, from style.css; behaviour is in subpage.js) -->
+  <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+    <button type="button" id="mobile-menu-close" class="mobile-menu-close" aria-label="Close menu">✕</button>
+    <div class="mobile-menu-nav" role="navigation" aria-label="Main">
+    <a class="mobile-menu-link" href="../#about">
+      <span class="lang-en">About</span>
+      <span class="lang-el">Σχετικά</span>
+      <span class="lang-cn">关于</span>
+    </a>
+    <a class="mobile-menu-link" href="../#expertise">
+      <span class="lang-en">Expertise</span>
+      <span class="lang-el">Ειδικότητες</span>
+      <span class="lang-cn">专业</span>
+    </a>
+    <a class="mobile-menu-link" href="../#works">
+      <span class="lang-en">Works</span>
+      <span class="lang-el">Έργα</span>
+      <span class="lang-cn">作品</span>
+    </a>
+    <a class="mobile-menu-link active" href="../gallery/" aria-current="page">
+      <span class="lang-en">Gallery</span>
+      <span class="lang-el">Γκαλερί</span>
+      <span class="lang-cn">画廊</span>
+    </a>
+    <a class="mobile-menu-link" href="../contact/">
+      <span class="lang-en">Contact</span>
+      <span class="lang-el">Επικοινωνία</span>
+      <span class="lang-cn">联系</span>
+    </a>
+    </div>
+    <div class="mobile-menu-lang">
+      <button type="button" class="lang-btn active" data-lang="en">EN</button>
+      <span class="lang-sep">|</span>
+      <button type="button" class="lang-btn" data-lang="el">ΕΛ</button>
+    </div>
+  </div>
+  <div id="mobile-menu-backdrop" class="mobile-menu-backdrop"></div>
+
+  <main class="gal-main">
+  <div class="gal-scroller" id="gal-scroller">
+
+    <!-- ======================================================================
+         BANNER: title, the branching arrows and the two options
+         ====================================================================== -->
+    <section class="gal-banner" id="gal-banner" aria-label="Gallery">
+      <div class="gal-banner-bg" aria-hidden="true"></div>
+      <div class="gal-banner-inner">
+        <h1 class="gal-title">
+          <span class="lang-en">Gallery</span>
+          <span class="lang-el">Γκαλερί</span>
+          <span class="lang-cn">画廊</span>
+        </h1>
+
+        <svg class="gal-branch" viewBox="0 0 480 110" aria-hidden="true" focusable="false">
+          <path d="M240 0 V34 L120 100 M240 34 L360 100" />
+          <path class="head" d="M133 100.4 L120 100 L126.9 89" />
+          <path class="head" d="M347 100.4 L360 100 L353.1 89" />
+        </svg>
+
+        <div class="gal-options">
+          <button type="button" class="gal-option" data-go="performances">
+            <span class="lang-en">Performances</span>
+            <span class="lang-el">Συναυλίες</span>
+          </button>
+          <!-- Photos is not ready yet: its option sits in a greyed box (everything behind it, banner included, turns grey)
+               with the word between two oversized parentheses and "coming soon" at the bottom. It still leads to the Photos section. -->
+          <button type="button" class="gal-option gal-soon" data-go="photos">
+            <span class="soon-paren" aria-hidden="true">(</span>
+            <span class="soon-word">
+              <span class="lang-en">Photos</span>
+              <span class="lang-el">Φωτογραφίες</span>
+              <span class="lang-cn">照片</span>
+            </span>
+            <span class="soon-paren" aria-hidden="true">)</span>
+            <span class="soon-note">
+              <span class="lang-en">Coming soon</span>
+              <span class="lang-el">Σύντομα</span>
+              <span class="lang-cn">敬请期待</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         PERFORMANCES
+         The years on the left are built automatically from the year panels
+         below. To add a year, add a new <section class="year-panel">.
+         ====================================================================== -->
+    <section class="gal-perf" id="gal-perf" aria-label="Performances">
+
+      <canvas class="gal-line" id="gal-line" aria-hidden="true"></canvas>
+
+      <div class="gal-years" id="gal-years" role="group" aria-label="Years"></div>
+
+      <button type="button" class="gal-clear" id="gal-clear" aria-label="Close the open year">✕</button>
+
+      <p class="gal-hint" id="gal-hint">
+        <span class="lang-en">Select a year</span>
+        <span class="lang-el">Επιλέξτε έτος</span>
+      </p>
+
+      <div class="gal-pane" id="gal-pane" tabindex="-1">
+
+        <!-- ==================================================================
+             HOW TO EDIT THIS PAGE
+
+             1. A YEAR is one <section class="year-panel" data-year="2025" hidden>.
+                The years sort themselves (newest first on desktop).
+
+             2. A CONCERT is one <article class="concert"> inside a year.
+                Put the newest concert first. It shows a date (DD.MM), a title and one
+                line with the venue and the ensemble. Keep personal names (conductors, arrangers) out.
+
+             3. A VIDEO is one line:
+                <div class="vid v-wide" data-yt="VIDEO_ID" data-poster="../assets/gallery/name.webp" data-title="Title"></div>
+
+                data-yt      the YouTube id: the part after v= in the address
+                             (youtube.com/watch?v=THIS_PART, or youtu.be/THIS_PART,
+                             or youtube.com/shorts/THIS_PART). Leave it empty for a
+                             "coming soon" tile.
+                data-poster  a still image for the tile (a small .webp, about 40 KB).
+                             Optional. Without it the tile is a plain dark frame.
+                data-title   shown to screen readers and used as the player's title.
+
+             4. ORDER AND SIZE = IMPORTANCE. Inside a concert write the videos from most to
+                least important: the big ones first, the minor ones last. Phones show every
+                video at the same width, in exactly this order.
+                A typical concert (6 columns on a computer):
+                  - 1 big tile:  class="vid v-wide v-lead"
+                  - 2 or 4 medium tiles (pairs):  class="vid v-std"
+                  - small tiles (three in a row):  class="vid v-small"
+                  - the least important two, stacked beside the big tile (write this block LAST):
+                      <div class="vstack">
+                        <div class="vid v-small" ...></div>
+                        <div class="vid v-small" ...></div>
+                      </div>
+                Only use v-lead together with a vstack. A concert with a single video: just v-wide.
+
+                VIDEO SIZES: change the second word of class="vid ..."
+                v-wide    large, 16:9
+                v-std     medium, 16:9
+                v-short   tall 9:16, for short clips and Shorts
+                v-offset  optional extra word that pushes the tile down a little,
+                          for a more irregular rhythm: class="vid v-std v-offset"
+
+                The grid packs the tiles by itself. If two tiles do not sit
+                the way you want, swap their order or change one size word.
+                ================================================================== -->
+
+        <!-- ──────────────────────────── 2026 ──────────────────────────── -->
+        <!-- HIDDEN until there is a video for 2026: delete this line and the closing "end hidden" line to show the year.
+        <section class="year-panel" data-year="2026" hidden>
+          <article class="concert">
+            <header class="concert-head">
+              <span class="concert-date">DD.MM</span>
+              <h3 class="concert-title">
+                <span class="lang-en">Concert title</span>
+                <span class="lang-el">Τίτλος συναυλίας</span>
+              </h3>
+              <p class="concert-meta">
+                <span class="lang-en">Venue · ensemble</span>
+                <span class="lang-el">Χώρος · σύνολο</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide" data-yt="" data-poster="" data-title="Video title"></div>
+              <div class="vid v-short" data-yt="" data-poster="" data-title="Video title"></div>
+            </div>
+          </article>
+        </section>
+        end hidden 2026 -->
+
+        <!-- ──────────────────────────── 2025 ──────────────────────────── -->
+        <section class="year-panel" data-year="2025" hidden>
+          <article class="concert">
+            <header class="concert-head">
+              <span class="concert-date">13.03</span>
+              <h3 class="concert-title">
+                <span class="lang-en">Allegro Energico</span>
+                <span class="lang-el">Allegro Energico</span>
+              </h3>
+              <p class="concert-meta">
+                <span class="lang-en">AUTh Ceremonial Hall · AUTh Symphony Orchestra</span>
+                <span class="lang-el">Αίθουσα Τελετών ΑΠΘ · Συμφωνική Ορχήστρα ΑΠΘ</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide" data-yt="lJumWWtQcCA" data-poster="../assets/gallery/poster-lJumWWtQcCA.webp" data-title="“Allegro Energico” (13 March 2025)"></div>
+            </div>
+          </article>
+        </section>
+
+        <!-- ──────────────────────────── 2024 ──────────────────────────── -->
+        <section class="year-panel" data-year="2024" hidden>
+          <article class="concert">
+            <!-- Full-concert footage and excerpts are from the School of Music Studies and the Mantakas Choir channels. -->
+            <header class="concert-head">
+              <span class="concert-date">18.12</span>
+              <h3 class="concert-title">
+                <span class="lang-en">Christmas Concert</span>
+                <span class="lang-el">Χριστουγεννιάτικη Συναυλία</span>
+              </h3>
+              <p class="concert-meta">
+                <span class="lang-en">AUTh Ceremonial Hall · AUTh Symphony Orchestra and Choirs</span>
+                <span class="lang-el">Αίθουσα Τελετών ΑΠΘ · Συμφωνική Ορχήστρα και Χορωδίες ΑΠΘ</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide v-lead" data-yt="a3Ma1_seVbg" data-poster="../assets/gallery/poster-a3Ma1_seVbg.webp" data-title="Christmas concert of the AUTh musical ensembles (18 December 2024)"></div>
+              <div class="vid v-std" data-yt="m2JbyzRz-i0" data-poster="../assets/gallery/poster-m2JbyzRz-i0.webp" data-title="Hallelujah (G. F. Handel, Messiah)"></div>
+              <div class="vid v-std" data-yt="oi_uvGm6XTo" data-poster="../assets/gallery/poster-oi_uvGm6XTo.webp" data-title="Laudate Dominum (W. A. Mozart)"></div>
+              <div class="vstack">
+                <div class="vid v-small" data-yt="bsDaYKGoFvA" data-poster="../assets/gallery/poster-bsDaYKGoFvA.webp" data-title="For unto us a child is born (G. F. Handel, Messiah)"></div>
+                <div class="vid v-small" data-yt="Q71izBFezz4" data-poster="../assets/gallery/poster-Q71izBFezz4.webp" data-title="Glory to God in the highest (G. F. Handel, Messiah)"></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="concert">
+            <!-- Venue confirmed by Mike: AUTh Ceremonial Hall. Footage from Pantelis Terezakis' channel. -->
+            <header class="concert-head">
+              <span class="concert-date">26.10</span>
+              <h3 class="concert-title">
+                <span class="lang-en">Feast of St Demetrius Concert</span>
+                <span class="lang-el">Συναυλία για τον Εορτασμό του Αγίου Δημητρίου</span>
+              </h3>
+              <p class="concert-meta">
+                <span class="lang-en">AUTh Ceremonial Hall · AUTh Symphony Orchestra and Choir · Conductor: Thodoris Papadimitriou</span>
+                <span class="lang-el">Αίθουσα Τελετών ΑΠΘ · Συμφωνική Ορχήστρα και Χορωδία ΑΠΘ · Διεύθυνση: Θοδωρής Παπαδημητρίου</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide" data-yt="O9S6ckzanO8" data-poster="../assets/gallery/poster-O9S6ckzanO8.webp" data-title="Concert of the AUTh Orchestra and Choir (26 October 2024)"></div>
+            </div>
+          </article>
+
+          <article class="concert">
+            <!-- Footage by Christophe Courouble (not Mike's channel); shown in the player on click. -->
+            <header class="concert-head">
+              <span class="concert-date">30.06</span>
+              <h3 class="concert-title">
+                <span class="lang-en">Verdi Requiem</span>
+                <span class="lang-el">Ρέκβιεμ του Βέρντι</span>
+              </h3>
+              <p class="concert-meta">
+                <span class="lang-en">Berlin Philharmonie · CHORALSPACE festival choirs, Staatsorchester Rheinische Philharmonie</span>
+                <span class="lang-el">Φιλαρμονική του Βερολίνου · Χορωδίες του φεστιβάλ CHORALSPACE, Staatsorchester Rheinische Philharmonie</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide" data-yt="VnUGAZnkEVs" data-poster="../assets/gallery/poster-VnUGAZnkEVs.webp" data-title="Verdi Requiem Berlin (30-06-2024)"></div>
+            </div>
+          </article>
+
+          <article class="concert">
+            <!-- Order inside a concert = importance, most important first (phones show them in this order). Sizes: v-wide (+ v-lead with a vstack beside it), v-std, v-small. -->
+            <header class="concert-head">
+              <span class="concert-date">29.06</span>
+              <h3 class="concert-title">
+                <span class="lang-en">Greek Songs</span>
+                <span class="lang-el">Ελληνικά Τραγούδια</span>
+              </h3>
+              <p class="concert-meta">
+                <span class="lang-en">Luisenkirche, Berlin · “Yannis Mantakas” Choir and Choral Workshop, AUTh</span>
+                <span class="lang-el">Luisenkirche, Βερολίνο · Χορωδία «Γιάννης Μάντακας» και Χορωδιακό Εργαστήρι ΑΠΘ</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide v-lead" data-yt="qzokLuyPYbE" data-poster="../assets/gallery/poster-qzokLuyPYbE.webp" data-title="Χορωδία «Γιάννης Μάντακας» ΑΠΘ — CHORALSPACE 2024 (full concert)"></div>
+              <div class="vid v-std" data-yt="5haQ4kho0Nc" data-poster="../assets/gallery/poster-5haQ4kho0Nc.webp" data-title="Άρνηση (Μ. Θεοδωράκης, επεξ. Π. Μπαρμπάτης)"></div>
+              <div class="vid v-std" data-yt="3olTZUlcZV8" data-poster="../assets/gallery/poster-3olTZUlcZV8.webp" data-title="Μυρτιά (Μ. Θεοδωράκης, επεξ. Π. Μπαρμπάτης)"></div>
+              <div class="vid v-small" data-yt="xC30zOCE-ok" data-poster="../assets/gallery/poster-xC30zOCE-ok.webp" data-title="Πέρα στο θολό ποτάμι (Μ. Χατζηδάκις, επεξ. Β. Τενίδης)"></div>
+              <div class="vid v-small" data-yt="bJG0CmpiUoc" data-poster="../assets/gallery/poster-bJG0CmpiUoc.webp" data-title="Τσάμικος (Μ. Χατζηδάκις, επεξ. Ν. Μαλιάρας)"></div>
+              <div class="vid v-small" data-yt="DlFbwMarkww" data-poster="../assets/gallery/poster-DlFbwMarkww.webp" data-title="Μια Σμυρνιά στο παραθύρι (Γ. Κωνσταντινίδης)"></div>
+              <div class="vstack">
+                <div class="vid v-small" data-yt="bQkj_f9St_U" data-poster="../assets/gallery/poster-bQkj_f9St_U.webp" data-title="Σε καινούργια βάρκα μπήκα (Γ. Κωνσταντινίδης)"></div>
+                <div class="vid v-small" data-yt="XzWa4kqPZos" data-poster="../assets/gallery/poster-XzWa4kqPZos.webp" data-title="Το ξύπνημα του γαμπρού (Γ. Κωνσταντινίδης)"></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="concert">
+            <!-- Same concert is also on the Mantakas Choir channel as 7JvxbW7zdW8 (identical length); only one used. -->
+            <header class="concert-head">
+              <span class="concert-date">01.06</span>
+              <h3 class="concert-title">
+                <span class="lang-en">25 Years of the AUTh Symphony Orchestra (Carmina Burana)</span>
+                <span class="lang-el">25 Χρόνια Συμφωνική Ορχήστρα ΑΠΘ (Carmina Burana)</span>
+              </h3>
+              <p class="concert-meta">
+                <span class="lang-en">AUTh Ceremonial Hall · AUTh Symphony Orchestra</span>
+                <span class="lang-el">Αίθουσα Τελετών ΑΠΘ · Συμφωνική Ορχήστρα ΑΠΘ</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide" data-yt="R0gt7m-4-e4" data-poster="../assets/gallery/poster-R0gt7m-4-e4.webp" data-title="25 years of the AUTh Symphony Orchestra (1999–2024), Carmina Burana (C. Orff)"></div>
+            </div>
+          </article>
+
+          <article class="concert">
+            <!-- Μεγάλη Σούστα (piano solo) has no event line in its description; grouped here because it was uploaded with the others. Check. -->
+            <header class="concert-head">
+              <span class="concert-date">21.03</span>
+              <h3 class="concert-title">
+                <span class="lang-en">Choral Concert</span>
+                <span class="lang-el">Χορωδιακή Συναυλία</span>
+              </h3>
+              <p class="concert-meta">
+                <span class="lang-en">AUTh Ceremonial Hall · “Yannis Mantakas” Choir</span>
+                <span class="lang-el">Αίθουσα Τελετών ΑΠΘ · Χορωδία «Γιάννης Μάντακας»</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide v-lead" data-yt="eC5uBTnLhqY" data-poster="../assets/gallery/poster-eC5uBTnLhqY.webp" data-title="Τσάμικος (Μ. Χατζηδάκις)"></div>
+              <div class="vid v-std" data-yt="zGw2Pe9lA40" data-poster="../assets/gallery/poster-zGw2Pe9lA40.webp" data-title="Κλέφτικη ζωή (παραδοσιακό)"></div>
+              <div class="vid v-std" data-yt="dvd2WULPmcI" data-poster="../assets/gallery/poster-dvd2WULPmcI.webp" data-title="Τη Υπερμάχω"></div>
+              <div class="vstack">
+                <div class="vid v-small" data-yt="d7VvbLRK828" data-poster="../assets/gallery/poster-d7VvbLRK828.webp" data-title="Εθνικός Ύμνος"></div>
+                <div class="vid v-small" data-yt="inTykcSwhH4" data-poster="../assets/gallery/poster-inTykcSwhH4.webp" data-title="Μεγάλη Σούστα (Μ. Χατζηδάκις, piano solo)"></div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <!-- ──────────────────────────── 2023 ──────────────────────────── -->
+        <section class="year-panel" data-year="2023" hidden>
+          <article class="concert">
+            <header class="concert-head">
+              <span class="concert-date">19.12</span>
+              <h3 class="concert-title">
+                <span class="lang-en">Christmas Concert</span>
+                <span class="lang-el">Χριστουγεννιάτικη Συναυλία</span>
+              </h3>
+              <p class="concert-meta">
+                <span class="lang-en">AUTh Ceremonial Hall · AUTh musical ensembles · Conductor: Vladimiros Symeonidis</span>
+                <span class="lang-el">Αίθουσα Τελετών ΑΠΘ · Μουσικά Σύνολα ΑΠΘ · Διεύθυνση: Βλαδίμηρος Συμεωνίδης</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide v-lead" data-yt="CIBVqNZ-RCs" data-poster="../assets/gallery/poster-CIBVqNZ-RCs.webp" data-title="Christmas concert of the AUTh musical ensembles (19 December 2023)"></div>
+              <div class="vid v-small" data-yt="uvg0vhwX9TM" data-poster="../assets/gallery/poster-uvg0vhwX9TM.webp" data-title="Gloria in excelsis Deo (A. Vivaldi, Gloria RV 589)"></div>
+              <div class="vid v-small" data-yt="MtDVSWEcIxA" data-poster="../assets/gallery/poster-MtDVSWEcIxA.webp" data-title="Cum Sancto Spiritu (A. Vivaldi, Gloria RV 589)"></div>
+              <div class="vid v-small" data-yt="yp8qv2AKBUI" data-poster="../assets/gallery/poster-yp8qv2AKBUI.webp" data-title="Tollite Hostias (C. Saint-Saëns)"></div>
+              <div class="vstack">
+                <div class="vid v-small" data-yt="zBqknn8KWBc" data-poster="../assets/gallery/poster-zBqknn8KWBc.webp" data-title="Άγια νύχτα, Christmas carols (arr. V. Symeonidis)"></div>
+                <div class="vid v-small" data-yt="VcqKhAvQGqY" data-poster="../assets/gallery/poster-VcqKhAvQGqY.webp" data-title="A Christmas Festival (L. Anderson)"></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="concert">
+            <header class="concert-head">
+              <span class="concert-date">01.01</span>
+              <h3 class="concert-title">
+                <span class="lang-en">Carmina Burana</span>
+                <span class="lang-el">Carmina Burana</span>
+              </h3>
+              <p class="concert-meta">
+                <span class="lang-en">Thessaloniki Concert Hall · State Orchestra of Thessaloniki</span>
+                <span class="lang-el">Μέγαρο Μουσικής Θεσσαλονίκης · Κρατική Ορχήστρα Θεσσαλονίκης</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide" data-yt="gWcfsySBYFI" data-poster="../assets/gallery/poster-carmina-burana-2023.webp" data-title="Carmina Burana — Carl Orff (State Orchestra of Thessaloniki, 1 January 2023)"></div>
+            </div>
+          </article>
+        </section>
+
+        <!-- ──────────────────────────── 2022 ──────────────────────────── -->
+        <section class="year-panel" data-year="2022" hidden>
+          <article class="concert">
+            <!-- Same full concert also on Pantelis Terezakis' channel as llqG6xvUUC0; only the School of Music upload used. -->
+            <header class="concert-head">
+              <span class="concert-date">08.12</span>
+              <h3 class="concert-title">
+                <span class="lang-en">Christmas Concert</span>
+                <span class="lang-el">Χριστουγεννιάτικη Συναυλία</span>
+              </h3>
+              <p class="concert-meta">
+                <span class="lang-en">AUTh Ceremonial Hall · AUTh musical ensembles</span>
+                <span class="lang-el">Αίθουσα Τελετών ΑΠΘ · Μουσικά Σύνολα ΑΠΘ</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-std" data-yt="BiM_EnGUJQI" data-poster="../assets/gallery/poster-BiM_EnGUJQI.webp" data-title="Christmas concert of the AUTh musical ensembles (8 December 2022)"></div>
+              <div class="vid v-std" data-yt="OFfcx1Ox4JU" data-poster="../assets/gallery/poster-OFfcx1Ox4JU.webp" data-title="Christmas carols (arr. V. Symeonidis)"></div>
+            </div>
+          </article>
+
+          <article class="concert">
+            <header class="concert-head">
+              <span class="concert-date">22.06</span>
+              <h3 class="concert-title">
+                <span class="lang-en">ESRA 2022 Opening Concert</span>
+                <span class="lang-el">Συναυλία Έναρξης του Συνεδρίου ESRA 2022</span>
+              </h3>
+              <p class="concert-meta">
+                <span class="lang-en">Thessaloniki Concert Hall · AUTh Symphony Orchestra, “Yannis Mantakas” Choir and Choral Workshop · Conductors: Vladimiros Symeonidis (orchestra), Erifyli Damianou (choirs)</span>
+                <span class="lang-el">Μέγαρο Μουσικής Θεσσαλονίκης · Συμφωνική Ορχήστρα, Χορωδία «Γιάννης Μάντακας» και Χορωδιακό Εργαστήρι ΑΠΘ · Διεύθυνση: Βλαδίμηρος Συμεωνίδης (ορχήστρα), Εριφύλη Δαμιανού (χορωδίες)</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide" data-yt="lWZAcdiIC0I" data-poster="../assets/gallery/poster-lWZAcdiIC0I.webp" data-title="Concert for the opening of the ESRA 2022 congress (22 June 2022)"></div>
+            </div>
+          </article>
+
+          <article class="concert">
+            <header class="concert-head">
+              <span class="concert-date">24.03</span>
+              <h3 class="concert-title">
+                <span class="lang-en">25 March Anniversary Concert</span>
+                <span class="lang-el">Επετειακή Συναυλία της 25ης Μαρτίου</span>
+              </h3>
+              <p class="concert-meta">
+                <span class="lang-en">AUTh Ceremonial Hall · AUTh Symphony Orchestra, “Yannis Mantakas” Choir and Choral Workshop · Conductor: Vladimiros Symeonidis</span>
+                <span class="lang-el">Αίθουσα Τελετών ΑΠΘ · Συμφωνική Ορχήστρα, Χορωδία «Γιάννης Μάντακας» και Χορωδιακό Εργαστήρι ΑΠΘ · Διεύθυνση: Βλαδίμηρος Συμεωνίδης</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide" data-yt="I3AmG3qYjys" data-poster="../assets/gallery/poster-I3AmG3qYjys.webp" data-title="Anniversary concert for 25 March (24 March 2022)"></div>
+            </div>
+          </article>
+        </section>
+
+        <!-- ──────────────────────────── 2021 ──────────────────────────── -->
+        <!-- HIDDEN until there is a video for 2021: delete this line and the closing "end hidden" line to show the year.
+        <section class="year-panel" data-year="2021" hidden>
+          <article class="concert">
+            <header class="concert-head">
+              <span class="concert-date">DD.MM</span>
+              <h3 class="concert-title">
+                <span class="lang-en">Concert title</span>
+                <span class="lang-el">Τίτλος συναυλίας</span>
+              </h3>
+              <p class="concert-meta">
+                <span class="lang-en">Venue · ensemble</span>
+                <span class="lang-el">Χώρος · σύνολο</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide" data-yt="" data-poster="" data-title="Video title"></div>
+              <div class="vid v-short" data-yt="" data-poster="" data-title="Video title"></div>
+            </div>
+          </article>
+        </section>
+        end hidden 2021 -->
+
+        <!-- ──────────────────────────── 2020 ──────────────────────────── -->
+        <!-- HIDDEN until there is a video for 2020: delete this line and the closing "end hidden" line to show the year.
+        <section class="year-panel" data-year="2020" hidden>
+          <article class="concert">
+            <header class="concert-head">
+              <span class="concert-date">DD.MM</span>
+              <h3 class="concert-title">
+                <span class="lang-en">Concert title</span>
+                <span class="lang-el">Τίτλος συναυλίας</span>
+              </h3>
+              <p class="concert-meta">
+                <span class="lang-en">Venue · ensemble</span>
+                <span class="lang-el">Χώρος · σύνολο</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide" data-yt="" data-poster="" data-title="Video title"></div>
+              <div class="vid v-short" data-yt="" data-poster="" data-title="Video title"></div>
+            </div>
+          </article>
+        </section>
+        end hidden 2020 -->
+
+        <!-- ──────────────────────────── 2019 ──────────────────────────── -->
+        <section class="year-panel" data-year="2019" hidden>
+          <article class="concert">
+            <header class="concert-head">
+              <span class="concert-date">16.12</span>
+              <h3 class="concert-title">
+                <span class="lang-en">Christmas Carols</span>
+                <span class="lang-el">Κάλαντα</span>
+              </h3>
+              <p class="concert-meta">
+                <span class="lang-en">AUTh Ceremonial Hall · AUTh Choirs</span>
+                <span class="lang-el">Αίθουσα Τελετών ΑΠΘ · Χορωδίες ΑΠΘ</span>
+              </p>
+            </header>
+            <div class="vgrid">
+              <div class="vid v-wide v-lead" data-yt="CTaw9twH7qk" data-poster="../assets/gallery/poster-CTaw9twH7qk.webp" data-title="Κάλαντα Μάνης / Κάλαντα Ικαρίας (παραδοσιακό)"></div>
+              <div class="vid v-std" data-yt="-U3e2LOYokM" data-poster="../assets/gallery/poster--U3e2LOYokM.webp" data-title="Κάλαντα Θράκης (παραδοσιακό)"></div>
+              <div class="vid v-std" data-yt="AzfnkKuB7EY" data-poster="../assets/gallery/poster-AzfnkKuB7EY.webp" data-title="Καλήν Εσπέραν Άρχοντες (παραδοσιακό)"></div>
+              <div class="vid v-small" data-yt="ho5SJFtF3AM" data-poster="../assets/gallery/poster-ho5SJFtF3AM.webp" data-title="Κάλαντα Προποντίδας (επεξ. Μιχάλης Αδάμης)"></div>
+              <div class="vid v-small" data-yt="GjUNmGk5rbM" data-poster="../assets/gallery/poster-GjUNmGk5rbM.webp" data-title="Κάλαντα Καστοριάς (επεξ. Τάσος Παππάς)"></div>
+              <div class="vid v-small" data-yt="FHkQxRTkbYE" data-poster="../assets/gallery/poster-FHkQxRTkbYE.webp" data-title="Παινέματα Χίου (παραδοσιακό)"></div>
+              <div class="vstack">
+                <div class="vid v-small" data-yt="uWJ11vp2-yA" data-poster="../assets/gallery/poster-uWJ11vp2-yA.webp" data-title="Το τζάκι (Τάσος Παππάς)"></div>
+                <div class="vid v-small" data-yt="WWFoCgtUI8k" data-poster="../assets/gallery/poster-WWFoCgtUI8k.webp" data-title="Κάλαντα Θράκης (επεξ. Μιχάλης Αδάμης)"></div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <div class="panel-footer gal-foot">
+          <span class="label lang-en">© 2026 Michaïl Chatziasemidis. All rights reserved.</span>
+          <span class="label lang-el">© 2026 ΜΙΧΑΗΛ ΧΑΤΖΗΑΣΕΜΙΔΗΣ. ΜΕ ΤΗΝ ΕΠΙΦΥΛΑΞΗ ΠΑΝΤΟΣ ΔΙΚΑΙΩΜΑΤΟΣ.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         PHOTOS (placeholder until we design it)
+         ====================================================================== -->
+    <section class="gal-photos" id="gal-photos" aria-label="Photos">
+      <p class="gal-stub">
+        <span class="gal-stub-label">
+          <span class="lang-en">Photos</span>
+          <span class="lang-el">Φωτογραφίες</span>
+          <span class="lang-cn">照片</span>
+        </span>
+        <span class="gal-stub-soon">
+          <span class="lang-en">Coming soon</span>
+          <span class="lang-el">Σύντομα</span>
+          <span class="lang-cn">敬请期待</span>
+        </span>
+      </p>
+    </section>
+
+  </div>
+</main>
+
+  <script src="../subpage.js"></script>
+  <script src="gallery.js"></script>
+</body>
+</html>

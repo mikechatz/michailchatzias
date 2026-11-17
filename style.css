@@ -245,6 +245,11 @@ nav {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  /* "clip" instead of "hidden": the leaves waiting at translateX(100vw) make this box wider inside, and a "hidden" box can
+     still be scrolled sideways by the browser (focus, Tab, find-in-page, a link jump). Then the Contact leaf slides into view,
+     the spines slide out, and every transition runs behind it. "clip" cannot be scrolled at all. (On phones the rule in the
+     max-width block below takes over, as before.) */
+  overflow: clip;
 }
 
 .slide-panel {
@@ -268,7 +273,7 @@ nav {
 
 /* Fixed Dock positions for the stacked sheets */
 #panel-intro   { left: 0; width: 100vw; z-index: 10; }
-#panel-craft   { left: var(--spine-w); width: calc(100vw - var(--spine-w)); z-index: 11; transform: translateX(100vw); }
+#panel-expertise   { left: var(--spine-w); width: calc(100vw - var(--spine-w)); z-index: 11; transform: translateX(100vw); }
 #panel-works   { left: calc(var(--spine-w) * 2); width: calc(100vw - var(--spine-w) * 2); z-index: 12; transform: translateX(100vw); }
 #panel-gallery { left: calc(var(--spine-w) * 3); width: calc(100vw - var(--spine-w) * 3); z-index: 13; transform: translateX(100vw); }
 #panel-contact { left: calc(var(--spine-w) * 4); width: calc(100vw - var(--spine-w) * 4); z-index: 14; transform: translateX(100vw); }
@@ -320,7 +325,7 @@ nav {
 
 .leaf-spine-icon {
   position: absolute;
-  bottom: 18px;
+  bottom: calc(18px + var(--spine-w) / 2); /* raised by half the spine width */
   font-size: 13px;
   color: var(--accent);
 }
@@ -602,13 +607,13 @@ nav {
 /* ==========================================================================
    PANELS 1..4 CONTENT STYLING
    ========================================================================== */
-.craft-grid {
+.expertise-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   border-top: 1px solid var(--line);
 }
 
-.craft-card {
+.expertise-card {
   padding: 32px 20px 40px 0;
   border-bottom: 1px solid var(--line);
   overflow: hidden;
@@ -617,27 +622,27 @@ nav {
   /* Staggered entrance animation: slide from right & slightly bottom + gradual materialise */
   opacity: 0;
   transform: translate(45px, 5px);
-  /* The delay for transform & opacity is set via CSS variable --craft-delay per visible card */
+  /* The delay for transform & opacity is set via CSS variable --expertise-delay per visible card */
   transition: 
-    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1) var(--craft-delay, 0s),
-    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) var(--craft-delay, 0s),
+    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1) var(--expertise-delay, 0s),
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) var(--expertise-delay, 0s),
     background 0.3s 0s,
     padding-left 0.3s 0s;
   will-change: transform, opacity;
 }
 
 /* Materialised / revealed state */
-.craft-grid.visible .craft-card {
+.expertise-grid.visible .expertise-card {
   opacity: 1;
   transform: translate(0, 0);
 }
 
-.craft-card:hover {
+.expertise-card:hover {
   background: rgba(255, 255, 255, 0.02);
   padding-left: 18px;
 }
 
-.craft-card h3 {
+.expertise-card h3 {
   font-size: clamp(20px, 2.2vw, 32px);
   margin: 14px 0 12px;
   text-transform: uppercase;
@@ -645,8 +650,39 @@ nav {
   padding-left: 6px;
 }
 
+.expertise-card[data-expertise-target] {
+  position: relative;
+  cursor: pointer;
+}
 
-.craft-card p {
+.expertise-card[data-expertise-target]::after {
+  content: "↓ EXPLORE";
+  display: block;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  margin-top: 14px;
+  opacity: 0.85;
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.expertise-card[data-expertise-target]:hover::after {
+  opacity: 1;
+  transform: translateY(2px);
+}
+
+.expertise-card.active-card {
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom-color: var(--accent);
+}
+
+.expertise-card.active-card[data-expertise-target]::after {
+  content: "↑ CLOSE";
+  color: var(--fg);
+}
+
+.expertise-card p {
   margin: 0;
   text-align: justify;
   color: var(--mute);
@@ -655,80 +691,277 @@ nav {
   padding-left: 6px;
 }
 
-.craft-card .label {
+.expertise-card .label {
   padding-left: 6px;
 }
 
-/* Works */
-.track-row {
-  border-top: 1px solid var(--line);
-  padding: 32px 0;
-  display: grid;
-  grid-template-columns: 70px 1fr;
-  gap: 20px;
+/* ==========================================================================
+   EXPERTISE EXPANDABLE STAGES (Selected works preview drawer)
+   ========================================================================== */
+.expertise-detail-stage {
+  display: none;
+  margin-top: 48px;
+  padding: 56px 44px 50px;
+  background: #141310; /* Distinct lighter tone from #0b0b0a */
+  border: 1px solid var(--line-light);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  animation: expertiseStageFadeIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.track-row > div {
-  min-width: 0; 
-  width: 100%;
-}
-
-.track-row:last-child {
-  border-bottom: 1px solid var(--line);
-}
-
-.track-row h3 {
-  font-size: clamp(22px, 3.2vw, 42px);
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-
-.track-row iframe,
-.track-placeholder {
-  width: 100%;
-  border: 0;
+.expertise-detail-stage.open {
   display: block;
 }
 
-/* Specific to SoundCloud: Keep it wide */
-.track-row iframe[src*="soundcloud.com"] {
-  max-width: 100%;
+@keyframes expertiseStageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Specific to Bandcamp: Limit width to prevent empty space */
-.track-row iframe[src*="bandcamp.com"] {
-  max-width: 700px;
+.expertise-stage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 48px;
 }
 
-.track-placeholder {
-  height: 120px;
-  border: 1px dashed var(--line-light);
-  display: grid;
-  place-items: center;
+.expertise-stage-meta {
+  color: var(--accent);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.expertise-stage-title {
+  font-size: clamp(28px, 3.8vw, 48px);
+  margin: 0;
+  text-transform: uppercase;
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+}
+
+.expertise-stage-close-btn {
+  background: transparent;
+  border: 1px solid var(--line-light);
   color: var(--mute);
+  font-family: var(--font-body);
+  font-size: 14px;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.expertise-stage-close-btn:hover {
+  color: var(--fg);
+  border-color: var(--fg);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Zig-Zag Showcase Rows */
+.score-zigzag-row {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 40px;
+  align-items: center;
+  margin-bottom: 52px;
+  padding-bottom: 48px;
+  border-bottom: 1px dashed var(--line);
+}
+
+.score-zigzag-row:last-of-type {
+  border-bottom: none;
+  margin-bottom: 36px;
+  padding-bottom: 0;
+}
+
+/* Invert column order for zig-zag (row-right) */
+.score-zigzag-row.row-right {
+  grid-template-columns: 1fr 260px;
+}
+
+.score-zigzag-row.row-right .score-preview-box {
+  order: 2;
+}
+
+.score-zigzag-row.row-right .score-text-box {
+  order: 1;
+  text-align: right;
+}
+
+/* Portrait aspect-ratio score placeholder */
+.score-preview-box {
+  width: 100%;
+  max-width: 260px;
+}
+
+.score-placeholder {
+  aspect-ratio: 1 / 1.414; /* A4 Portrait ratio for musical scores */
+  background: #0b0b0a;
+  border: 1px dashed var(--line-light);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.score-placeholder:hover {
+  border-color: var(--accent);
+  background: #0e0d0b;
+}
+
+.score-placeholder .score-icon {
+  font-size: 32px;
+  color: var(--accent);
+  opacity: 0.75;
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+.score-placeholder p {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg);
+  margin: 4px 0 10px;
+}
+
+.score-placeholder .score-num {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--mute);
+}
+
+/* A score preview that opens the page viewer (assets/score-viewer.js) */
+.score-preview-box.is-viewable,
+.score-card.is-viewable { cursor: pointer; }
+.score-preview-box.is-viewable:focus-visible,
+.score-card.is-viewable:focus-visible { outline: none; }
+.score-preview-box.is-viewable:hover .score-placeholder,
+.score-preview-box.is-viewable:focus-visible .score-placeholder,
+.score-card.is-viewable:hover .score-placeholder,
+.score-card.is-viewable:focus-visible .score-placeholder {
+  border-style: solid;
+  border-color: var(--accent);
+  background: #0e0d0b;
+}
+.score-preview-box.is-viewable .score-placeholder p,
+.score-card.is-viewable .score-placeholder p { transition: color 0.3s; }
+.score-preview-box.is-viewable:hover .score-placeholder p,
+.score-preview-box.is-viewable:focus-visible .score-placeholder p,
+.score-card.is-viewable:hover .score-placeholder p,
+.score-card.is-viewable:focus-visible .score-placeholder p { color: var(--accent); }
+
+/* A score preview that shows the title page (the picture sits in the placeholder, the words wait until hover) */
+.score-placeholder.has-img { position: relative; padding: 0; overflow: hidden; background: #f6f3ec; border-style: solid; }
+.score-placeholder.has-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
+.score-placeholder.has-img .score-icon,
+.score-placeholder.has-img p { position: relative; z-index: 1; opacity: 0; transition: opacity 0.3s, color 0.3s; }
+.score-placeholder.has-img::after { content: ""; position: absolute; inset: 0; background: rgba(11,11,10,.82); opacity: 0; transition: opacity 0.3s; }
+.score-placeholder.has-img .score-icon, .score-placeholder.has-img p { z-index: 2; }
+.score-preview-box.is-viewable:hover .score-placeholder.has-img::after,
+.score-preview-box.is-viewable:focus-visible .score-placeholder.has-img::after { opacity: 1; }
+.score-preview-box.is-viewable:hover .score-placeholder.has-img .score-icon,
+.score-preview-box.is-viewable:focus-visible .score-placeholder.has-img .score-icon { opacity: .75; }
+.score-preview-box.is-viewable:hover .score-placeholder.has-img p,
+.score-preview-box.is-viewable:focus-visible .score-placeholder.has-img p { opacity: 1; }
+@media (hover: none) { .score-placeholder.has-img::after { display: none; } .score-placeholder.has-img .score-icon, .score-placeholder.has-img p { display: none; } }
+
+/* A preview with data-soon: "Coming soon" instead of "View the score" (Courier, light, accent colour). Remove data-soon and it is gone. */
+[data-soon] > .score-placeholder::after {
+  content: "Coming soon";
+  order: 1;
+  margin: 4px 0 10px;
+  font: 300 11px/1 "Courier New", Courier, monospace;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+[data-soon] > .score-placeholder .score-num { order: 2; }
+body.lang-el-active [data-soon] > .score-placeholder::after { content: "Σύντομα"; }
+body.lang-cn-active [data-soon] > .score-placeholder::after { content: "即将推出"; }
+body [data-soon] > .score-placeholder p.lang-en,
+body [data-soon] > .score-placeholder p.lang-el,
+body [data-soon] > .score-placeholder p.lang-cn { display: none !important; }
+
+/* Score text */
+.score-text-box h4 {
+  font-size: clamp(20px, 2.2vw, 30px);
+  margin: 10px 0 12px;
+  text-transform: uppercase;
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+}
+
+.score-text-box p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #c7c2b5;
+  margin: 0;
+  max-width: 58ch;
+}
+
+.score-zigzag-row.row-right .score-text-box p {
+  margin-left: auto;
+}
+
+/* Bottom CTA Button */
+.expertise-stage-cta-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 36px;
+  border-top: 1px solid var(--line);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.expertise-stage-btn {
+  display: inline-block;
+  padding: 14px 38px;
+  border: 1px solid var(--fg);
+  color: var(--fg);
+  font-family: var(--font-body);
   font-size: 12px;
-  letter-spacing: 0.1em;
-  background: rgba(20, 19, 16, 0.4);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
 }
 
-/* Paste at the bottom of your style.css */
-.video-container {
-  position: relative;
-  width: 100%;
-  padding-bottom: 50%; /* 16:9 Aspect Ratio */
-  height: 0;
-  overflow: hidden;
-  background: var(--bg-card);
-  border: 1px solid var(--line);
+.expertise-stage-btn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
 }
 
-.video-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
+/* Bottom corner close button */
+.expertise-stage-close-btn.bottom-close-btn {
+  width: auto;
+  height: auto;
+  padding: 13px 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-left: auto;
 }
 
 /* Gallery */
@@ -784,6 +1017,26 @@ nav {
 .gallery-item:nth-child(2) { grid-column: span 5; }
 .gallery-item:nth-child(3) { grid-column: span 4; }
 .gallery-item:nth-child(4) { grid-column: span 8; }
+
+/* Gallery tiles on the main page: a picture or a video poster that opens the media viewer */
+.gallery-item.gm { cursor: pointer; place-items: stretch; background: #0b0b0a; -webkit-tap-highlight-color: transparent; }
+.gallery-item.gm img { position: absolute; inset: 0; filter: grayscale(0.25) brightness(0.82); transition: transform 0.7s var(--ease, ease), filter 0.5s ease; }
+.gallery-item.gm::after {            /* darkens the bottom, so the words can be read on any picture */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top, rgba(11, 11, 10, 0.88) 0%, rgba(11, 11, 10, 0.35) 38%, transparent 62%);
+}
+.gallery-item.gm:hover img, .gallery-item.gm:focus-visible img { transform: scale(1.04); filter: grayscale(0) brightness(0.95); }
+.gallery-item.gm:focus-visible { outline: 1px solid var(--accent); outline-offset: 3px; }
+.gm-cap { position: absolute; left: 20px; right: 20px; bottom: 18px; z-index: 2; display: flex; flex-direction: column; gap: 4px; text-align: left; }
+.gm-cap b { font-family: var(--font-display); font-weight: 700; font-size: clamp(17px, 1.7vw, 24px); letter-spacing: 0.04em; text-transform: uppercase; }
+.gm-cap small { font-family: "Courier New", Courier, monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); }
+.gm-play {
+  position: absolute; z-index: 2; top: 50%; left: 50%; width: 64px; height: 64px; margin: -32px 0 0 -32px;
+  border: 1px solid rgba(236, 231, 220, 0.7); border-radius: 50%; background: rgba(11, 11, 10, 0.35);
+  display: grid; place-items: center; transition: background 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+}
+.gm-play i { width: 0; height: 0; margin-left: 4px; border-left: 15px solid var(--fg, #ece7dc); border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
+.gallery-item.gm:hover .gm-play, .gallery-item.gm:focus-visible .gm-play { background: var(--accent); border-color: var(--accent); transform: scale(1.08); }
 
 .gallery-placeholder {
   color: var(--mute);
@@ -996,13 +1249,266 @@ nav {
     gap: 10px;
   }
 
-  .track-row {
-    grid-template-columns: 1fr;
-  }
-
   .banner-items {
     justify-content: flex-start;
   }
+}
+
+/* ==========================================================================
+   MAIN-PAGE PREVIEW STRUCTURE (Expertise stages, Works preview, closing Contact)
+   ========================================================================== */
+
+/* Intro paragraph at the top of every Expertise stage */
+.stage-intro p {
+  max-width: 64ch;
+  margin: 0 0 44px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #c7c2b5;
+}
+
+/* Video / audio rows inside stages: wider, landscape media box */
+.score-zigzag-row.is-video { grid-template-columns: 340px 1fr; }
+.score-zigzag-row.row-right.is-video { grid-template-columns: 1fr 340px; }
+.is-video .score-preview-box { max-width: 340px; }
+.is-video .score-placeholder { aspect-ratio: 16 / 9; }
+
+/* Button groups */
+.stage-cta-buttons {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.panel-cta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+}
+
+.expertise-stage-btn.is-solid {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.expertise-stage-btn.is-large {
+  padding: 20px 52px;
+  font-size: 14px;
+  letter-spacing: 0.24em;
+}
+.expertise-stage-btn.is-solid:hover {
+  background: transparent;
+  border-color: var(--fg);
+  color: var(--fg);
+}
+
+/* Works preview: sub-headings and score cards */
+.works-group + .panel-cta { margin-top: 28px; }
+.panel-cta + .works-group { margin-top: 72px; }
+
+.works-subhead {
+  font-family: var(--font-body);
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 28px;
+}
+
+.works-scores,
+.works-recs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 360px));
+  gap: 44px;
+}
+
+.score-card .score-placeholder { width: 100%; padding: 28px; }
+.score-card .score-placeholder .score-icon { font-size: 64px; margin-bottom: 18px; }
+.score-card .score-placeholder p { font-size: 13px; letter-spacing: 0.14em; }
+.score-card .score-placeholder .score-num { font-size: 11px; }
+
+.score-card-title {
+  display: block;
+  margin-top: 16px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.score-card .label { display: block; margin-top: 4px; }
+
+/* Works preview: recordings.
+   The records, and the player that opens under them when one is tapped (script.js, section 3), look as they do on
+   the Works page (works/works.css, "Recordings"). The player is only built on a tap, so nothing is requested from
+   SoundCloud or YouTube before that. The grid of the records is the one of the score cards (above). */
+.rec {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-align: center;
+  color: var(--fg);
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+.disc {
+  position: relative;
+  width: min(100%, 250px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    conic-gradient(from 20deg, transparent, rgba(255,255,255,.10) 12%, transparent 25%, transparent 50%, rgba(255,255,255,.10) 62%, transparent 75%),
+    repeating-radial-gradient(circle, #0c0c0b 0 2px, #1b1a18 2px 3px);
+  box-shadow: 0 0 0 1px #2a2824, 0 14px 30px rgba(0, 0, 0, 0.6);
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.disc-label {                          /* the label in the middle of the record: large, and it carries the artwork */
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 60%; aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 4px #2a2824;   /* a dark rim separates it from the grooves */
+  color: #f1e9db;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  padding-bottom: 26%;                 /* (the year sits above the spindle hole while there is no artwork) */
+}
+.disc-year { font-weight: 400; }
+.disc-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; -webkit-user-drag: none; }
+.disc-label::after { content: ""; position: absolute; left: 50%; top: 50%; width: 5.5%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: var(--bg); box-shadow: 0 0 0 1.5px rgba(0, 0, 0, 0.35); }
+.rec:focus-visible { outline: none; }
+.rec:focus-visible .disc { transform: scale(1.04) rotate(8deg); }
+.rec:focus-visible .rec-name { text-decoration: underline; text-underline-offset: 6px; }
+@media (hover: hover) {
+  .rec:hover .disc { transform: scale(1.04) rotate(8deg); }
+}
+.rec.is-playing .disc { animation: rec-spin 3.2s linear infinite; }
+@keyframes rec-spin { to { transform: rotate(360deg); } }
+.rec-name { font-family: var(--font-display); font-weight: 600; font-size: 17px; line-height: 1.25; }
+.rec.is-playing .rec-name { color: var(--accent); }
+.rec-meta { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); }
+
+.rec-player {                           /* bar + player, as wide as the two records; only there while a record plays */
+  max-width: calc(2 * 360px + 44px);
+  margin-top: 40px;
+  contain: inline-size;                 /* what is inside never asks the page for more width (a long name is cut short with …) */
+}
+.rec-bar { display: flex; align-items: center; gap: 14px; padding-bottom: 10px; }
+.rec-now { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 14px; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); }
+.rec-now-label { flex: none; }
+.rec-now-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--font-display); font-weight: 600; font-size: 16px; letter-spacing: 0.01em; text-transform: none; color: var(--fg); }
+.rec-x {
+  flex: none;
+  display: grid; place-items: center;
+  width: 44px; height: 44px;
+  margin: -6px -8px -6px 0;            /* (the button is bigger than the bar; the ✕ itself lines up with the player's edge) */
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--mute);
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.rec-x:hover, .rec-x:focus-visible { color: var(--accent); outline: none; }
+.rec-sr { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.rec-stage { background: #000; }
+.rec-stage iframe { display: block; width: 100%; border: 0; }
+.rec-stage[data-kind="youtube"] { aspect-ratio: 16 / 9; }
+.rec-stage[data-kind="youtube"] iframe { height: 100%; }
+.rec-stage[data-kind="soundcloud"] iframe { height: 166px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .disc { transition: none; }
+  .rec.is-playing .disc { animation: none; }
+}
+
+/* Contact panel: closing statement */
+.closing-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 48px;
+  padding-top: 48px;
+  border-top: 1px solid var(--line);
+}
+
+.closing-name {
+  font-size: clamp(26px, 3.2vw, 44px);
+  text-transform: uppercase;
+  line-height: 1.05;
+  margin: 0 0 14px;
+}
+
+.closing-tagline { margin: 0; }
+
+/* Brand column: first name, surname and tagline share one centre axis */
+.closing-col.closing-brand {
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+}
+.closing-brand .closing-name { margin: 0; text-align: center; }
+.closing-brand .closing-tagline { text-align: center; }
+.closing-brand .expertise-stage-btn { margin-top: 14px; }
+
+.closing-col { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+
+.closing-head { color: var(--accent); margin-bottom: 6px; }
+
+.closing-col a {
+  font-family: var(--font-body);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.closing-col a:hover { color: var(--accent); }
+
+/* keep the e-mail address in its natural case */
+.closing-col a[href^="mailto:"] { text-transform: none; letter-spacing: 0.04em; }
+
+
+/* Social icons: white glyphs on a transparent background */
+.closing-col .closing-socials {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 22px;
+  margin-top: 8px;
+}
+
+.closing-col .closing-socials a {
+  display: inline-flex;
+  background: transparent;
+  line-height: 0;
+}
+
+.closing-socials svg {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.closing-col .closing-socials a:hover svg {
+  opacity: 0.6;
+  transform: translateY(-2px);
 }
 
 /* ==========================================================================
@@ -1441,23 +1947,6 @@ nav {
     min-height: 220px;
   }
 
-  .track-row {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-    .track-row > div {
-    min-width: 0; 
-    width: 100%;
-  }
-
-  .track-row iframe {
-    display: block;
-    width: 100% !important;
-    max-width: 100%;
-    width: 100%;
-  }
-
-
   .panel-footer {
     flex-direction: column;
     align-items: flex-start;
@@ -1495,9 +1984,280 @@ nav {
     display: none;
   } */
 
-  .craft-grid {
+  .expertise-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  
+  /* Mobile Full-Screen Slide-in Overlay: slides in from the LEFT (translateX(-100%) -> 0) */
+  .expertise-detail-stage {
+    display: block;
+    position: fixed;
+    top: 52px; /* below top bar */
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 52px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #141310;
+    border: none;
+    box-shadow: none;
+    margin-top: 0;
+    padding: 36px 20px 100px;
+    z-index: 150;
+    transform: translateX(-100%);
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: none;
+    pointer-events: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  .expertise-detail-stage.open {
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  /* When the stage is open on mobile: lock wrapper scroll completely so nothing behind scrolls */
+  body.expertise-stage-active .book-slider-wrapper {
+    overflow-y: hidden !important;
+  }
+
+  body.expertise-stage-active #mobile-back-to-top {
+    display: none !important;
+  }
+
+  /* Hide the desktop close buttons on mobile — only the dedicated pill in place of rhomboids is used */
+  .expertise-detail-stage .expertise-stage-close-btn {
+    display: none !important;
+  }
+
+  /* Hide rhomboid panel when stage is open */
+  body.expertise-stage-active .mobile-progress {
+    display: none !important;
+  }
+
+  /* Mobile Return Arrow: pure clean arrow in place of rhomboids on the right edge */
+  .mobile-stage-back-btn {
+    display: none;
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 200;
+    width: 52px;
+    height: 120px;
+    place-items: center;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--mute);               /* the same thin chevron as the viewers' arrows */
+    transition: color 0.2s, transform 0.2s;
+  }
+  .mobile-stage-back-btn svg {
+    width: 22px;
+    height: 44px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  body.expertise-stage-active .mobile-stage-back-btn {
+    display: grid;
+  }
+
+  .mobile-stage-back-btn:hover,
+  .mobile-stage-back-btn:active,
+  .mobile-stage-back-btn:focus-visible {
+    color: var(--fg);
+    outline: none;
+    transform: translateY(-50%) translateX(-3px);
+  }
+
+  /* On mobile: card hint is "← EXPLORE" pointing left towards the window */
+  .expertise-card[data-expertise-target]::after {
+    content: "← EXPLORE";
+  }
+
+  .score-zigzag-row,
+  .score-zigzag-row.row-right {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .score-zigzag-row.row-right .score-preview-box,
+  .score-zigzag-row.row-right .score-text-box {
+    order: unset;
+    text-align: left;
+  }
+
+  .score-zigzag-row.row-right .score-text-box p {
+    margin-left: 0;
+  }
+
+  .score-preview-box {
+    max-width: 200px;
+  }
+
+  /* Hide the arrow on mobile for the "See More" button */
+  .expertise-stage-btn .btn-arrow {
+    display: none !important;
+  }
 }
+
+
+/* ==========================================================================
+   MAIN-PAGE PREVIEW STRUCTURE — MOBILE ADDITIONS
+   ========================================================================== */
+@media (max-width: 768px) {
+  .score-zigzag-row.is-video,
+  .score-zigzag-row.row-right.is-video { grid-template-columns: 1fr; }
+  .is-video .score-preview-box { max-width: 100%; }
+
+  .stage-cta-buttons { width: 100%; }
+  .stage-cta-buttons .expertise-stage-btn { flex: 1 1 100%; text-align: center; }
+
+  .works-subhead { font-size: 16px; }
+  .works-scores,
+  .works-recs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .score-card .score-placeholder { padding: 10px; }
+  .score-card .score-placeholder .score-icon { font-size: 36px; margin-bottom: 10px; }
+  .score-card .score-placeholder p { font-size: 9px; letter-spacing: 0.08em; }
+  .score-card .score-placeholder .score-num { font-size: 9px; }
+  .score-card-title { font-size: 14px; }
+  .rec-name { font-size: 15px; }
+  .rec-meta { font-size: 10px; letter-spacing: 0.1em; }
+  .rec-player { margin-top: 28px; }
+  .rec-now-name { font-size: 15px; }
+
+  .panel-cta .expertise-stage-btn { width: 100%; text-align: center; }
+
+  .closing-grid { grid-template-columns: 1fr; gap: 32px; padding-top: 32px; }
+}
+
+
+/* ==========================================================================
+   MOBILE FIX: the Expertise overlay is position:fixed. `will-change: transform`
+   on .slide-panel turned every panel into its containing block, so the overlay
+   was drawn relative to the panel (half off-screen when scrolled down).
+   ========================================================================== */
+@media (max-width: 768px) {
+  .slide-panel { will-change: auto; }
+
+  .closing-brand .expertise-stage-btn.is-large { width: 100%; max-width: 340px; padding: 18px 24px; text-align: center; }
+}
+
+
+/* ==========================================================================
+   SUBPAGES (/contact/, later /works/ and /gallery/)
+   Shared header, normal page scroll, plain dark background.
+   ========================================================================== */
+html.subpage,
+html.subpage body {
+  height: auto;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: var(--bg);
+}
+
+.sub-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 90;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 20px clamp(20px, 4vw, 48px);
+  background: rgba(11, 11, 10, 0.94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sub-nav .nav-brand { text-decoration: none; }
+
+.sub-nav-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2.5vw, 32px);
+}
+
+.sub-nav-links a {
+  position: relative;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mute);
+  padding: 4px 0;
+  transition: color 0.25s ease;
+}
+.sub-nav-links a:hover { color: var(--fg); text-decoration: line-through; }
+.sub-nav-links a.active { color: var(--fg); }
+.sub-nav-links a.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--accent);
+}
+
+.sub-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  background: rgba(18, 18, 16, 0.7);
+}
+
+.sub-main {
+  min-height: 100vh;
+  padding: 150px 0 60px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  /* On a phone the links and language switch live in the hamburger menu */
+  .sub-nav { padding: 10px 20px; }
+  .sub-nav-links,
+  .sub-lang { display: none; }
+  .sub-nav .mobile-hamburger { margin-left: auto; }
+  .sub-main { padding-top: 96px; }
+}
+
+.sub-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(34px, 6vw, 84px);
+  line-height: 1.05;
+  margin: 0;
+}
+
+
+/* ==========================================================================
+   MAIN PAGE: TITLE-SCREEN INTRO  (behaviour: main-intro.js)
+   A black screen with the name; the name settles into the hero while the black fades away.
+   ========================================================================== */
+.main-intro { position: fixed; inset: 0; z-index: 9999; display: none; animation: mainIntroFail 0.5s ease 6s forwards; }
+html.intro-on .main-intro { display: block; }
+.main-intro-bg { position: absolute; inset: 0; background: #000; }
+.main-intro-word { pointer-events: none; will-change: transform, opacity; color: var(--fg); }
+
+/* the real name waits for the word to land; the rest of the hero fades in after it */
+html.intro-on:not(.intro-landed) .hero-block h1 { visibility: hidden; }
+html.intro-on:not(.intro-landed) .hero-block .hero-meta,
+html.intro-on:not(.intro-landed) .hero-block .hero-footer { opacity: 0; }
+html.intro-landed .hero-block .hero-meta,
+html.intro-landed .hero-block .hero-footer { animation: mainIntroFade 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.35s both; }
+@keyframes mainIntroFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes mainIntroFail { to { opacity: 0; visibility: hidden; } }   /* safety net: if the script never runs, the black screen clears itself */

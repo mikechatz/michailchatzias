@@ -13,10 +13,11 @@
 ## Website Navigation & Sections
 
 - [About](https://michailchatzias.com/#about): Biography, background, and education.
-- [Craft](https://michailchatzias.com/#craft): Composition, orchestration, violin performance, and sound design.
+- [Expertise](https://michailchatzias.com/#expertise): Composition, orchestration, violin performance, and sound design.
 - [Works](https://michailchatzias.com/#works): Selected Audio tracks of compositions.
-- [Gallery](https://michailchatzias.com/#gallery): Photo gallery.
-- [Contact](https://michailchatzias.com/#contact): Direct links and message form.
+- [Work Catalogue, Recordings and Scores](https://michailchatzias.com/works/): The full work catalogue, recordings and score previews.
+- [Gallery](https://michailchatzias.com/gallery/): Videos and photographs of concerts, by year.
+- [Contact](https://michailchatzias.com/contact/): Message form and direct links.
 
 ## Biography
 
@@ -60,5 +61,5 @@ He holds an Integrated Master's Degree in Music Composition from the Department 
 - SoundCloud: https://soundcloud.com/michailchatzias
 - Bandcamp: https://michailchatzias.bandcamp.com
 - Instagram: https://instagram.com/michailchatzias/
-- YouTube: hhtps://youtube.com/@michailchatzias
+- YouTube: https://youtube.com/@michailchatzias
 - Email: michailchatzias@gmail.com

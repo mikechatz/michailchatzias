@@ -111,10 +111,11 @@
   "website": {
     "sections": [
       { "name": "About", "url": "https://michailchatzias.com/#about" },
-      { "name": "Craft", "url": "https://michailchatzias.com/#craft" },
+      { "name": "Expertise", "url": "https://michailchatzias.com/#expertise" },
       { "name": "Works", "url": "https://michailchatzias.com/#works" },
-      { "name": "Gallery", "url": "https://michailchatzias.com/#gallery" },
-      { "name": "Contact", "url": "https://michailchatzias.com/#contact" }
+      { "name": "Work Catalogue, Recordings and Scores", "url": "https://michailchatzias.com/works/" },
+      { "name": "Gallery", "url": "https://michailchatzias.com/gallery/" },
+      { "name": "Contact", "url": "https://michailchatzias.com/contact/" }
     ],
     "languages": ["en", "el"],
     "llms_txt": "https://michailchatzias.com/llms.txt"
