@@ -636,6 +636,9 @@ button.chip:focus-visible { background: var(--accent); color: #fff; outline: non
   opacity: 0.8;
 }
 .sc-clef { position: absolute; left: 9%; top: 6%; color: #1d1b18; font-size: 22px; line-height: 1; }
+/* a score with wide pages (data-landscape, e.g. a graphical score): the thumbnail lies on its side, and the card sits on the row's baseline */
+.sc-card[data-landscape] { justify-content: flex-end; }
+.sc-card[data-landscape] .sc-thumb { aspect-ratio: 1.414 / 1; }
 /* the first page of the score as the thumbnail (<img> inside .sc-thumb, class has-img); without the picture the staves above show */
 .sc-thumb.has-img::before,
 .sc-thumb.has-img .sc-clef { display: none; }
@@ -666,6 +669,7 @@ body.lang-cn-active .sc-card[data-soon] .sc-thumb::after { content: "即将推�
 
 /* "Request a score" at the bottom of the scores */
 .vol-cta { margin-top: clamp(44px, 8vh, 80px); }
+.vol-cta .vol-note { margin: 0 0 22px; max-width: 62ch; font-size: 14px; line-height: 1.6; letter-spacing: 0.02em; text-transform: none; }
 .vol-cta-btn {
   display: inline-block;
   padding: 14px 28px;

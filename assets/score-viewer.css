@@ -131,6 +131,28 @@
 }
 .sv-book.two .sv-left .sheet::after { background: linear-gradient(to left, rgba(0,0,0,.14), transparent 9%); }
 
+/* the last page of a score that can be requested: a line of words and the button to the contact page */
+.sheet.is-request { display: flex; align-items: center; justify-content: center; padding: 0 9%; text-align: center; }
+.rq-body { display: flex; flex-direction: column; align-items: center; gap: clamp(14px, calc(var(--pw) * 0.07), 36px); }
+.rq-note { margin: 0; max-width: 26ch; font-family: var(--font-display); font-weight: 600; font-size: clamp(13px, calc(var(--pw) * 0.042), 24px); line-height: 1.45; color: #1d1b18; }
+.rq-btn {
+  display: inline-block;
+  padding: 0.95em 1.9em;
+  background: #0b0b0a;
+  color: #f6f3ec;
+  font-family: var(--font-body);
+  font-size: clamp(10px, calc(var(--pw) * 0.03), 14px);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+.rq-btn:hover, .rq-btn:focus-visible { background: var(--accent); color: #fff; outline: none; }
+.rq-btn .btn-arrow { display: inline-block; margin-left: 0.5em; transition: transform 0.25s ease; }
+.rq-btn:hover .btn-arrow, .rq-btn:focus-visible .btn-arrow { transform: translateX(4px); }
+
 /* the leaf that turns */
 .sv-leaf {
   position: absolute;

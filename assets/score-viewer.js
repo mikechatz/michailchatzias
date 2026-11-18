@@ -9,13 +9,16 @@
           data-embed   (instead of pages) the address of an outside player, e.g. a MuseScore embed:
                        "https://musescore.com/user/123/scores/456/embed" (unlisted: ".../scores/456/s/SECRET/embed").
                        It opens full screen on the black background; nothing is requested from that site before.
+          data-request the address of the contact page with the subject filled in, e.g. "contact/?subject=score" (from a subpage: "../contact/?subject=score").
+                       One last page, after the pictures, then holds a "Request a score" button that leads there. Only for scores made of pictures.
+          data-landscape (no value) the pages are wide (landscape A4, e.g. a graphical score): they are shown one at a time, and larger
           data-soon    (no value) the viewer shows only "Coming soon" (until pages or an embed exist; delete it then)
           data-image   (instead of pages) one picture, shown whole on the black background: "assets/gallery/photo.webp"
           data-video   (instead of pages) a YouTube video id; the player opens on the black background and starts playing
                        (youtube-nocookie.com; nothing is requested from YouTube before). data-title is shown above it.
           The media tiles of one grid (.gallery-grid) are a group: the viewer then has arrows (and ← →) to step through them.
         (an element that is not a <button> also needs role="button" tabindex="0"; Enter and Space then work too)
-     2. In script:  ScoreViewer.open({ title, pages: [...], count, embed, image, video, opener })
+     2. In script:  ScoreViewer.open({ title, pages: [...], request, landscape, count, embed, image, video, opener })
 
    The pages are pictures, never a PDF. The look is in assets/score-viewer.css.
    Two pages side by side (a cover alone on the right first, like a book) or one page. Turn with the arrows,
@@ -60,7 +63,7 @@
   let sv, svBook, svStage, svPrev, svNext, svPage, svTotal, svTitle, svEmbed, modeBtns;
   let built = false;
 
-  const V = { group: null, gi: 0, kind: "", pages: [], N: 0, S: 0, s: 0, mode: isPhone() ? "one" : "two", manual: false, busy: false, opener: null, title: "", embed: "" };
+  const V = { group: null, gi: 0, kind: "", pages: [], N: 0, S: 0, s: 0, mode: isPhone() ? "one" : "two", manual: false, busy: false, opener: null, title: "", embed: "", request: "", land: false };
   const DRAG_D = 1000;                                  // the leaf's animations are scrubbed on a 0…1000 scale
   const drag = { id: null, x0: 0, y0: 0, on: false, dir: 0, L: null, anims: null, p: 0, range: 300, pts: [], raf: 0 };
   const touches = new Set();                            // fingers down: a pinch is not a page turn
@@ -80,6 +83,7 @@
     const el = document.createElement("div");
     el.className = "sheet";
     if (n < 1 || n > V.N) { el.classList.add("is-blank"); return el; }
+    if (V.request && n === V.N) return requestSheet();                       // the last page: the "Request a score" button
     const src = V.pages[n - 1];
     if (src) {
       const pic = document.createElement("div");
@@ -96,6 +100,27 @@
   }
   const paper = () => { const el = document.createElement("div"); el.className = "sheet"; return el; };
 
+  // the extra last page of a score: a line of words and the same "Request a score" button as everywhere else on the site
+  function requestSheet() {
+    const el = document.createElement("div");
+    el.className = "sheet is-request";
+    el.innerHTML =
+      '<div class="rq-body">' +
+        '<p class="rq-note">' +
+          '<span class="lang-en">For perusal only. For the complete score and parts, get in touch.</span>' +
+          '<span class="lang-el">Μόνο για ανάγνωση. Για την πλήρη παρτιτούρα και τα μέρη, επικοινωνήστε μαζί μου.</span>' +
+          '<span class="lang-cn">仅供阅览。如需完整乐谱及分谱，请与我联系。</span>' +
+        '</p>' +
+        '<a class="rq-btn">' +
+          '<span class="lang-en">Request a score<span class="btn-arrow"> →</span></span>' +
+          '<span class="lang-el">Ζητήστε ένα έργο<span class="btn-arrow"> →</span></span>' +
+          '<span class="lang-cn">请求乐谱<span class="btn-arrow"> →</span></span>' +
+        '</a>' +
+      '</div>';
+    $(".rq-btn", el).setAttribute("href", V.request);
+    return el;
+  }
+
   function pageLabel() {
     const l = leftPage(V.s), r = rightPage(V.s);
     if (V.mode === "one") return String(r);
@@ -109,8 +134,9 @@
     const cols = V.mode === "two" ? 2 : 1;
     // short screens: pages nearly touch top and bottom, arrows and buttons sit in the margins beside them
     const room = isShort() ? w - 112 : w - (isPhone() ? 16 : 170);
-    let ph = Math.max(120, isShort() ? h - 12 : h - (isPhone() ? 16 : 28)), pw = ph / 1.414;
-    if (pw * cols > room) { pw = room / cols; ph = pw * 1.414; }
+    const R = V.land ? 1.414 : 1 / 1.414;                                    // a page's width / height (A4, upright or on its side)
+    let ph = Math.max(120, isShort() ? h - 12 : h - (isPhone() ? 16 : 28)), pw = ph * R;
+    if (pw * cols > room) { pw = room / cols; ph = pw / R; }
     svBook.style.setProperty("--pw", pw + "px");
     svBook.style.setProperty("--ph", ph + "px");
     svBook.className = "sv-book " + V.mode;
@@ -219,12 +245,16 @@
     V.opener = o.opener || null;
     V.embed = /^https:\/\//i.test(o.embed || "") ? o.embed : (o.soon ? "soon" : "");   // an outside player (MuseScore) instead of the pages; "soon" = only the words "coming soon"
     V.kind = "";                                       // "image" / "video": the Gallery's media, shown on the same black screen
+    // one more page after the pictures that leads to the contact page (a relative address or https; never script)
+    V.request = V.pages.length && !V.embed && /^(?![\s]*(javascript|data|vbscript):)\S+$/i.test(o.request || "") ? o.request.trim() : "";
+    if (V.request) V.N += 1;
+    V.land = !!o.landscape && !!V.pages.length && !V.embed;
     if (o.image) { V.embed = "image"; V.kind = "image"; }
     else if (/^[\w-]{6,20}$/.test(o.video || "")) { V.embed = "https://www.youtube-nocookie.com/embed/" + o.video + "?autoplay=1&rel=0&playsinline=1"; V.kind = "video"; }
     if (closing) { closing.cancel(); closing = null; sv.style.pointerEvents = ""; }   // opened again while still fading out
     V.busy = false;
     if (isPhone()) V.mode = "one";
-    else if (!V.manual) V.mode = "two";
+    else if (!V.manual) V.mode = V.land ? "one" : "two";          // (wide pages are read one at a time)
     V.S = spreads();
     V.s = 0;
     svTitle.textContent = V.title;
@@ -461,7 +491,7 @@
     window.addEventListener("resize", () => {
       if (sv.hidden || V.embed) return;
       // turning the phone: one page upright, two pages on its side (unless the visitor chose)
-      const want = isPhone() ? "one" : "two";
+      const want = isPhone() || V.land ? "one" : "two";
       if (!V.busy && V.mode !== want && (isPhone() || !V.manual)) setMode(want);
       else layout();
     });
@@ -481,7 +511,7 @@
     else if (k === "Home") jumpTo(1);
     else if (k === "End") jumpTo(V.N);
     else if (k === "Tab") {                             // Tab stays inside the viewer
-      const f = $$("button:not(:disabled), input, iframe", sv).filter(el => el.offsetParent !== null);
+      const f = $$("button:not(:disabled), input, iframe, a[href]", sv).filter(el => el.offsetParent !== null);
       if (f.length) {
         const i = f.indexOf(document.activeElement);
         const next = e.shiftKey ? f[(i <= 0 ? f.length : i) - 1] : f[(i + 1) % f.length];
@@ -501,6 +531,8 @@
     return {
       title: el.dataset.title || (h4 ? h4.textContent.trim() : cardTitle ? shown(cardTitle) : ""),
       pages: (el.dataset.pages || "").split(","),
+      request: el.dataset.request,
+      landscape: el.hasAttribute("data-landscape"),
       count: el.dataset.count,
       embed: el.dataset.embed,
       image: el.dataset.image,

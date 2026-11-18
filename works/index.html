@@ -545,7 +545,7 @@
               <span class="cat-title">lo-fi{re} /*a lo-fi soundscape*/</span>
               <span class="cat-forces"><span class="lang-en">for electronic media</span><span class="lang-el">για ηλεκτρονικά μέσα</span></span>
             </div>
-            <span class="cat-marks"><button type="button" class="chip" data-go="recordings" data-key="lofire">REC</button></span>
+            <span class="cat-marks"><button type="button" class="chip" data-go="recordings" data-key="lofire">REC</button><button type="button" class="chip" data-go="scores" data-key="lofire">SCORE</button></span>
           </li>
           </ul>
         </section>
@@ -858,6 +858,8 @@
        HOW TO ADD A SCORE: copy a <button class="sc-card">, put it in the right group, and change
          data-title   shown above the viewer
          data-pages   the page pictures, comma separated:  "p1.webp,p2.webp,p3.webp"
+         data-landscape (no value) wide pages (a graphical score): shown one at a time, larger; the thumbnail lies on its side
+         data-request "../contact/?subject=score": one more page after the pictures, with the "Request a score" button (for scores made of pictures)
          data-count   (placeholders only) how many blank pages to show
          data-soon    (no value) "Coming soon" on the thumbnail and in the viewer, until the score is ready. Delete it when data-embed / data-pages are added.
          data-embed   ORCHESTRATIONS: the address of the MuseScore player (musescore.com ▸ the score ▸ Share ▸ Embed; copy the
@@ -894,23 +896,23 @@
         <section class="sc-group" aria-labelledby="sg-compositions">
           <h3 class="grp-h" id="sg-compositions"><span class="lang-en">Compositions</span><span class="lang-el">Συνθέσεις</span><span class="lang-cn">作曲</span></h3>
           <div class="sc-grid">
-          <button type="button" class="sc-card" data-key="emmonae-abbr" data-title="emmonæ (abbr.)" data-pages="" data-count="8" data-soon>
-            <span class="sc-thumb"><span class="sc-clef">𝄞</span></span>
+          <button type="button" class="sc-card" data-key="emmonae-abbr" data-request="../contact/?subject=score" data-title="emmonæ (abbr.)" data-pages="scores/emmonae-1.webp,scores/emmonae-2.webp,scores/emmonae-3.webp,scores/emmonae-4.webp,scores/emmonae-5.webp,scores/emmonae-6.webp,scores/emmonae-7.webp,scores/emmonae-8.webp,scores/emmonae-9.webp,scores/emmonae-10.webp">
+            <span class="sc-thumb has-img"><img src="scores/emmonae-thumb.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
             <span class="sc-name">emmonæ (abbr.)</span>
             <span class="sc-meta">2024</span>
           </button>
-          <button type="button" class="sc-card" data-key="miniatures" data-title="2 Miniatures for Solo Clarinet" data-pages="" data-count="6" data-soon>
-            <span class="sc-thumb"><span class="sc-clef">𝄞</span></span>
+          <button type="button" class="sc-card" data-key="miniatures" data-request="../contact/?subject=score" data-title="2 Miniatures for Clarinet · No. I" data-pages="scores/miniatures-1.webp,scores/miniatures-2.webp,scores/miniatures-3.webp">
+            <span class="sc-thumb has-img"><img src="scores/miniatures-thumb.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
             <span class="sc-name">
               <span class="lang-en">2 Miniatures for Solo Clarinet</span>
               <span class="lang-el">2 Μινιατούρες για σόλο κλαρινέτο</span>
             </span>
             <span class="sc-meta">2024</span>
           </button>
-          <button type="button" class="sc-card" data-title="Score title" data-pages="" data-count="12" data-soon>
-            <span class="sc-thumb"><span class="sc-clef">𝄞</span></span>
-            <span class="sc-name">Score title</span>
-            <span class="sc-meta">2023</span>
+          <button type="button" class="sc-card" data-key="lofire" data-landscape data-request="../contact/?subject=score" data-title="lo-fi{re} /*a lo-fi soundscape*/" data-pages="scores/lofire-1.webp,scores/lofire-2.webp,scores/lofire-3.webp,scores/lofire-4.webp,scores/lofire-5.webp">
+            <span class="sc-thumb has-img"><img src="scores/lofire-thumb.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name">lo-fi{re}</span>
+            <span class="sc-meta">2024</span>
           </button>
           </div>
         </section>
@@ -924,86 +926,27 @@
             <span class="sc-name">Title</span>
             <span class="sc-meta">COMPOSER · 2023</span>
           </button> -->
-          <!-- oldest first (the catalogue above lists them newest first). A card with data-soon shows "Coming soon" on its thumbnail and in the viewer. When the MuseScore address arrives, replace data-soon by data-embed="…" (the "coming soon" is then gone) -->
-          <button type="button" class="sc-card" data-key="bach-sarabande" data-title="French Suite No. 1 in D minor, BWV 812 — Sarabande (J. S. Bach)"
-                  data-embed="https://musescore.com/user/3428276/scores/40525023/embed">
-          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40525023/s/alZP0M/embed -->
-            <span class="sc-thumb has-img"><img src="orchestrations/bach-sarabande.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
-            <span class="sc-name"><span class="lang-en">French Suite No. 1 in D minor, BWV 812 — Sarabande</span><span class="lang-el">Γαλλική σουίτα αρ. 1 σε ρε ελάσσονα, BWV 812 — Sarabande</span></span>
-            <span class="sc-meta">J. S. Bach · 2023</span>
+          <!-- newest first (the catalogue above lists them newest first). A card with data-soon shows "Coming soon" on its thumbnail and in the viewer. When the MuseScore address arrives, replace data-soon by data-embed="…" (the "coming soon" is then gone) -->
+          <button type="button" class="sc-card" data-key="brahms-rhapsody-79-1" data-title="Rhapsody in B minor, Op. 79, No. 1 (Johannes Brahms)"
+                  data-embed="https://musescore.com/user/3428276/scores/40536462/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40536462/s/bllrvQ/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/brahms-rhapsody-79-1.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Rhapsody in B minor, Op. 79, No. 1</span><span class="lang-el">Ραψωδία σε σι ελάσσονα, έργο 79, αρ. 1</span></span>
+            <span class="sc-meta">Johannes Brahms · 2025</span>
           </button>
-          <button type="button" class="sc-card" data-key="mozart-sonata-bb" data-title="Sonata in B♭ major, Op. 26 (K. 498a) — Menuet (A. E. Müller)"
-                  data-embed="https://musescore.com/user/3428276/scores/40527141/embed">
-          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40527141/s/f6FcY7/embed -->
-            <span class="sc-thumb has-img"><img src="orchestrations/mozart-sonata-bb.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
-            <span class="sc-name"><span class="lang-en">Sonata in B♭ major, Op. 26 (K. 498a) — Menuet</span><span class="lang-el">Σονάτα σε σι♭ μείζονα, έργο 26 (K. 498a) — Menuet</span></span>
-            <span class="sc-meta">A. E. Müller · 2023</span>
+          <button type="button" class="sc-card" data-key="bartok-peasant-1" data-title="Fifteen Hungarian Peasant Songs, Sz. 71 — No. 1 (Béla Bartók)"
+                  data-embed="https://musescore.com/user/3428276/scores/40535586/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40535586/s/nbzYYQ/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/bartok-peasant-1.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Fifteen Hungarian Peasant Songs, Sz. 71 — No. 1</span><span class="lang-el">Δεκαπέντε ουγγρικά αγροτικά τραγούδια, Sz. 71 — Αρ. 1</span></span>
+            <span class="sc-meta">Béla Bartók · 2025</span>
           </button>
-          <button type="button" class="sc-card" data-key="schumann-papillons-5" data-title="Papillons, Op. 2 — No. 5 (Robert Schumann)"
-                  data-embed="https://musescore.com/user/3428276/scores/40527600/embed">
-          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40527600/s/v2wtEK/embed -->
-            <span class="sc-thumb has-img"><img src="orchestrations/schumann-papillons-5.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
-            <span class="sc-name"><span class="lang-en">Papillons, Op. 2 — No. 5</span><span class="lang-el">Papillons, έργο 2 — Αρ. 5</span></span>
-            <span class="sc-meta">Robert Schumann · 2023</span>
-          </button>
-          <!-- Assignment: 2 flutes, 2 oboes, 2 clarinets, 2 bassoons -->
-          <button type="button" class="sc-card" data-key="kuhlau-sonatina" data-title="Sonatina in F major, Op. 55, No. 4 — Andante con espressione (Friedrich Kuhlau)"
-                  data-embed="https://musescore.com/user/3428276/scores/40528170/embed">
-          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40528170/s/A9Ym2G/embed -->
-            <span class="sc-thumb has-img"><img src="orchestrations/kuhlau-sonatina.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
-            <span class="sc-name"><span class="lang-en">Sonatina in F major, Op. 55, No. 4 — Andante con espressione</span><span class="lang-el">Σονατίνα σε φα μείζονα, έργο 55, αρ. 4 — Andante con espressione</span></span>
-            <span class="sc-meta">Friedrich Kuhlau · 2024</span>
-          </button>
-          <!-- Assignment: 2 flutes, 2 oboes, 2 clarinets, 2 bassoons and strings -->
-          <button type="button" class="sc-card" data-key="beethoven-op90" data-title="Sonata No. 27 in E minor, Op. 90 — Mit Lebhaftigkeit… (L. v. Beethoven)"
-                  data-embed="https://musescore.com/user/3428276/scores/40529244/embed">
-          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40529244/s/04CvLv/embed -->
-            <span class="sc-thumb has-img"><img src="orchestrations/beethoven-op90.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
-            <span class="sc-name"><span class="lang-en">Sonata No. 27 in E minor, Op. 90 — Mit Lebhaftigkeit…</span><span class="lang-el">Σονάτα αρ. 27 σε μι ελάσσονα, έργο 90 — Mit Lebhaftigkeit…</span></span>
-            <span class="sc-meta">L. v. Beethoven · 2024</span>
-          </button>
-          <button type="button" class="sc-card" data-key="mozart-k330-andante" data-title="Piano Sonata No. 10 in C major, K. 330 — II. Andante cantabile (W. A. Mozart)"
-                  data-embed="https://musescore.com/user/3428276/scores/40531362/embed">
-          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40531362/s/KUX0h_/embed -->
-            <span class="sc-thumb has-img"><img src="orchestrations/mozart-k330-andante.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
-            <span class="sc-name"><span class="lang-en">Piano Sonata No. 10 in C major, K. 330 — II. Andante cantabile</span><span class="lang-el">Πιανιστική σονάτα αρ. 10 σε ντο μείζονα, K. 330 — II. Andante cantabile</span></span>
-            <span class="sc-meta">W. A. Mozart · 2024</span>
-          </button>
-          <button type="button" class="sc-card" data-key="mozart-k332-allegro" data-title="Piano Sonata No. 12 in F major, K. 332 — Allegro (W. A. Mozart)"
-                  data-embed="https://musescore.com/user/3428276/scores/40530426/embed">
-          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40530426/s/wN1WIv/embed -->
-            <span class="sc-thumb has-img"><img src="orchestrations/mozart-k332-allegro.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
-            <span class="sc-name"><span class="lang-en">Piano Sonata No. 12 in F major, K. 332 — Allegro</span><span class="lang-el">Πιανιστική σονάτα αρ. 12 σε φα μείζονα, K. 332 — Allegro</span></span>
-            <span class="sc-meta">W. A. Mozart · 2024</span>
-          </button>
-          <!-- Two files existed (kept the one dated 20-5-2024) -->
-          <button type="button" class="sc-card" data-key="beethoven-sonata1-allegro" data-title="Sonata No. 1 in F minor, Op. 2 — Allegro (L. v. Beethoven)"
-                  data-embed="https://musescore.com/user/3428276/scores/40532559/embed">
-          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40532559/s/v1sv7U/embed -->
-            <span class="sc-thumb has-img"><img src="orchestrations/beethoven-sonata1-allegro.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
-            <span class="sc-name"><span class="lang-en">Sonata No. 1 in F minor, Op. 2 — Allegro</span><span class="lang-el">Σονάτα αρ. 1 σε φα ελάσσονα, έργο 2 — Allegro</span></span>
-            <span class="sc-meta">L. v. Beethoven · 2024</span>
-          </button>
-          <!-- his own choice, not a textbook exercise -->
-          <button type="button" class="sc-card" data-key="beethoven-sonata1-adagio" data-title="Sonata No. 1 in F minor, Op. 2 — Adagio (L. v. Beethoven)"
-                  data-embed="https://musescore.com/user/3428276/scores/40532862/embed">
-          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40532862/s/EdpFbh/embed -->
-            <span class="sc-thumb has-img"><img src="orchestrations/beethoven-sonata1-adagio.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
-            <span class="sc-name"><span class="lang-en">Sonata No. 1 in F minor, Op. 2 — Adagio</span><span class="lang-el">Σονάτα αρ. 1 σε φα ελάσσονα, έργο 2 — Adagio</span></span>
-            <span class="sc-meta">L. v. Beethoven · 2024</span>
-          </button>
-          <button type="button" class="sc-card" data-key="grieg-sailors-song" data-title="Lyric Pieces, Op. 68, No. 1 — Sailor’s Song (Edvard Grieg)"
-                  data-embed="https://musescore.com/user/3428276/scores/40533114/embed">
-          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40533114/s/9D2GCs/embed -->
-            <span class="sc-thumb has-img"><img src="orchestrations/grieg-sailors-song.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
-            <span class="sc-name"><span class="lang-en">Lyric Pieces, Op. 68, No. 1 — Sailor’s Song</span><span class="lang-el">Λυρικά κομμάτια, έργο 68, αρ. 1 — Το τραγούδι του ναύτη</span></span>
-            <span class="sc-meta">Edvard Grieg · 2024</span>
-          </button>
-          <button type="button" class="sc-card" data-key="bartok-folk-song-8" data-title="Ten Easy Pieces for Piano, Sz. 39 — Folk Song No. 8 (Béla Bartók)"
-                  data-embed="https://musescore.com/user/3428276/scores/40533816/embed">
-          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40533816/s/q9n21O/embed -->
-            <span class="sc-thumb has-img"><img src="orchestrations/bartok-folk-song-8.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
-            <span class="sc-name"><span class="lang-en">Ten Easy Pieces for Piano, Sz. 39 — Folk Song No. 8</span><span class="lang-el">Δέκα εύκολα κομμάτια για πιάνο, Sz. 39 — Λαϊκό τραγούδι αρ. 8</span></span>
+          <!-- Assignment was: woodwinds, horns, strings, percussion (and harp if desired); the title page says "for orchestra" -->
+          <button type="button" class="sc-card" data-key="bartok-peasant-12" data-title="Fifteen Hungarian Peasant Songs, Sz. 71 — No. 12 (Béla Bartók)"
+                  data-embed="https://musescore.com/user/3428276/scores/40535178/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40535178/s/DaSoAs/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/bartok-peasant-12.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Fifteen Hungarian Peasant Songs, Sz. 71 — No. 12</span><span class="lang-el">Δεκαπέντε ουγγρικά αγροτικά τραγούδια, Sz. 71 — Αρ. 12</span></span>
             <span class="sc-meta">Béla Bartók · 2025</span>
           </button>
           <!-- Assignment: woodwinds in pairs, 4 horns, 2 trumpets, 3 trombones, 2 timpani, strings -->
@@ -1014,33 +957,97 @@
             <span class="sc-name"><span class="lang-en">Piano Sonata in A minor, D. 784, Op. 143 — Allegro giusto</span><span class="lang-el">Πιανιστική σονάτα σε λα ελάσσονα, D. 784, έργο 143 — Allegro giusto</span></span>
             <span class="sc-meta">Franz Schubert · 2025</span>
           </button>
-          <!-- Assignment was: woodwinds, horns, strings, percussion (and harp if desired); the title page says "for orchestra" -->
-          <button type="button" class="sc-card" data-key="bartok-peasant-12" data-title="Fifteen Hungarian Peasant Songs, Sz. 71 — No. 12 (Béla Bartók)"
-                  data-embed="https://musescore.com/user/3428276/scores/40535178/embed">
-          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40535178/s/DaSoAs/embed -->
-            <span class="sc-thumb has-img"><img src="orchestrations/bartok-peasant-12.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
-            <span class="sc-name"><span class="lang-en">Fifteen Hungarian Peasant Songs, Sz. 71 — No. 12</span><span class="lang-el">Δεκαπέντε ουγγρικά αγροτικά τραγούδια, Sz. 71 — Αρ. 12</span></span>
+          <button type="button" class="sc-card" data-key="bartok-folk-song-8" data-title="Ten Easy Pieces for Piano, Sz. 39 — Folk Song No. 8 (Béla Bartók)"
+                  data-embed="https://musescore.com/user/3428276/scores/40533816/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40533816/s/q9n21O/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/bartok-folk-song-8.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Ten Easy Pieces for Piano, Sz. 39 — Folk Song No. 8</span><span class="lang-el">Δέκα εύκολα κομμάτια για πιάνο, Sz. 39 — Λαϊκό τραγούδι αρ. 8</span></span>
             <span class="sc-meta">Béla Bartók · 2025</span>
           </button>
-          <button type="button" class="sc-card" data-key="bartok-peasant-1" data-title="Fifteen Hungarian Peasant Songs, Sz. 71 — No. 1 (Béla Bartók)"
-                  data-embed="https://musescore.com/user/3428276/scores/40535586/embed">
-          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40535586/s/nbzYYQ/embed -->
-            <span class="sc-thumb has-img"><img src="orchestrations/bartok-peasant-1.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
-            <span class="sc-name"><span class="lang-en">Fifteen Hungarian Peasant Songs, Sz. 71 — No. 1</span><span class="lang-el">Δεκαπέντε ουγγρικά αγροτικά τραγούδια, Sz. 71 — Αρ. 1</span></span>
-            <span class="sc-meta">Béla Bartók · 2025</span>
+          <button type="button" class="sc-card" data-key="grieg-sailors-song" data-title="Lyric Pieces, Op. 68, No. 1 — Sailor’s Song (Edvard Grieg)"
+                  data-embed="https://musescore.com/user/3428276/scores/40533114/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40533114/s/9D2GCs/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/grieg-sailors-song.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Lyric Pieces, Op. 68, No. 1 — Sailor’s Song</span><span class="lang-el">Λυρικά κομμάτια, έργο 68, αρ. 1 — Το τραγούδι του ναύτη</span></span>
+            <span class="sc-meta">Edvard Grieg · 2024</span>
           </button>
-          <button type="button" class="sc-card" data-key="brahms-rhapsody-79-1" data-title="Rhapsody in B minor, Op. 79, No. 1 (Johannes Brahms)"
-                  data-embed="https://musescore.com/user/3428276/scores/40536462/embed">
-          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40536462/s/bllrvQ/embed -->
-            <span class="sc-thumb has-img"><img src="orchestrations/brahms-rhapsody-79-1.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
-            <span class="sc-name"><span class="lang-en">Rhapsody in B minor, Op. 79, No. 1</span><span class="lang-el">Ραψωδία σε σι ελάσσονα, έργο 79, αρ. 1</span></span>
-            <span class="sc-meta">Johannes Brahms · 2025</span>
+          <!-- his own choice, not a textbook exercise -->
+          <button type="button" class="sc-card" data-key="beethoven-sonata1-adagio" data-title="Sonata No. 1 in F minor, Op. 2 — Adagio (L. v. Beethoven)"
+                  data-embed="https://musescore.com/user/3428276/scores/40532862/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40532862/s/EdpFbh/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/beethoven-sonata1-adagio.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Sonata No. 1 in F minor, Op. 2 — Adagio</span><span class="lang-el">Σονάτα αρ. 1 σε φα ελάσσονα, έργο 2 — Adagio</span></span>
+            <span class="sc-meta">L. v. Beethoven · 2024</span>
+          </button>
+          <!-- Two files existed (kept the one dated 20-5-2024) -->
+          <button type="button" class="sc-card" data-key="beethoven-sonata1-allegro" data-title="Sonata No. 1 in F minor, Op. 2 — Allegro (L. v. Beethoven)"
+                  data-embed="https://musescore.com/user/3428276/scores/40532559/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40532559/s/v1sv7U/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/beethoven-sonata1-allegro.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Sonata No. 1 in F minor, Op. 2 — Allegro</span><span class="lang-el">Σονάτα αρ. 1 σε φα ελάσσονα, έργο 2 — Allegro</span></span>
+            <span class="sc-meta">L. v. Beethoven · 2024</span>
+          </button>
+          <button type="button" class="sc-card" data-key="mozart-k332-allegro" data-title="Piano Sonata No. 12 in F major, K. 332 — Allegro (W. A. Mozart)"
+                  data-embed="https://musescore.com/user/3428276/scores/40530426/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40530426/s/wN1WIv/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/mozart-k332-allegro.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Piano Sonata No. 12 in F major, K. 332 — Allegro</span><span class="lang-el">Πιανιστική σονάτα αρ. 12 σε φα μείζονα, K. 332 — Allegro</span></span>
+            <span class="sc-meta">W. A. Mozart · 2024</span>
+          </button>
+          <button type="button" class="sc-card" data-key="mozart-k330-andante" data-title="Piano Sonata No. 10 in C major, K. 330 — II. Andante cantabile (W. A. Mozart)"
+                  data-embed="https://musescore.com/user/3428276/scores/40531362/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40531362/s/KUX0h_/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/mozart-k330-andante.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Piano Sonata No. 10 in C major, K. 330 — II. Andante cantabile</span><span class="lang-el">Πιανιστική σονάτα αρ. 10 σε ντο μείζονα, K. 330 — II. Andante cantabile</span></span>
+            <span class="sc-meta">W. A. Mozart · 2024</span>
+          </button>
+          <!-- Assignment: 2 flutes, 2 oboes, 2 clarinets, 2 bassoons and strings -->
+          <button type="button" class="sc-card" data-key="beethoven-op90" data-title="Sonata No. 27 in E minor, Op. 90 — Mit Lebhaftigkeit… (L. v. Beethoven)"
+                  data-embed="https://musescore.com/user/3428276/scores/40529244/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40529244/s/04CvLv/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/beethoven-op90.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Sonata No. 27 in E minor, Op. 90 — Mit Lebhaftigkeit…</span><span class="lang-el">Σονάτα αρ. 27 σε μι ελάσσονα, έργο 90 — Mit Lebhaftigkeit…</span></span>
+            <span class="sc-meta">L. v. Beethoven · 2024</span>
+          </button>
+          <!-- Assignment: 2 flutes, 2 oboes, 2 clarinets, 2 bassoons -->
+          <button type="button" class="sc-card" data-key="kuhlau-sonatina" data-title="Sonatina in F major, Op. 55, No. 4 — Andante con espressione (Friedrich Kuhlau)"
+                  data-embed="https://musescore.com/user/3428276/scores/40528170/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40528170/s/A9Ym2G/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/kuhlau-sonatina.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Sonatina in F major, Op. 55, No. 4 — Andante con espressione</span><span class="lang-el">Σονατίνα σε φα μείζονα, έργο 55, αρ. 4 — Andante con espressione</span></span>
+            <span class="sc-meta">Friedrich Kuhlau · 2024</span>
+          </button>
+          <button type="button" class="sc-card" data-key="schumann-papillons-5" data-title="Papillons, Op. 2 — No. 5 (Robert Schumann)"
+                  data-embed="https://musescore.com/user/3428276/scores/40527600/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40527600/s/v2wtEK/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/schumann-papillons-5.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Papillons, Op. 2 — No. 5</span><span class="lang-el">Papillons, έργο 2 — Αρ. 5</span></span>
+            <span class="sc-meta">Robert Schumann · 2023</span>
+          </button>
+          <button type="button" class="sc-card" data-key="mozart-sonata-bb" data-title="Sonata in B♭ major, Op. 26 (K. 498a) — Menuet (A. E. Müller)"
+                  data-embed="https://musescore.com/user/3428276/scores/40527141/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40527141/s/f6FcY7/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/mozart-sonata-bb.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">Sonata in B♭ major, Op. 26 (K. 498a) — Menuet</span><span class="lang-el">Σονάτα σε σι♭ μείζονα, έργο 26 (K. 498a) — Menuet</span></span>
+            <span class="sc-meta">A. E. Müller · 2023</span>
+          </button>
+          <button type="button" class="sc-card" data-key="bach-sarabande" data-title="French Suite No. 1 in D minor, BWV 812 — Sarabande (J. S. Bach)"
+                  data-embed="https://musescore.com/user/3428276/scores/40525023/embed">
+          <!-- if the player says the score is private/unavailable, use the secret address instead: https://musescore.com/user/3428276/scores/40525023/s/alZP0M/embed -->
+            <span class="sc-thumb has-img"><img src="orchestrations/bach-sarabande.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()"></span>
+            <span class="sc-name"><span class="lang-en">French Suite No. 1 in D minor, BWV 812 — Sarabande</span><span class="lang-el">Γαλλική σουίτα αρ. 1 σε ρε ελάσσονα, BWV 812 — Sarabande</span></span>
+            <span class="sc-meta">J. S. Bach · 2023</span>
           </button>
           </div>
         </section>
 
         <!-- Leads to the contact page with the subject "Score request" already filled in (contact/index.html: data-key="score") -->
         <div class="vol-cta">
+          <p class="vol-sub vol-note">
+            <span class="lang-en">The compositions are shown as perusal pages only. For a complete score, parts, or the second of the 2 Miniatures, get in touch.</span>
+            <span class="lang-el">Οι συνθέσεις εμφανίζονται μόνο ως σελίδες για ανάγνωση. Για πλήρη παρτιτούρα, παρτιτούρες μερών ή τη δεύτερη από τις 2 μινιατούρες, επικοινωνήστε μαζί μου.</span>
+            <span class="lang-cn">作曲作品仅提供供阅览的页面。如需完整乐谱、分谱或《2首小品》的第二首，请与我联系。</span>
+          </p>
           <a class="vol-cta-btn" href="../contact/?subject=score">
             <span class="lang-en">Request a score<span class="btn-arrow"> →</span></span>
             <span class="lang-el">Ζητήστε ένα έργο<span class="btn-arrow"> →</span></span>

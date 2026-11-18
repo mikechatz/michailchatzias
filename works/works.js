@@ -389,6 +389,8 @@
     c.addEventListener("click", () => ScoreViewer.open({
       title: c.dataset.title || "",
       pages: (c.dataset.pages || "").split(","),
+      request: c.dataset.request,
+      landscape: c.hasAttribute("data-landscape"),
       count: c.dataset.count,
       embed: c.dataset.embed,
       soon: c.hasAttribute("data-soon"),

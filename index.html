@@ -426,6 +426,7 @@
                HOW TO FILL A ROW (applies to all four stages)
                1. SCORE   → the preview box already opens the page viewer (assets/score-viewer.js). On the box:
                               data-pages="assets/scores/a-1.webp,assets/scores/a-2.webp,…"   the page pictures, in order
+                              data-request="contact/?subject=score"   one more page after the pictures, with the "Request a score" button
                               data-count="8"   (only while there are no pictures yet: how many blank pages to show)
                               data-soon        (no value) the viewer says "Coming soon" and the preview shows it; delete it when the pages are ready
                               data-title="…"   (optional; the <h4> of the row is used when it is missing)
@@ -440,8 +441,9 @@
 
           <!-- Zig-zag scores showcase: Item 1 (Image left, text right) -->
           <div class="score-zigzag-row row-left">
-            <div class="score-preview-box is-viewable" data-score-open data-count="8" data-soon role="button" tabindex="0" aria-label="Open the score">
-              <div class="score-placeholder">
+            <div class="score-preview-box is-viewable" data-score-open data-request="contact/?subject=score" data-title="emmonæ (abbr.)" data-pages="works/scores/emmonae-1.webp,works/scores/emmonae-2.webp,works/scores/emmonae-3.webp,works/scores/emmonae-4.webp,works/scores/emmonae-5.webp,works/scores/emmonae-6.webp,works/scores/emmonae-7.webp,works/scores/emmonae-8.webp,works/scores/emmonae-9.webp,works/scores/emmonae-10.webp" role="button" tabindex="0" aria-label="Open the score">
+              <div class="score-placeholder has-img">
+                <img src="works/scores/emmonae-thumb.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()">
                 <span class="score-icon">𝄞</span>
                 <p class="lang-en">View the score</p>
                 <p class="lang-el">Δείτε το έργο</p>
@@ -451,15 +453,16 @@
             <div class="score-text-box">
               <span class="label">2024 · CHAMBER / ENSEMBLE</span>
               <h4>emmonæ (abbr.)</h4>
-              <p class="lang-en">Original score excerpt exploring micro-polyphony, textural densities, and extended instrumental techniques.</p>
-              <p class="lang-el">Απόσπασμα πρωτότυπης παρτιτούρας με εστίαση στη μικροπολυφωνία, τις υφικές πυκνότητες και τις διευρυμένες τεχνικές οργάνων.</p>
+              <p class="lang-en">For flute, violin, violoncello, and piano. Commissioned by the 13th Contemporary Composition Workshop. Premiered on 12 May 2024 at the Thessaloniki Concert Hall.</p>
+              <p class="lang-el">Για φλάουτο, βιολί, βιολοντσέλο και πιάνο. Παραγγελία του 13ου Εργαστηρίου Σύγχρονης Μουσικής. Πρώτη εκτέλεση στις 12 Μαΐου 2024 στο Μέγαρο Μουσικής Θεσσαλονίκης.</p>
             </div>
           </div>
 
           <!-- Zig-zag scores showcase: Item 2 (Image right, text left) -->
           <div class="score-zigzag-row row-right">
-            <div class="score-preview-box is-viewable" data-score-open data-count="6" data-soon role="button" tabindex="0" aria-label="Open the score">
-              <div class="score-placeholder">
+            <div class="score-preview-box is-viewable" data-score-open data-request="contact/?subject=score" data-title="2 Miniatures for Clarinet · No. I" data-pages="works/scores/miniatures-1.webp,works/scores/miniatures-2.webp,works/scores/miniatures-3.webp" role="button" tabindex="0" aria-label="Open the score">
+              <div class="score-placeholder has-img">
+                <img src="works/scores/miniatures-thumb.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()">
                 <span class="score-icon">𝄞</span>
                 <p class="lang-en">View the score</p>
                 <p class="lang-el">Δείτε το έργο</p>
@@ -467,10 +470,10 @@
               </div>
             </div>
             <div class="score-text-box">
-              <span class="label">2024 · SOLO CLARINET</span>
-              <h4>2 Miniatures for Solo Clarinet</h4>
-              <p class="lang-en">Contemporary solo clarinet works commissioned and premiered at the Thessaloniki Concert Hall.</p>
-              <p class="lang-el">Σύγχρονα έργα για σόλο κλαρινέτο, ανάθεση και πρώτη εκτέλεση στο Μέγαρο Μουσικής Θεσσαλονίκης.</p>
+              <span class="label">2024 · CLARINET</span>
+              <h4>2 Miniatures</h4>
+              <p class="lang-en">Two miniatures for clarinet in B♭. Dedicated to a limerence long lost. Premiered on 16 July 2024 at StudioMef29.</p>
+              <p class="lang-el">Δύο μινιατούρες για κλαρινέτο σε σι ύφεση. Αφιερωμένες σε ένα limerence που χάθηκε προ πολλού. Πρώτη εκτέλεση στις 16 Ιουλίου 2024 στο StudioMef29.</p>
             </div>
           </div>
 
@@ -877,6 +880,7 @@
             <!-- ───────── SCORES: 2 previews, then a button to the full catalogue ─────────
                  Each card opens the page viewer (assets/score-viewer.js). On the card:
                    data-pages="assets/scores/a-1.webp,assets/scores/a-2.webp,…"   the page pictures, in order
+                   data-request="contact/?subject=score"   one more page after the pictures, with the "Request a score" button
                    data-count="8"   (only while there are no pictures yet: how many blank pages to show)
                               data-soon        (no value) the viewer says "Coming soon" and the preview shows it; delete it when the pages are ready
                  The title above the pages is the card's own title line. -->
@@ -887,8 +891,9 @@
               </h3>
 
               <div class="works-scores">
-                <div class="score-card is-viewable" data-score-open data-count="8" data-soon role="button" tabindex="0" aria-label="Open the score">
-                  <div class="score-placeholder">
+                <div class="score-card is-viewable" data-score-open data-request="contact/?subject=score" data-title="emmonæ (abbr.)" data-pages="works/scores/emmonae-1.webp,works/scores/emmonae-2.webp,works/scores/emmonae-3.webp,works/scores/emmonae-4.webp,works/scores/emmonae-5.webp,works/scores/emmonae-6.webp,works/scores/emmonae-7.webp,works/scores/emmonae-8.webp,works/scores/emmonae-9.webp,works/scores/emmonae-10.webp" role="button" tabindex="0" aria-label="Open the score">
+                  <div class="score-placeholder has-img">
+                    <img src="works/scores/emmonae-thumb.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()">
                     <span class="score-icon">𝄞</span>
                     <p class="lang-en">View the score</p>
                     <p class="lang-el">Δείτε το έργο</p>
@@ -898,8 +903,9 @@
                   <span class="label">2024</span>
                 </div>
 
-                <div class="score-card is-viewable" data-score-open data-count="6" data-soon role="button" tabindex="0" aria-label="Open the score">
-                  <div class="score-placeholder">
+                <div class="score-card is-viewable" data-score-open data-request="contact/?subject=score" data-title="2 Miniatures for Clarinet · No. I" data-pages="works/scores/miniatures-1.webp,works/scores/miniatures-2.webp,works/scores/miniatures-3.webp" role="button" tabindex="0" aria-label="Open the score">
+                  <div class="score-placeholder has-img">
+                    <img src="works/scores/miniatures-thumb.webp" alt="" loading="lazy" decoding="async" draggable="false" onerror="this.parentNode.classList.remove('has-img');this.remove()">
                     <span class="score-icon">𝄞</span>
                     <p class="lang-en">View the score</p>
                     <p class="lang-el">Δείτε το έργο</p>

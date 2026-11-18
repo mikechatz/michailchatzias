@@ -873,11 +873,17 @@ nav {
 .score-placeholder.has-img::after { content: ""; position: absolute; inset: 0; background: rgba(11,11,10,.82); opacity: 0; transition: opacity 0.3s; }
 .score-placeholder.has-img .score-icon, .score-placeholder.has-img p { z-index: 2; }
 .score-preview-box.is-viewable:hover .score-placeholder.has-img::after,
-.score-preview-box.is-viewable:focus-visible .score-placeholder.has-img::after { opacity: 1; }
+.score-preview-box.is-viewable:focus-visible .score-placeholder.has-img::after,
+.score-card.is-viewable:hover .score-placeholder.has-img::after,
+.score-card.is-viewable:focus-visible .score-placeholder.has-img::after { opacity: 1; }
 .score-preview-box.is-viewable:hover .score-placeholder.has-img .score-icon,
-.score-preview-box.is-viewable:focus-visible .score-placeholder.has-img .score-icon { opacity: .75; }
+.score-preview-box.is-viewable:focus-visible .score-placeholder.has-img .score-icon,
+.score-card.is-viewable:hover .score-placeholder.has-img .score-icon,
+.score-card.is-viewable:focus-visible .score-placeholder.has-img .score-icon { opacity: .75; }
 .score-preview-box.is-viewable:hover .score-placeholder.has-img p,
-.score-preview-box.is-viewable:focus-visible .score-placeholder.has-img p { opacity: 1; }
+.score-preview-box.is-viewable:focus-visible .score-placeholder.has-img p,
+.score-card.is-viewable:hover .score-placeholder.has-img p,
+.score-card.is-viewable:focus-visible .score-placeholder.has-img p { opacity: 1; }
 @media (hover: none) { .score-placeholder.has-img::after { display: none; } .score-placeholder.has-img .score-icon, .score-placeholder.has-img p { display: none; } }
 
 /* A preview with data-soon: "Coming soon" instead of "View the score" (Courier, light, accent colour). Remove data-soon and it is gone. */
