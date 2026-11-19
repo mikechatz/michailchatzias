@@ -4,7 +4,7 @@
    The page starts as a black screen with the name in the middle. The name then travels to
    its place in the hero (same place, same size) while the black fades slowly into the page.
    If the page is opened somewhere other than the hero (e.g. /#works), the name just stays
-   in the middle and fades out together with the black.
+   in the middle and fades out together with the black (a shorter version of the screen).
 
    Timings are in milliseconds; change them here.
    ========================================================================== */
@@ -20,6 +20,9 @@
   const MOVE = 900;     // how long it takes to travel to its place
   const FADE = 1100;    // how long the black takes to fade away
   const BIG  = 1.3;     // the name is up to this much bigger on the title screen
+  // Opening somewhere other than the hero (/#works ...): the same screen, but quick, so the section is not kept waiting
+  const HOLD_OTHER = 100;   // the name sits this long (after it has appeared) before the black starts to fade
+  const FADE_OTHER = 500;   // and the black and the name fade away this fast
 
   // Is the page opening on the hero? A # in the address (/#expertise) means it is about to show another section,
   // so the name must stay put and fade instead of travelling to the hero.
@@ -88,7 +91,8 @@
     // is the hero what we land on?
     const onHero = opensOnHero && r.top >= -2 && r.bottom <= innerHeight + 2 && r.right > 0 && r.left < innerWidth;
 
-    word.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, easing: "ease-out", fill: "forwards" });
+    const appear = onHero ? 300 : 200;
+    word.animate([{ opacity: 0 }, { opacity: 1 }], { duration: appear, easing: "ease-out", fill: "forwards" });
     setTimeout(() => {
       if (onHero) {
         word.animate([{ transform: from }, { transform: "none" }],
@@ -96,10 +100,10 @@
         bg.animate([{ opacity: 1 }, { opacity: 0 }],
                    { duration: FADE, delay: 100, easing: "ease-in-out", fill: "forwards" }).onfinish = finish;
       } else {
-        word.animate([{ opacity: 1 }, { opacity: 0 }], { duration: FADE, easing: "ease-in-out", fill: "forwards" });
-        bg.animate([{ opacity: 1 }, { opacity: 0 }], { duration: FADE, easing: "ease-in-out", fill: "forwards" }).onfinish = finish;
+        word.animate([{ opacity: 1 }, { opacity: 0 }], { duration: FADE_OTHER, easing: "ease-in-out", fill: "forwards" });
+        bg.animate([{ opacity: 1 }, { opacity: 0 }], { duration: FADE_OTHER, easing: "ease-in-out", fill: "forwards" }).onfinish = finish;
       }
-    }, HOLD + 300);
+    }, onHero ? HOLD + appear : HOLD_OTHER + appear);
   };
 
   // The page decides which language is showing a moment after it loads; the name can only be measured after that
