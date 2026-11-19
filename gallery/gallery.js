@@ -424,7 +424,7 @@
 
     const frame = document.createElement("iframe");
     frame.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(tile.dataset.yt) +
-                "?autoplay=1&rel=0&playsinline=1";
+                "?autoplay=1&rel=0&playsinline=1" + (+tile.dataset.start > 0 ? "&start=" + Math.floor(+tile.dataset.start) : "");
     frame.title = tile.dataset.title || "Video";
     frame.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
     frame.allowFullscreen = true;

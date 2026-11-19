@@ -14,6 +14,7 @@
           data-landscape (no value) the pages are wide (landscape A4, e.g. a graphical score): they are shown one at a time, and larger
           data-soon    (no value) the viewer shows only "Coming soon" (until pages or an embed exist; delete it then)
           data-image   (instead of pages) one picture, shown whole on the black background: "assets/gallery/photo.webp"
+          data-start   (with data-video) the second the video starts at, e.g. 435 for 7:15
           data-video   (instead of pages) a YouTube video id; the player opens on the black background and starts playing
                        (youtube-nocookie.com; nothing is requested from YouTube before). data-title is shown above it.
           The media tiles of one grid (.gallery-grid) are a group: the viewer then has arrows (and ← →) to step through them.
@@ -250,7 +251,7 @@
     if (V.request) V.N += 1;
     V.land = !!o.landscape && !!V.pages.length && !V.embed;
     if (o.image) { V.embed = "image"; V.kind = "image"; }
-    else if (/^[\w-]{6,20}$/.test(o.video || "")) { V.embed = "https://www.youtube-nocookie.com/embed/" + o.video + "?autoplay=1&rel=0&playsinline=1"; V.kind = "video"; }
+    else if (/^[\w-]{6,20}$/.test(o.video || "")) { V.embed = "https://www.youtube-nocookie.com/embed/" + o.video + "?autoplay=1&rel=0&playsinline=1" + (+o.start > 0 ? "&start=" + Math.floor(+o.start) : ""); V.kind = "video"; }
     if (closing) { closing.cancel(); closing = null; sv.style.pointerEvents = ""; }   // opened again while still fading out
     V.busy = false;
     if (isPhone()) V.mode = "one";
@@ -537,6 +538,7 @@
       embed: el.dataset.embed,
       image: el.dataset.image,
       video: el.dataset.video,
+      start: el.dataset.start,
       soon: el.hasAttribute("data-soon"),
       opener: el
     };
