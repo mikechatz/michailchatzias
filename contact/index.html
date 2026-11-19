@@ -179,6 +179,8 @@
                   </p>
             
                   <form id="contact-form" action="https://formspree.io/f/myeeaegl" method="POST">
+                    <!-- Spam trap for Formspree: people never see or fill this; a bot that does is dropped (no captcha needed) -->
+                    <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none">
                     <div class="form-group">
                       <label for="form-name">
                         <span class="lang-en">Your Name</span>
