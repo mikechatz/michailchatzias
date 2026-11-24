@@ -306,3 +306,19 @@
   .sc-viewer.is-media.is-video .sv-embed { width: min(calc(100% - 120px), calc((100dvh - 70px) * 16 / 9)); }
   .sc-viewer.is-media.is-image .sv-embed { width: calc(100% - 120px); }
 }
+
+/* A YouTube Short (data-portrait): the player is upright, as tall as the screen allows */
+.sc-viewer.is-video.is-portrait .sv-embed,
+.sc-viewer.is-media.is-video.is-portrait .sv-embed {
+  width: min(calc(100% - 32px), calc((100dvh - 110px) * 9 / 16));
+  aspect-ratio: 9 / 16;
+}
+.sc-viewer.is-media.is-video.is-portrait .sv-embed { width: min(calc(100% - 170px), calc((100dvh - 110px) * 9 / 16)); }
+@media (max-width: 768px) and (orientation: portrait) {
+  .sc-viewer.is-video.is-portrait .sv-embed,
+  .sc-viewer.is-media.is-video.is-portrait .sv-embed { width: min(calc(100% - 12px), calc((100dvh - 100px) * 9 / 16)); }
+}
+@media (max-height: 560px) and (orientation: landscape) {
+  .sc-viewer.is-video.is-portrait .sv-embed,
+  .sc-viewer.is-media.is-video.is-portrait .sv-embed { width: min(calc(100% - 120px), calc((100dvh - 70px) * 9 / 16)); }
+}

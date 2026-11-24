@@ -14,6 +14,7 @@
           data-landscape (no value) the pages are wide (landscape A4, e.g. a graphical score): they are shown one at a time, and larger
           data-soon    (no value) the viewer shows only "Coming soon" (until pages or an embed exist; delete it then)
           data-image   (instead of pages) one picture, shown whole on the black background: "assets/gallery/photo.webp"
+          data-portrait (no value, with data-video) the video is a YouTube Short: the player is upright (9:16) instead of 16:9
           data-start   (with data-video) the second the video starts at, e.g. 435 for 7:15
           data-video   (instead of pages) a YouTube video id; the player opens on the black background and starts playing
                        (youtube-nocookie.com; nothing is requested from YouTube before). data-title is shown above it.
@@ -267,6 +268,7 @@
     svPrev.disabled = svNext.disabled = false;
     sv.classList.toggle("is-image", V.kind === "image");
     sv.classList.toggle("is-video", V.kind === "video");
+    sv.classList.toggle("is-portrait", V.kind === "video" && !!o.portrait);   // a YouTube Short: the player is upright (9:16)
     sv.setAttribute("aria-label", V.kind ? "Media viewer" : "Score viewer");
     $("#sv-close", sv).setAttribute("aria-label", V.kind ? "Close" : "Close the score");
     svEmbed.replaceChildren();
@@ -538,6 +540,7 @@
       embed: el.dataset.embed,
       image: el.dataset.image,
       video: el.dataset.video,
+      portrait: el.hasAttribute("data-portrait"),
       start: el.dataset.start,
       soon: el.hasAttribute("data-soon"),
       opener: el
