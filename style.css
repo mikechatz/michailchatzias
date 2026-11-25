@@ -1511,6 +1511,7 @@ body [data-soon] > .score-placeholder p.lang-cn { display: none !important; }
 
 /* keep the e-mail address in its natural case */
 .closing-col a[href^="mailto:"] { text-transform: none; letter-spacing: 0.04em; }
+.closing-col a.cv-link[hidden] { display: none; }   /* shown by cv-link.js once the PDF exists */
 
 
 /* Social icons: white glyphs on a transparent background */

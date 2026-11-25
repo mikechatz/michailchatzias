@@ -163,6 +163,11 @@
                       <svg class="cl-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9.200 5 2.800-5 2.800Z" class="fill"/></svg>
                       <span>youtube.com/@michailchatzias</span>
                     </a>
+                    <!-- CV: the file follows the active language and the row appears only once the PDF exists (../cv-link.js; files in assets/cv/) -->
+                    <a class="cv-link" data-cv-base="../assets/cv/" href="../assets/cv/CV-Michail-Chatziasemidis-EN.pdf" download hidden>
+                      <svg class="cl-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8l4 4v13H6Z"/><path d="M14 3.5v4h4"/><path d="M12 11v5.500m-2.300-2.200 2.300 2.300 2.300-2.300"/></svg>
+                      <span class="lang-en">Download CV (PDF)</span><span class="lang-el">Λήψη βιογραφικού (PDF)</span><span class="lang-cn">下载简历 (PDF)</span>
+                    </a>
                   </div>
 
                 <!-- Emailing Form -->
@@ -271,5 +276,6 @@
 
   <script src="../subpage.js"></script>
   <script src="contact.js"></script>
+  <script src="../cv-link.js"></script>
 </body>
 </html>

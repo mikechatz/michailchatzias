@@ -130,3 +130,6 @@
   .subj-pop { animation: none; }
   .subj-toggle, .subj-toggle svg { transition: none; }
 }
+
+/* the CV link stays out of sight until contact.js has found the PDF (the shared row rule would otherwise override [hidden]) */
+.sub-main .contact-links a.cv-link[hidden] { display: none; }
